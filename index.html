@@ -414,7 +414,7 @@
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     // -------------------------------------------------------------
-    // 1. FIREBASE CONFIGURATION (UPDATED WITH YOUR PROJECT DATA)
+    // 1. FIREBASE CONFIGURATION (UNCHANGED & SAFE)
     // -------------------------------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyA_A-v2kRDBiry1iv1zC-Up3eMAvI1-NUs",
@@ -430,6 +430,12 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
+
+    // Helper Function to Get Clean Directory Path (Fixes redirect loop bug)
+    function getCleanBaseUrl() {
+      const href = window.location.href.split('?')[0].split('#')[0];
+      return href.substring(0, href.lastIndexOf('/'));
+    }
 
     // DOM References
     const authSection = document.getElementById("auth-section");
@@ -575,7 +581,7 @@
     });
 
     // -------------------------------------------------------------
-    // 3. CREATE NEW UNLOCK LINK
+    // 3. CREATE NEW UNLOCK LINK (FIXED SHARE URL LOGIC)
     // -------------------------------------------------------------
     createLinkForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -612,7 +618,8 @@
 
         await set(ref(db, `links/${linkId}`), newLinkData);
 
-        const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+        // Fixed base URL extraction to always target index.html
+        const baseUrl = getCleanBaseUrl();
         const fullShareUrl = `${baseUrl}/index.html?id=${linkId}`;
 
         generatedUrlInput.value = fullShareUrl;
@@ -634,7 +641,7 @@
     });
 
     // -------------------------------------------------------------
-    // 4. REALTIME LISTING & MANAGEMENT
+    // 4. REALTIME LISTING & MANAGEMENT (FIXED PUBLIC URL LOGIC)
     // -------------------------------------------------------------
     function listenToLinks() {
       const linksRef = ref(db, 'links');
@@ -659,7 +666,8 @@
 
         linkIds.forEach((id) => {
           const item = data[id];
-          const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+          // Fixed base URL extraction to always target index.html
+          const baseUrl = getCleanBaseUrl();
           const publicUrl = `${baseUrl}/index.html?id=${id}`;
 
           const card = document.createElement("div");
