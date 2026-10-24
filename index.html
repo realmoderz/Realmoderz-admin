@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Sub2Unlock</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              yt: '#FF0000',
+              tg: '#229ED9',
+              ig: '#E1306C'
+            }
+          },
+          animation: {
+            'blob-1': 'floatOrb1 18s ease-in-out infinite alternate',
+            'blob-2': 'floatOrb2 22s ease-in-out infinite alternate',
+            'shimmer': 'shimmer 2s infinite linear'
+          },
+          keyframes: {
+            floatOrb1: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '100%': { transform: 'translate(80px, 60px) scale(1.15)' }
+            },
+            floatOrb2: {
+              '0%': { transform: 'translate(0px, 0px) scale(1.1)' },
+              '100%': { transform: 'translate(-70px, -50px) scale(0.95)' }
+            },
+            shimmer: {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(200%)' }
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .glass-input {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      transition: all 0.2s ease;
+    }
+
+    .glass-input:focus {
+      border-color: rgba(6, 182, 212, 0.6);
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      outline: none;
+    }
+
+    .glass-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.28);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body class="bg-[#07090e] text-slate-100 min-h-screen relative overflow-x-hidden selection:bg-cyan-500 selection:text-black">
+
+  <!-- ================= AMBIENT GLASS LIGHT ORBS ================= -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="absolute -top-32 -left-20 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-indigo-600/35 via-purple-600/25 to-pink-600/20 blur-[130px] animate-blob-1"></div>
+    <div class="absolute top-1/2 -right-36 w-[550px] h-[550px] rounded-full bg-gradient-to-br from-cyan-500/30 via-blue-600/20 to-teal-500/20 blur-[140px] animate-blob-2"></div>
+  </div>
+
+  <!-- Global Toast Alerts -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ================= AUTH VIEW (LOGIN SCREEN) ================= -->
+  <div id="auth-section" class="relative z-10 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md glass-panel rounded-3xl p-8 shadow-2xl relative">
+      <!-- Specular Light Strip -->
+      <div class="absolute top-0 left-10 right-10 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none"></div>
+
+      <div class="text-center mb-8">
+        <div class="w-14 h-14 mx-auto rounded-2xl glass-card flex items-center justify-center text-cyan-400 text-2xl mb-3 shadow-inner">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h1 class="text-2xl font-extrabold text-white tracking-tight">Admin Portal</h1>
+        <p class="text-xs text-slate-400 mt-1">Sign in to manage and generate unlock links</p>
+      </div>
+
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Email Address</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 text-sm">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            <input
+              type="email"
+              id="login-email"
+              required
+              placeholder="admin@example.com"
+              class="w-full pl-10 pr-4 py-3 rounded-xl glass-input text-sm text-white placeholder-slate-500"
+            />
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Password</label>
+            <button type="button" id="open-reset-btn" class="text-xs text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
+              Forgot password?
+            </button>
+          </div>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 text-sm">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input
+              type="password"
+              id="login-password"
+              required
+              placeholder="••••••••••••"
+              class="w-full pl-10 pr-4 py-3 rounded-xl glass-input text-sm text-white placeholder-slate-500"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          id="login-btn"
+          class="w-full py-3.5 px-4 rounded-xl font-bold text-sm text-slate-950 bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-300 hover:brightness-110 active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20"
+        >
+          <span>Sign In to Dashboard</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= FORGOT PASSWORD MODAL ================= -->
+  <div id="reset-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+    <div class="w-full max-w-sm glass-panel rounded-3xl p-6 shadow-2xl relative transform transition-transform duration-300 scale-95" id="reset-modal-box">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-key text-cyan-400"></i> Reset Password
+        </h3>
+        <button id="close-reset-btn" class="text-slate-400 hover:text-white transition-colors">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+        Enter your admin email address. A password reset link will be sent to your inbox.
+      </p>
+      <form id="reset-form" class="space-y-4">
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 text-sm">
+            <i class="fa-solid fa-envelope"></i>
+          </span>
+          <input
+            type="email"
+            id="reset-email"
+            required
+            placeholder="admin@example.com"
+            class="w-full pl-10 pr-4 py-3 rounded-xl glass-input text-sm text-white placeholder-slate-500"
+          />
+        </div>
+        <button
+          type="submit"
+          id="send-reset-btn"
+          class="w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition-all"
+        >
+          Send Reset Link
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= DASHBOARD VIEW (AUTHENTICATED) ================= -->
+  <div id="dashboard-section" class="relative z-10 hidden flex-col min-h-screen">
+    
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-white/10 bg-black/20 backdrop-blur-xl sticky top-0 z-30">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-cyan-400 text-lg">
+            <i class="fa-solid fa-link"></i>
+          </div>
+          <div>
+            <h1 class="text-base font-extrabold text-white leading-none">Sub2Unlock</h1>
+            <span class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">Manager</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:flex items-center gap-2 glass-card px-3 py-1.5 rounded-xl text-xs text-slate-300">
+            <i class="fa-solid fa-circle-user text-cyan-400"></i>
+            <span id="user-display-email" class="font-medium">loading...</span>
+          </div>
+          <button
+            id="logout-btn"
+            class="glass-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold text-rose-300 hover:text-rose-200 hover:bg-rose-500/10 transition-colors flex items-center gap-1.5"
+          >
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- LEFT: Form to create link (5 cols) -->
+      <section class="lg:col-span-5">
+        <div class="glass-panel rounded-3xl p-6 sm:p-7 relative sticky top-24">
+          <div class="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none"></div>
+
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <h2 class="text-lg font-bold text-white tracking-tight">Create Unlock Link</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Configure target URL and tasks</p>
+            </div>
+            <div class="w-9 h-9 rounded-xl glass-card flex items-center justify-center text-cyan-400 text-sm">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+          </div>
+
+          <form id="create-link-form" class="space-y-4">
+            <!-- Brand / Channel Title -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1 uppercase tracking-wider">Brand / Channel Name</label>
+              <input
+                type="text"
+                id="link-brand"
+                required
+                placeholder="e.g., Tech Reviews Official"
+                class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-white placeholder-slate-500"
+              />
+            </div>
+
+            <!-- Destination Target URL -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1 uppercase tracking-wider">Destination URL (Locked Link)</label>
+              <input
+                type="url"
+                id="link-destination"
+                required
+                placeholder="https://drive.google.com/... or your file"
+                class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-white placeholder-slate-500"
+              />
+            </div>
+
+            <!-- Tasks Header -->
+            <div class="pt-2">
+              <span class="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-2">Required Social Tasks</span>
+              <p class="text-[11px] text-slate-400 mb-3">Provide at least one channel/page link. Empty fields will be skipped.</p>
+
+              <!-- YouTube Task -->
+              <div class="space-y-2.5">
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-red-500 text-sm">
+                    <i class="fa-brands fa-youtube"></i>
+                  </span>
+                  <input
+                    type="url"
+                    id="task-youtube"
+                    placeholder="YouTube Channel or Video URL"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl glass-input text-xs text-white placeholder-slate-500"
+                  />
+                </div>
+
+                <!-- Telegram Task -->
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-sky-400 text-sm">
+                    <i class="fa-brands fa-telegram"></i>
+                  </span>
+                  <input
+                    type="url"
+                    id="task-telegram"
+                    placeholder="Telegram Channel/Group Link (t.me/...)"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl glass-input text-xs text-white placeholder-slate-500"
+                  />
+                </div>
+
+                <!-- Instagram Task -->
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-pink-400 text-sm">
+                    <i class="fa-brands fa-instagram"></i>
+                  </span>
+                  <input
+                    type="url"
+                    id="task-instagram"
+                    placeholder="Instagram Profile URL"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl glass-input text-xs text-white placeholder-slate-500"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              id="submit-create-btn"
+              class="w-full mt-4 py-3.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-950 bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-300 hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20"
+            >
+              <i class="fa-solid fa-bolt"></i>
+              <span>Generate Unlock Link</span>
+            </button>
+          </form>
+
+          <!-- Generated Link Alert Box -->
+          <div id="new-link-output" class="hidden mt-5 p-4 rounded-2xl glass-card border-cyan-500/30 bg-cyan-950/20">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400 block mb-1">
+              <i class="fa-solid fa-circle-check mr-1"></i> Generated Link Ready
+            </span>
+            <div class="flex items-center gap-2 mt-2">
+              <input
+                type="text"
+                id="generated-url-input"
+                readonly
+                class="w-full px-3 py-2 rounded-lg bg-black/40 text-xs text-slate-200 font-mono border border-white/10"
+              />
+              <button
+                id="copy-new-btn"
+                class="px-3.5 py-2 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs whitespace-nowrap transition-all"
+              >
+                <i class="fa-solid fa-copy mr-1"></i> Copy
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- RIGHT: Existing Links List (7 cols) -->
+      <section class="lg:col-span-7">
+        <div class="glass-panel rounded-3xl p-6 sm:p-7">
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <h2 class="text-lg font-bold text-white tracking-tight">Active Unlock Links</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Existing database links with real-time updates</p>
+            </div>
+            <span id="links-count" class="glass-card px-2.5 py-1 rounded-lg text-xs font-mono font-bold text-cyan-400">
+              0 Links
+            </span>
+          </div>
+
+          <!-- Links Listing Container -->
+          <div id="links-list" class="space-y-3.5">
+            <!-- Loading Skeleton -->
+            <div class="py-12 flex flex-col items-center justify-center text-slate-400 space-y-3">
+              <div class="w-8 h-8 border-2 border-cyan-400/20 border-t-cyan-400 rounded-full animate-spin"></div>
+              <p class="text-xs">Loading links from database...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= FIREBASE & APP LOGIC ================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      sendPasswordResetEmail, 
+      signOut, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { 
+      getDatabase, 
+      ref, 
+      set, 
+      onValue, 
+      remove 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    // -------------------------------------------------------------
+    // 1. FIREBASE CONFIGURATION (UPDATED WITH YOUR PROJECT DATA)
+    // -------------------------------------------------------------
+    const firebaseConfig = {
+      apiKey: "AIzaSyA_A-v2kRDBiry1iv1zC-Up3eMAvI1-NUs",
+      authDomain: "realmoderzs.firebaseapp.com",
+      databaseURL: "https://realmoderzs-default-rtdb.firebaseio.com",
+      projectId: "realmoderzs",
+      storageBucket: "realmoderzs.firebasestorage.app",
+      messagingSenderId: "879115715712",
+      appId: "1:879115715712:web:93b9584c6ecc7bbf951265"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    // DOM References
+    const authSection = document.getElementById("auth-section");
+    const dashboardSection = document.getElementById("dashboard-section");
+    const loginForm = document.getElementById("login-form");
+    const loginEmail = document.getElementById("login-email");
+    const loginPassword = document.getElementById("login-password");
+    const userDisplayEmail = document.getElementById("user-display-email");
+    const logoutBtn = document.getElementById("logout-btn");
+    
+    const resetModal = document.getElementById("reset-modal");
+    const resetModalBox = document.getElementById("reset-modal-box");
+    const openResetBtn = document.getElementById("open-reset-btn");
+    const closeResetBtn = document.getElementById("close-reset-btn");
+    const resetForm = document.getElementById("reset-form");
+    const resetEmail = document.getElementById("reset-email");
+
+    const createLinkForm = document.getElementById("create-link-form");
+    const linkBrand = document.getElementById("link-brand");
+    const linkDestination = document.getElementById("link-destination");
+    const taskYoutube = document.getElementById("task-youtube");
+    const taskTelegram = document.getElementById("task-telegram");
+    const taskInstagram = document.getElementById("task-instagram");
+    const newLinkOutput = document.getElementById("new-link-output");
+    const generatedUrlInput = document.getElementById("generated-url-input");
+    const copyNewBtn = document.getElementById("copy-new-btn");
+    const linksList = document.getElementById("links-list");
+    const linksCount = document.getElementById("links-count");
+
+    // Toast Notification System
+    function showToast(message, type = "info") {
+      const toast = document.createElement("div");
+      toast.className = `px-4 py-3 rounded-2xl glass-card text-xs font-semibold shadow-2xl flex items-center gap-2.5 transform transition-all duration-300 translate-y-2 opacity-0 pointer-events-auto ${
+        type === 'success' 
+          ? 'text-emerald-400 border-emerald-500/30 bg-emerald-950/40' 
+          : type === 'error' 
+          ? 'text-rose-400 border-rose-500/30 bg-rose-950/40' 
+          : 'text-cyan-400 border-cyan-500/30 bg-cyan-950/40'
+      }`;
+
+      const icon = type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-xmark' : 'fa-circle-info';
+      toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+
+      const container = document.getElementById("toast-container");
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove("translate-y-2", "opacity-0");
+      });
+
+      setTimeout(() => {
+        toast.classList.add("translate-y-2", "opacity-0");
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // -------------------------------------------------------------
+    // 2. AUTHENTICATION LOGIC & OBSERVER
+    // -------------------------------------------------------------
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        userDisplayEmail.textContent = user.email;
+        authSection.classList.add("hidden");
+        dashboardSection.classList.remove("hidden");
+        dashboardSection.classList.add("flex");
+        listenToLinks();
+      } else {
+        authSection.classList.remove("hidden");
+        dashboardSection.classList.add("hidden");
+        dashboardSection.classList.remove("flex");
+      }
+    });
+
+    // Login Form Submit
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById("login-btn");
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
+
+      try {
+        await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value);
+        showToast("Signed in successfully!", "success");
+        loginForm.reset();
+      } catch (err) {
+        console.error(err);
+        showToast(err.message.replace("Firebase: ", ""), "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>Sign In to Dashboard</span><i class="fa-solid fa-arrow-right text-xs"></i>`;
+      }
+    });
+
+    // Logout Action
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        showToast("Signed out", "info");
+      } catch (err) {
+        showToast("Error signing out", "error");
+      }
+    });
+
+    // Forgot Password Modal Controls
+    function toggleResetModal(show) {
+      if (show) {
+        resetModal.classList.remove("hidden");
+        setTimeout(() => {
+          resetModal.classList.remove("opacity-0");
+          resetModalBox.classList.remove("scale-95");
+        }, 10);
+      } else {
+        resetModal.classList.add("opacity-0");
+        resetModalBox.classList.add("scale-95");
+        setTimeout(() => resetModal.classList.add("hidden"), 300);
+      }
+    }
+
+    openResetBtn.addEventListener("click", () => toggleResetModal(true));
+    closeResetBtn.addEventListener("click", () => toggleResetModal(false));
+    resetModal.addEventListener("click", (e) => {
+      if (e.target === resetModal) toggleResetModal(false);
+    });
+
+    resetForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = resetEmail.value.trim();
+      const btn = document.getElementById("send-reset-btn");
+      btn.disabled = true;
+      btn.textContent = "Sending...";
+
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showToast("Reset link sent! Please check your email.", "success");
+        toggleResetModal(false);
+        resetForm.reset();
+      } catch (err) {
+        showToast(err.message.replace("Firebase: ", ""), "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Send Reset Link";
+      }
+    });
+
+    // -------------------------------------------------------------
+    // 3. CREATE NEW UNLOCK LINK
+    // -------------------------------------------------------------
+    createLinkForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const brand = linkBrand.value.trim();
+      const destination = linkDestination.value.trim();
+      const yt = taskYoutube.value.trim();
+      const tg = taskTelegram.value.trim();
+      const ig = taskInstagram.value.trim();
+
+      const tasks = [];
+      if (yt) tasks.push({ platform: "youtube", title: "Subscribe to YouTube Channel", url: yt });
+      if (tg) tasks.push({ platform: "telegram", title: "Join Official Telegram", url: tg });
+      if (ig) tasks.push({ platform: "instagram", title: "Follow on Instagram", url: ig });
+
+      if (tasks.length === 0) {
+        showToast("Please provide at least one task link (YouTube, Telegram, or Instagram).", "error");
+        return;
+      }
+
+      const submitBtn = document.getElementById("submit-create-btn");
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving to Database...';
+
+      try {
+        const linkId = Math.random().toString(36).substring(2, 10);
+
+        const newLinkData = {
+          brandName: brand,
+          destinationLink: destination,
+          tasks: tasks,
+          createdAt: Date.now()
+        };
+
+        await set(ref(db, `links/${linkId}`), newLinkData);
+
+        const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+        const fullShareUrl = `${baseUrl}/index.html?id=${linkId}`;
+
+        generatedUrlInput.value = fullShareUrl;
+        newLinkOutput.classList.remove("hidden");
+
+        showToast("Unlock link created successfully!", "success");
+        createLinkForm.reset();
+      } catch (err) {
+        console.error(err);
+        showToast("Failed to create link: " + err.message, "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i class="fa-solid fa-bolt"></i><span>Generate Unlock Link</span>`;
+      }
+    });
+
+    copyNewBtn.addEventListener("click", () => {
+      copyToClipboard(generatedUrlInput.value, copyNewBtn);
+    });
+
+    // -------------------------------------------------------------
+    // 4. REALTIME LISTING & MANAGEMENT
+    // -------------------------------------------------------------
+    function listenToLinks() {
+      const linksRef = ref(db, 'links');
+
+      onValue(linksRef, (snapshot) => {
+        linksList.innerHTML = "";
+
+        if (!snapshot.exists()) {
+          linksCount.textContent = "0 Links";
+          linksList.innerHTML = `
+            <div class="py-10 text-center text-slate-400 text-xs">
+              <i class="fa-solid fa-folder-open text-2xl mb-2 text-slate-500"></i>
+              <p>No unlock links found. Create your first link above!</p>
+            </div>
+          `;
+          return;
+        }
+
+        const data = snapshot.val();
+        const linkIds = Object.keys(data).reverse();
+        linksCount.textContent = `${linkIds.length} Link${linkIds.length === 1 ? '' : 's'}`;
+
+        linkIds.forEach((id) => {
+          const item = data[id];
+          const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+          const publicUrl = `${baseUrl}/index.html?id=${id}`;
+
+          const card = document.createElement("div");
+          card.className = "glass-card p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all hover:border-white/20";
+
+          const platforms = (item.tasks || []).map(t => t.platform);
+          let platformBadges = "";
+          if (platforms.includes("youtube")) platformBadges += `<i class="fa-brands fa-youtube text-red-500 text-xs"></i> `;
+          if (platforms.includes("telegram")) platformBadges += `<i class="fa-brands fa-telegram text-sky-400 text-xs"></i> `;
+          if (platforms.includes("instagram")) platformBadges += `<i class="fa-brands fa-instagram text-pink-400 text-xs"></i> `;
+
+          card.innerHTML = `
+            <div class="space-y-1 min-w-0 flex-1">
+              <div class="flex items-center gap-2">
+                <h4 class="text-sm font-bold text-white truncate">${item.brandName || "Untitled"}</h4>
+                <div class="flex items-center gap-1.5 ml-1">${platformBadges}</div>
+              </div>
+              <p class="text-xs text-slate-400 truncate font-mono">
+                <i class="fa-solid fa-arrow-turn-up text-[10px] rotate-90 mr-1 text-cyan-400"></i>${item.destinationLink}
+              </p>
+              <div class="text-[10px] text-slate-500 font-medium">
+                ID: <span class="font-mono text-slate-300 font-bold">${id}</span> &bull; 
+                Tasks: <span class="text-slate-300">${item.tasks?.length || 0}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+              <button 
+                data-url="${publicUrl}" 
+                class="copy-item-btn glass-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5"
+              >
+                <i class="fa-solid fa-copy"></i>
+                <span>Copy Link</span>
+              </button>
+              <button 
+                data-id="${id}" 
+                class="delete-item-btn glass-btn px-2.5 py-1.5 rounded-xl text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors"
+                title="Delete Link"
+              >
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          `;
+
+          const copyBtn = card.querySelector(".copy-item-btn");
+          copyBtn.addEventListener("click", () => copyToClipboard(publicUrl, copyBtn));
+
+          const deleteBtn = card.querySelector(".delete-item-btn");
+          deleteBtn.addEventListener("click", () => deleteLink(id));
+
+          linksList.appendChild(card);
+        });
+      });
+    }
+
+    async function deleteLink(id) {
+      if (confirm(`Are you sure you want to delete unlock link "${id}"? This cannot be undone.`)) {
+        try {
+          await remove(ref(db, `links/${id}`));
+          showToast("Link deleted from database", "info");
+        } catch (err) {
+          showToast("Failed to delete link: " + err.message, "error");
+        }
+      }
+    }
+
+    async function copyToClipboard(text, buttonElement) {
+      try {
+        await navigator.clipboard.writeText(text);
+        const originalHTML = buttonElement.innerHTML;
+        buttonElement.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span class="text-emerald-400">Copied!</span>`;
+        setTimeout(() => {
+          buttonElement.innerHTML = originalHTML;
+        }, 1800);
+      } catch (err) {
+        showToast("Failed to copy to clipboard", "error");
+      }
+    }
+  </script>
+</body>
+</html>
