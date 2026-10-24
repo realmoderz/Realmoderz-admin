@@ -414,7 +414,7 @@
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     // -------------------------------------------------------------
-    // 1. FIREBASE CONFIGURATION (UNCHANGED & SAFE)
+    // 1. FIREBASE CONFIGURATION (PRESERVED ACCURATELY)
     // -------------------------------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyA_A-v2kRDBiry1iv1zC-Up3eMAvI1-NUs",
@@ -426,16 +426,13 @@
       appId: "1:879115715712:web:93b9584c6ecc7bbf951265"
     };
 
+    // Target Live User Site URL
+    const USER_PAGE_BASE_URL = "https://realmoderz.github.io/Reamloderz/";
+
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
-
-    // Helper Function to Get Clean Directory Path (Fixes redirect loop bug)
-    function getCleanBaseUrl() {
-      const href = window.location.href.split('?')[0].split('#')[0];
-      return href.substring(0, href.lastIndexOf('/'));
-    }
 
     // DOM References
     const authSection = document.getElementById("auth-section");
@@ -581,7 +578,7 @@
     });
 
     // -------------------------------------------------------------
-    // 3. CREATE NEW UNLOCK LINK (FIXED SHARE URL LOGIC)
+    // 3. CREATE NEW UNLOCK LINK (UPDATED FOR DIRECT REAMLODERZ LINK)
     // -------------------------------------------------------------
     createLinkForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -618,9 +615,8 @@
 
         await set(ref(db, `links/${linkId}`), newLinkData);
 
-        // Fixed base URL extraction to always target index.html
-        const baseUrl = getCleanBaseUrl();
-        const fullShareUrl = `${baseUrl}/index.html?id=${linkId}`;
+        // Generates clean link pointing to your user unlock page
+        const fullShareUrl = `${USER_PAGE_BASE_URL}?id=${linkId}`;
 
         generatedUrlInput.value = fullShareUrl;
         newLinkOutput.classList.remove("hidden");
@@ -641,7 +637,7 @@
     });
 
     // -------------------------------------------------------------
-    // 4. REALTIME LISTING & MANAGEMENT (FIXED PUBLIC URL LOGIC)
+    // 4. REALTIME LISTING & MANAGEMENT
     // -------------------------------------------------------------
     function listenToLinks() {
       const linksRef = ref(db, 'links');
@@ -666,9 +662,7 @@
 
         linkIds.forEach((id) => {
           const item = data[id];
-          // Fixed base URL extraction to always target index.html
-          const baseUrl = getCleanBaseUrl();
-          const publicUrl = `${baseUrl}/index.html?id=${id}`;
+          const publicUrl = `${USER_PAGE_BASE_URL}?id=${id}`;
 
           const card = document.createElement("div");
           card.className = "glass-card p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all hover:border-white/20";
