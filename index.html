@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>REALMODERZ — Cyber Admin Console</title>
+  <title>REALMODERZ — Ultimate Cyber Admin Console</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -20,15 +20,12 @@
     };
   </script>
 
-  <!-- FontAwesome 6 Icons -->
+  <!-- FontAwesome 6 Icons & Share Tech Mono Font -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
 
   <style>
-    /* Absolute Sharp Cubic Borders */
-    * {
-      border-radius: 0px !important;
-    }
+    * { border-radius: 0px !important; }
 
     body {
       font-family: 'Share Tech Mono', monospace;
@@ -37,13 +34,11 @@
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    /* Themes */
     body.theme-green { background-color: #020803; color: #00ff66; }
     body.theme-red { background-color: #080202; color: #ff0033; }
     body.theme-yellow { background-color: #080702; color: #ffcc00; }
     body.theme-black { background-color: #030303; color: #ffffff; }
 
-    /* Matrix Rain Canvas */
     #matrix-canvas {
       position: fixed;
       top: 0;
@@ -55,25 +50,21 @@
       opacity: 0.28;
     }
 
-    /* Dynamic Cubic Panels */
     .theme-green .dynamic-panel { background: rgba(2, 18, 7, 0.95); border: 2px solid #00ff66; box-shadow: 0 0 15px rgba(0, 255, 102, 0.2); }
     .theme-red .dynamic-panel { background: rgba(18, 2, 2, 0.95); border: 2px solid #ff0033; box-shadow: 0 0 15px rgba(255, 0, 51, 0.2); }
     .theme-yellow .dynamic-panel { background: rgba(18, 15, 2, 0.95); border: 2px solid #ffcc00; box-shadow: 0 0 15px rgba(255, 204, 0, 0.2); }
     .theme-black .dynamic-panel { background: rgba(12, 12, 12, 0.98); border: 2px solid #555; box-shadow: 0 0 15px rgba(0, 0, 0, 0.9); }
 
-    /* Dynamic Cards */
     .theme-green .dynamic-card { background: rgba(0, 10, 3, 0.95); border: 1px solid #00ff6688; }
     .theme-red .dynamic-card { background: rgba(10, 0, 0, 0.95); border: 1px solid #ff003388; }
     .theme-yellow .dynamic-card { background: rgba(10, 8, 0, 0.95); border: 1px solid #ffcc0088; }
     .theme-black .dynamic-card { background: rgba(20, 20, 20, 0.95); border: 1px solid #666; }
 
-    /* Inputs */
     .theme-green .dynamic-input { background: #000; border: 1px solid #00ff66; color: #00ff66; }
     .theme-red .dynamic-input { background: #000; border: 1px solid #ff0033; color: #ff0033; }
     .theme-yellow .dynamic-input { background: #000; border: 1px solid #ffcc00; color: #ffcc00; }
     .theme-black .dynamic-input { background: #000; border: 1px solid #888; color: #fff; }
 
-    /* Buttons */
     .theme-green .dynamic-btn { background: #002b0e; border: 1px solid #00ff66; color: #00ff66; }
     .theme-green .dynamic-btn:hover { background: #00ff66; color: #000; box-shadow: 0 0 10px #00ff66; }
 
@@ -86,7 +77,6 @@
     .theme-black .dynamic-btn { background: #222; border: 1px solid #fff; color: #fff; }
     .theme-black .dynamic-btn:hover { background: #fff; color: #000; box-shadow: 0 0 10px #fff; }
 
-    /* Cyber Badges */
     .hacker-badge {
       font-size: 9px;
       font-weight: bold;
@@ -108,386 +98,308 @@
 
 <body class="theme-green min-h-screen relative overflow-x-hidden" tabindex="0">
 
-  <!-- Matrix Background Canvas -->
   <canvas id="matrix-canvas"></canvas>
 
-  <!-- Global Toast Alerts -->
   <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- Hidden File Input for Custom Profile Image Upload -->
+  <!-- Hidden File Input for Custom Profile Photo -->
   <input type="file" id="pic-file-input" accept="image/*" class="hidden" />
 
-  <!-- ================= AUTH VIEW ================= -->
-  <div id="auth-section" class="relative z-10 min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-md dynamic-panel p-6 relative">
-      
+  <!-- ================= 1. PUBLIC UNLOCKER VIEW (?id=...) ================= -->
+  <div id="public-section" class="relative z-10 min-h-screen flex items-center justify-center p-4 hidden">
+    <div class="w-full max-w-md dynamic-panel p-6 relative text-center">
       <div class="flex justify-between items-center mb-4">
-        <span class="hacker-badge"><i class="fa-solid fa-biohazard"></i> REALMODERZ</span>
-        <span class="hacker-badge"><i class="fa-solid fa-shield-halved"></i> SECURE_ROOT</span>
+        <span class="hacker-badge"><i class="fa-solid fa-lock"></i> SUB2UNLOCK</span>
+        <span class="hacker-badge"><i class="fa-solid fa-shield-halved"></i> REALMODERZ</span>
       </div>
+      
+      <h1 id="pub-brand-title" class="text-xl font-bold uppercase tracking-wider mb-2">&gt; LOADING TASKS...</h1>
+      <p class="text-xs opacity-70 mb-6">Complete all tasks below to unlock your target link.</p>
 
-      <div class="text-center mb-6">
-        <div class="w-16 h-16 mx-auto dynamic-card flex items-center justify-center text-3xl mb-3 border-2 border-current">
-          <i class="fa-solid fa-user-secret"></i>
-        </div>
-        <h1 class="text-xl font-bold tracking-widest uppercase">&gt; REALMODERZ LOGIN</h1>
-        <p class="text-xs opacity-80 mt-1">[ ENTER SYSTEM ACCESS CREDENTIALS ]</p>
+      <div id="pub-tasks-list" class="space-y-3 text-left mb-6"></div>
 
-        <!-- Theme Selector -->
-        <div class="flex justify-center gap-1 mt-4">
-          <button onclick="setTheme('green')" class="px-2 py-1 text-[10px] bg-black border border-green-500 text-green-400 font-bold">[GREEN]</button>
-          <button onclick="setTheme('red')" class="px-2 py-1 text-[10px] bg-black border border-red-500 text-red-500 font-bold">[RED]</button>
-          <button onclick="setTheme('yellow')" class="px-2 py-1 text-[10px] bg-black border border-yellow-500 text-yellow-400 font-bold">[YELLOW]</button>
-          <button onclick="setTheme('black')" class="px-2 py-1 text-[10px] bg-black border border-white text-white font-bold">[BLACK]</button>
-        </div>
-      </div>
-
-      <form id="login-form" class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold mb-1 uppercase">&gt; ADMIN EMAIL</label>
-          <input type="email" id="login-email" required placeholder="admin@realmoderz.com" class="w-full px-3 py-2.5 dynamic-input text-xs" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold mb-1 uppercase">&gt; PASSWORD</label>
-          <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-3 py-2.5 dynamic-input text-xs" />
-        </div>
-        <button type="submit" id="login-btn" class="w-full py-3 px-4 font-bold text-xs dynamic-btn uppercase tracking-widest">
-          [ EXECUTE AUTHENTICATION ]
-        </button>
-      </form>
+      <button id="pub-unlock-btn" disabled class="w-full py-3 px-4 font-bold text-xs bg-neutral-900 text-neutral-600 border border-neutral-700 uppercase tracking-widest cursor-not-allowed">
+        [ LINK LOCKED - COMPLETE TASKS FIRST ]
+      </button>
     </div>
   </div>
 
-  <!-- ================= DASHBOARD VIEW ================= -->
-  <div id="dashboard-section" class="relative z-10 hidden flex-col min-h-screen">
-    
-    <!-- Navigation Bar -->
-    <header class="border-b-2 border-current bg-black/90 sticky top-0 z-30">
-      <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-        
-        <div class="flex items-center gap-3">
-          <!-- Profile Picture Container -->
-          <div id="admin-avatar-box" class="w-11 h-11 dynamic-card overflow-hidden flex items-center justify-center cursor-pointer border-2 border-current relative group" title="Click to Upload Custom Photo">
-            <img id="admin-avatar-img" src="" alt="REALMODERZ Admin" class="w-full h-full object-cover hidden" />
-            <i id="admin-avatar-icon" class="fa-solid fa-user-ninja text-xl"></i>
+  <!-- ================= 2. ADMIN & AUTH ROOT SECTION ================= -->
+  <div id="admin-root-section" class="relative z-10">
+
+    <!-- AUTH VIEW -->
+    <div id="auth-section" class="relative z-10 min-h-screen flex items-center justify-center p-4">
+      <div class="w-full max-w-md dynamic-panel p-6 relative">
+        <div class="flex justify-between items-center mb-4">
+          <span class="hacker-badge"><i class="fa-solid fa-biohazard"></i> REALMODERZ</span>
+          <span class="hacker-badge"><i class="fa-solid fa-shield-halved"></i> SECURE_ROOT</span>
+        </div>
+
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 mx-auto dynamic-card flex items-center justify-center text-3xl mb-3 border-2 border-current">
+            <i class="fa-solid fa-user-secret"></i>
+          </div>
+          <h1 class="text-xl font-bold tracking-widest uppercase">&gt; REALMODERZ LOGIN</h1>
+          <p class="text-xs opacity-80 mt-1">[ ENTER SYSTEM ACCESS CREDENTIALS ]</p>
+
+          <div class="flex justify-center gap-1 mt-4">
+            <button onclick="setTheme('green')" class="px-2 py-1 text-[10px] bg-black border border-green-500 text-green-400 font-bold">[GREEN]</button>
+            <button onclick="setTheme('red')" class="px-2 py-1 text-[10px] bg-black border border-red-500 text-red-500 font-bold">[RED]</button>
+            <button onclick="setTheme('yellow')" class="px-2 py-1 text-[10px] bg-black border border-yellow-500 text-yellow-400 font-bold">[YELLOW]</button>
+            <button onclick="setTheme('black')" class="px-2 py-1 text-[10px] bg-black border border-white text-white font-bold">[BLACK]</button>
+          </div>
+        </div>
+
+        <form id="login-form" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold mb-1 uppercase">&gt; ADMIN EMAIL</label>
+            <input type="email" id="login-email" required placeholder="admin@realmoderz.com" class="w-full px-3 py-2.5 dynamic-input text-xs" />
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <h1 class="text-base font-bold tracking-wider">&gt; REALMODERZ ADMIN</h1>
-              <span class="hacker-badge"><i class="fa-solid fa-[#00ff66] fa-bolt"></i> ONLINE</span>
-            </div>
-            <span class="text-[10px] opacity-70 font-mono">FIREBASE REALTIME DB CONSOLE</span>
+            <label class="block text-xs font-bold mb-1 uppercase">&gt; PASSWORD</label>
+            <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-3 py-2.5 dynamic-input text-xs" />
           </div>
-        </div>
-
-        <!-- Audio Volume Control Bar -->
-        <div class="flex items-center gap-2 bg-black px-3 py-1 border border-current text-[10px]">
-          <button id="toggle-bgm-btn" class="font-bold text-emerald-400 hover:underline">
-            <i class="fa-solid fa-volume-high mr-1"></i> BGM [ON]
+          <button type="submit" id="login-btn" class="w-full py-3 px-4 font-bold text-xs dynamic-btn uppercase tracking-widest">
+            [ EXECUTE AUTHENTICATION ]
           </button>
-          <input type="range" id="bgm-volume" min="0" max="1" step="0.05" value="0.25" class="w-16 accent-current cursor-pointer" title="Adjust Falling Sound Volume" />
-          <button id="trigger-pic-upload" class="px-2 py-0.5 dynamic-btn text-[10px] font-bold ml-2">
-            <i class="fa-solid fa-upload mr-1"></i> UPLOAD PIC
-          </button>
-        </div>
-
-        <!-- Navigation Tabs -->
-        <div class="flex items-center gap-1 bg-black p-1 border border-current text-xs font-bold">
-          <button id="nav-links-btn" onclick="switchAppTab('links')" class="px-2.5 py-1 dynamic-btn bg-emerald-950 text-emerald-400">
-            <i class="fa-solid fa-link mr-1"></i> APP 1: LINKS
-          </button>
-          <button id="nav-keys-btn" onclick="switchAppTab('keys')" class="px-2.5 py-1 hover:bg-neutral-900">
-            <i class="fa-solid fa-key mr-1"></i> APP 2: KEYS
-          </button>
-          <button id="nav-games-btn" onclick="switchAppTab('games')" class="px-2.5 py-1 hover:bg-neutral-900 text-yellow-400">
-            <i class="fa-solid fa-terminal mr-1"></i> GEEK PRANKS
-          </button>
-        </div>
-
-        <!-- Theme Picker & Logout -->
-        <div class="flex items-center gap-2">
-          <div class="hidden md:flex gap-1 bg-black p-1 border border-current">
-            <button onclick="setTheme('green')" class="px-1.5 py-0.5 text-[10px] font-bold text-green-400 hover:bg-green-950">GRN</button>
-            <button onclick="setTheme('red')" class="px-1.5 py-0.5 text-[10px] font-bold text-red-500 hover:bg-red-950">RED</button>
-            <button onclick="setTheme('yellow')" class="px-1.5 py-0.5 text-[10px] font-bold text-yellow-400 hover:bg-yellow-950">YEL</button>
-            <button onclick="setTheme('black')" class="px-1.5 py-0.5 text-[10px] font-bold text-white hover:bg-neutral-800">BLK</button>
-          </div>
-          <button id="logout-btn" class="px-3 py-1 text-xs font-bold text-red-400 bg-red-950/60 border border-red-500">
-            [ LOGOUT ]
-          </button>
-        </div>
-
+        </form>
       </div>
-    </header>
+    </div>
 
-    <!-- Main Content Body -->
-    <main class="max-w-7xl w-full mx-auto px-4 py-6 flex-1">
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard-section" class="relative z-10 hidden flex-col min-h-screen">
       
-      <!-- TAB 1: SUB2UNLOCK LINK MANAGER -->
-      <div id="tab-links-content" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <section class="lg:col-span-5">
-          <div class="dynamic-panel p-5 sticky top-20">
-            <div class="flex justify-between items-center mb-4">
-              <h2 class="text-sm font-bold">&gt; CREATE UNLOCK NODE</h2>
-              <span class="hacker-badge"><i class="fa-solid fa-link"></i> SUB2UNLOCK</span>
+      <header class="border-b-2 border-current bg-black/90 sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+          
+          <div class="flex items-center gap-3">
+            <div id="admin-avatar-box" class="w-11 h-11 dynamic-card overflow-hidden flex items-center justify-center cursor-pointer border-2 border-current relative group" title="Click to Upload Profile Picture">
+              <img id="admin-avatar-img" src="" alt="REALMODERZ Admin" class="w-full h-full object-cover hidden" />
+              <i id="admin-avatar-icon" class="fa-solid fa-user-ninja text-xl"></i>
             </div>
-
-            <form id="create-link-form" class="space-y-3">
-              <div>
-                <label class="block text-[11px] font-bold mb-1 uppercase">&gt; BRAND / TITLE IDENTIFIER</label>
-                <input type="text" id="link-brand" required placeholder="e.g. VIP Mod File" class="w-full px-3 py-2 dynamic-input text-xs" />
+            <div>
+              <div class="flex items-center gap-2">
+                <h1 class="text-base font-bold tracking-wider">&gt; REALMODERZ ADMIN</h1>
+                <span class="hacker-badge"><i class="fa-solid fa-bolt"></i> ONLINE</span>
               </div>
-              <div>
-                <label class="block text-[11px] font-bold mb-1 uppercase">&gt; DESTINATION URL (LOCKED)</label>
-                <input type="url" id="link-destination" required placeholder="https://..." class="w-full px-3 py-2 dynamic-input text-xs" />
-              </div>
+              <span class="text-[10px] opacity-70 font-mono">FIREBASE REALTIME DB CONSOLE</span>
+            </div>
+          </div>
 
-              <div class="space-y-2 pt-1">
-                <label class="block text-[11px] font-bold uppercase">&gt; VERIFICATION TASKS</label>
+          <div class="flex items-center gap-2 bg-black px-3 py-1 border border-current text-[10px]">
+            <button id="toggle-bgm-btn" class="font-bold text-emerald-400 hover:underline">
+              <i class="fa-solid fa-volume-high mr-1"></i> BGM [ON]
+            </button>
+            <input type="range" id="bgm-volume" min="0" max="1" step="0.05" value="0.25" class="w-16 accent-current cursor-pointer" title="Adjust Volume" />
+            <button id="trigger-pic-upload" class="px-2 py-0.5 dynamic-btn text-[10px] font-bold ml-2">
+              <i class="fa-solid fa-upload mr-1"></i> UPLOAD PIC
+            </button>
+          </div>
+
+          <div class="flex items-center gap-1 bg-black p-1 border border-current text-xs font-bold">
+            <button id="nav-links-btn" onclick="switchAppTab('links')" class="px-2.5 py-1 dynamic-btn bg-emerald-950 text-emerald-400">
+              <i class="fa-solid fa-link mr-1"></i> LINKS
+            </button>
+            <button id="nav-keys-btn" onclick="switchAppTab('keys')" class="px-2.5 py-1 hover:bg-neutral-900">
+              <i class="fa-solid fa-key mr-1"></i> KEYS
+            </button>
+            <button id="nav-games-btn" onclick="switchAppTab('games')" class="px-2.5 py-1 hover:bg-neutral-900 text-yellow-400">
+              <i class="fa-solid fa-terminal mr-1"></i> GEEK SIMULATOR
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="logout-btn" class="px-3 py-1 text-xs font-bold text-red-400 bg-red-950/60 border border-red-500">
+              [ LOGOUT ]
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      <main class="max-w-7xl w-full mx-auto px-4 py-6 flex-1">
+        
+        <!-- TAB 1: LINKS MANAGER -->
+        <div id="tab-links-content" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <section class="lg:col-span-5">
+            <div class="dynamic-panel p-5 sticky top-20">
+              <h2 class="text-sm font-bold mb-4">&gt; CREATE UNLOCK NODE</h2>
+              <form id="create-link-form" class="space-y-3">
+                <input type="text" id="link-brand" required placeholder="Brand / File Name" class="w-full px-3 py-2 dynamic-input text-xs" />
+                <input type="url" id="link-destination" required placeholder="Destination URL" class="w-full px-3 py-2 dynamic-input text-xs" />
                 <input type="url" id="task-youtube" placeholder="YouTube URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
                 <input type="url" id="task-telegram" placeholder="Telegram URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
                 <input type="url" id="task-instagram" placeholder="Instagram URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
-              </div>
+                <button type="submit" class="w-full py-2.5 font-bold text-xs dynamic-btn uppercase">[ DEPLOY UNLOCK LINK ]</button>
+              </form>
 
-              <button type="submit" id="submit-create-btn" class="w-full py-2.5 font-bold text-xs uppercase tracking-widest dynamic-btn mt-2">
-                [ DEPLOY UNLOCK LINK ]
-              </button>
-            </form>
-
-            <div id="new-link-output" class="hidden mt-4 p-3 dynamic-card border border-current">
-              <span class="text-[10px] font-bold block mb-1 text-emerald-400">&gt; PAYLOAD_DEPLOYED:</span>
-              <div class="flex gap-2">
-                <input type="text" id="generated-url-input" readonly class="w-full px-2 py-1 bg-black text-xs font-mono border border-current" />
-                <button id="copy-new-btn" class="px-3 py-1 dynamic-btn text-xs font-bold whitespace-nowrap">COPY</button>
+              <div id="new-link-output" class="hidden mt-4 p-3 dynamic-card border border-current">
+                <span class="text-[10px] font-bold block mb-1 text-emerald-400">&gt; PAYLOAD_DEPLOYED:</span>
+                <div class="flex gap-2">
+                  <input type="text" id="generated-url-input" readonly class="w-full px-2 py-1 bg-black text-xs font-mono border border-current" />
+                  <button id="copy-new-btn" class="px-3 py-1 dynamic-btn text-xs font-bold whitespace-nowrap">COPY</button>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="lg:col-span-7">
-          <div class="dynamic-panel p-5">
-            <div class="flex justify-between items-center mb-4">
-              <div class="flex items-center gap-2">
+          <section class="lg:col-span-7">
+            <div class="dynamic-panel p-5">
+              <div class="flex justify-between items-center mb-4">
                 <h2 class="text-sm font-bold">&gt; ACTIVE LINK NODES</h2>
-                <span class="hacker-badge"><i class="fa-solid fa-database"></i> REALTIME</span>
+                <span id="links-count" class="dynamic-card px-2 py-0.5 text-xs font-mono font-bold">0 NODES</span>
               </div>
-              <span id="links-count" class="dynamic-card px-2 py-0.5 text-xs font-mono font-bold">0 NODES</span>
+              <div id="links-list" class="space-y-3"></div>
             </div>
+          </section>
+        </div>
 
-            <div id="links-list" class="space-y-3">
-              <div class="py-10 text-center text-xs font-mono opacity-60">&gt; FETCHING_NODES_FROM_FIREBASE...</div>
+        <!-- TAB 2: ADVANCED KEY GENERATOR -->
+        <div id="tab-keys-content" class="hidden grid-cols-1 lg:grid-cols-12 gap-6">
+          <section class="lg:col-span-5">
+            <div class="dynamic-panel p-5 sticky top-20">
+              <div class="flex justify-between items-center mb-4 border-b border-current pb-2">
+                <h2 class="text-sm font-bold">&gt; KEY GENERATOR ENGINE</h2>
+                <span class="hacker-badge"><i class="fa-solid fa-key"></i> ADVANCED</span>
+              </div>
+
+              <form id="create-key-form" class="space-y-3">
+                <div>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY TITLE / NAME</label>
+                  <input type="text" id="key-title" required placeholder="e.g. Premium VIP Access #1" class="w-full px-3 py-2 dynamic-input text-xs" />
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; CUSTOM KEY STRING (OPTIONAL)</label>
+                  <div class="flex gap-2">
+                    <input type="text" id="key-custom-code" placeholder="Leave empty for auto-gen" class="w-full px-3 py-2 dynamic-input text-xs font-mono" />
+                    <button type="button" id="btn-gen-rand-key" class="px-2.5 py-1 dynamic-btn text-xs font-bold uppercase whitespace-nowrap">[ AUTO ]</button>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="block text-[11px] font-bold mb-1 uppercase">&gt; DURATION</label>
+                    <input type="number" id="key-duration-val" min="1" value="24" required class="w-full px-3 py-2 dynamic-input text-xs" />
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold mb-1 uppercase">&gt; TIME UNIT</label>
+                    <select id="key-duration-unit" class="w-full px-3 py-2 dynamic-input text-xs">
+                      <option value="minutes">Minutes</option>
+                      <option value="hours" selected>Hours</option>
+                      <option value="days">Days</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; UPLOAD KEY IMAGE BANNER</label>
+                  <input type="file" id="key-img-file" accept="image/*" class="w-full px-2 py-1 dynamic-input text-xs" />
+                  <div id="key-img-preview-box" class="mt-2 hidden">
+                    <img id="key-img-preview" src="" class="h-20 w-full object-cover border border-current" />
+                  </div>
+                </div>
+
+                <button type="submit" class="w-full py-2.5 font-bold text-xs uppercase tracking-widest dynamic-btn mt-2">
+                  [ SAVE & GENERATE KEY ]
+                </button>
+              </form>
+            </div>
+          </section>
+
+          <section class="lg:col-span-7">
+            <div class="dynamic-panel p-5">
+              <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center gap-2">
+                  <h2 class="text-sm font-bold">&gt; SYSTEM ACCESS KEYS</h2>
+                  <span class="hacker-badge"><i class="fa-solid fa-shield"></i> SECURED</span>
+                </div>
+                <span id="keys-count" class="dynamic-card px-2 py-0.5 text-xs font-mono font-bold">0 KEYS</span>
+              </div>
+
+              <div id="keys-list" class="space-y-3">
+                <div class="py-10 text-center text-xs font-mono opacity-60">&gt; FETCHING_KEYS_FROM_FIREBASE...</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- TAB 3: GEEK CYBER ATTACK SIMULATOR -->
+        <div id="tab-games-content" class="hidden space-y-6">
+          <div class="dynamic-panel p-4 flex flex-wrap justify-between items-center gap-2">
+            <div>
+              <h2 class="text-base font-bold text-yellow-400">&gt; INTERACTIVE HACKER SIMULATOR</h2>
+              <p class="text-xs opacity-70">Execute cyber attack visuals & interactive pranks.</p>
+            </div>
+            <div class="flex flex-wrap gap-2 text-xs font-bold">
+              <button onclick="openMiniGame('geek')" class="px-3 py-1.5 dynamic-btn bg-emerald-950 text-emerald-400">Geek Typer</button>
+              <button onclick="openMiniGame('ddos')" class="px-3 py-1.5 dynamic-btn">DDoS Simulator</button>
+              <button onclick="openMiniGame('wifi')" class="px-3 py-1.5 dynamic-btn">Wi-Fi Deauth</button>
+              <button onclick="openMiniGame('virus')" class="px-3 py-1.5 dynamic-btn">Ransomware</button>
             </div>
           </div>
-        </section>
 
-      </div>
-
-      <!-- TAB 2: AD KEY SYSTEM & AD-WALL MANAGER -->
-      <div id="tab-keys-content" class="hidden grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <section class="lg:col-span-5">
-          <div class="dynamic-panel p-5 sticky top-20">
-            <div class="flex justify-between items-center mb-4">
-              <h2 class="text-sm font-bold">&gt; GENERATE USER KEY</h2>
-              <span class="hacker-badge"><i class="fa-solid fa-key"></i> AD-WALL</span>
+          <div id="game-arena" class="dynamic-panel p-6 min-h-[420px] flex flex-col justify-center items-center text-center relative border-2 border-current">
+            
+            <!-- GEEK TYPER -->
+            <div id="game-geek" class="w-full max-w-4xl space-y-3">
+              <div id="geek-terminal-box" class="bg-black p-4 text-left font-mono text-xs text-emerald-400 h-80 overflow-y-auto border-2 border-current leading-relaxed" tabindex="0">
+                <span class="opacity-60">&gt; PRESS ANY KEY ON KEYBOARD TO GENERATE HACKER CODE...</span><br/><br/>
+              </div>
             </div>
 
-            <form id="create-key-form" class="space-y-3">
-              <div>
-                <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY NAME / NOTE</label>
-                <input type="text" id="key-title" required placeholder="e.g. VIP User Access #1" class="w-full px-3 py-2 dynamic-input text-xs" />
+            <!-- DDOS SIMULATOR -->
+            <div id="game-ddos" class="hidden w-full max-w-2xl space-y-4">
+              <div class="flex justify-between items-center border-b pb-2">
+                <span class="font-bold text-red-500"><i class="fa-solid fa-network-wired"></i> SYN FLOOD DDOS BOTNET SIMULATOR</span>
+                <span id="ddos-status" class="hacker-badge text-red-400">IDLE</span>
               </div>
-              <div>
-                <label class="block text-[11px] font-bold mb-1 uppercase">&gt; DURATION</label>
-                <select id="key-validity" class="w-full px-3 py-2 dynamic-input text-xs">
-                  <option value="24">24 Hours Pass</option>
-                  <option value="168">7 Days Pass</option>
-                  <option value="720">30 Days Pass</option>
-                  <option value="99999">Lifetime Unlimited</option>
-                </select>
+              <div class="flex gap-2">
+                <input type="text" id="ddos-target" placeholder="Target IP / Hostname (e.g. 192.168.1.1)" class="w-full px-3 py-2 dynamic-input text-xs" />
+                <button onclick="startDDoSAttack()" class="px-4 py-2 dynamic-btn text-xs font-bold bg-red-950 text-red-400 border-red-500 uppercase">LAUNCH</button>
               </div>
-              <div>
-                <label class="block text-[11px] font-bold mb-1 uppercase">&gt; AD IMPRESSION REQUIREMENT</label>
-                <select id="key-ads" class="w-full px-3 py-2 dynamic-input text-xs">
-                  <option value="1">1 Ad Impression Required</option>
-                  <option value="2">2 Ads Impression Required</option>
-                  <option value="3">3 Ads Impression Required</option>
-                  <option value="0">Direct (No Ads)</option>
-                </select>
+              <div id="ddos-terminal" class="bg-black p-3 text-left font-mono text-[11px] h-48 overflow-y-auto border border-current text-red-400">
+                &gt; Awaiting target configuration...<br/>
               </div>
-
-              <button type="submit" class="w-full py-2.5 font-bold text-xs uppercase tracking-widest dynamic-btn mt-2">
-                [ GENERATE USER KEY ]
-              </button>
-            </form>
-          </div>
-        </section>
-
-        <section class="lg:col-span-7">
-          <div class="dynamic-panel p-5">
-            <div class="flex justify-between items-center mb-4">
-              <div class="flex items-center gap-2">
-                <h2 class="text-sm font-bold">&gt; ACTIVE ACCESS KEYS</h2>
-                <span class="hacker-badge"><i class="fa-solid fa-shield"></i> AD GATEWAY</span>
-              </div>
-              <span id="keys-count" class="dynamic-card px-2 py-0.5 text-xs font-mono font-bold">0 KEYS</span>
             </div>
 
-            <div id="keys-list" class="space-y-3">
-              <div class="py-10 text-center text-xs font-mono opacity-60">&gt; FETCHING_KEYS_FROM_FIREBASE...</div>
+            <!-- WIFI DEAUTH -->
+            <div id="game-wifi" class="hidden w-full max-w-2xl space-y-4">
+              <div class="flex justify-between items-center border-b pb-2">
+                <span class="font-bold text-cyan-400"><i class="fa-solid fa-wifi"></i> WPA3 WI-FI DEAUTH & HANDSHAKE CRACKER</span>
+                <span class="hacker-badge">wlan0mon</span>
+              </div>
+              <div id="wifi-terminal" class="bg-black p-3 text-left font-mono text-[11px] h-56 overflow-y-auto border border-current text-cyan-400">
+                &gt; Airmon-ng start wlan0... Monitor mode enabled.<br/>
+              </div>
             </div>
-          </div>
-        </section>
 
-      </div>
+            <!-- RANSOMWARE -->
+            <div id="game-virus" class="hidden w-full max-w-2xl space-y-4">
+              <div class="flex justify-between items-center border-b pb-2">
+                <span class="font-bold text-yellow-400"><i class="fa-solid fa-biohazard"></i> RANSOMWARE PAYLOAD INJECTOR</span>
+                <span class="hacker-badge">ENCRYPTING</span>
+              </div>
+              <div class="w-full bg-black border border-current h-5">
+                <div id="virus-bar" class="bg-yellow-500 h-full w-0 transition-all duration-300"></div>
+              </div>
+              <div id="virus-terminal" class="bg-black p-3 text-left font-mono text-[11px] h-40 overflow-y-auto border border-current text-yellow-400">
+                &gt; Initializing RSA-4096 Encryption Key...<br/>
+              </div>
+            </div>
 
-      <!-- TAB 3: user policy & education tools -->
-      <div id="tab-games-content" class="hidden space-y-6">
-        
-        <div class="dynamic-panel p-4 flex flex-wrap justify-between items-center gap-2">
-          <div>
-            <h2 class="text-base font-bold text-yellow-400">&gt;INTERACTIVE HACKER TERMINAL</h2>
-            <p class="text-xs opacity-70">Type ANYTHING on your keyboard to generate real-time hacker code & trigger alert pranks!</p>
-          </div>
-
-          <!-- Prank Tools Selector -->
-          <div class="flex flex-wrap gap-2 text-xs font-bold">
-            <button onclick="openMiniGame('geek')" class="px-3 py-1.5 dynamic-btn bg-emerald-950 text-emerald-400"><i class="fa-solid fa-keyboard mr-1"></i> Geek Terminal (Type)</button>
-            <button onclick="openMiniGame('virus')" class="px-3 py-1.5 dynamic-btn"><i class="fa-solid fa-biohazard mr-1"></i> Virus Infection</button>
-            <button onclick="openMiniGame('fbi')" class="px-3 py-1.5 dynamic-btn"><i class="fa-solid fa-user-shield mr-1"></i> FBI Breach</button>
-            <button onclick="openMiniGame('pwd')" class="px-3 py-1.5 dynamic-btn"><i class="fa-solid fa-key mr-1"></i> Password Cracker</button>
-            <button onclick="openMiniGame('btc')" class="px-3 py-1.5 dynamic-btn"><i class="fa-bold fa-bitcoin mr-1"></i> BTC Miner</button>
-            <button onclick="openMiniGame('wifi')" class="px-3 py-1.5 dynamic-btn"><i class="fa-solid fa-wifi mr-1"></i> Wi-Fi Exploit</button>
           </div>
         </div>
 
-        <!-- Interactive Game Arena Screen -->
-        <div id="game-arena" class="dynamic-panel p-6 min-h-[420px] flex flex-col justify-center items-center text-center relative border-2 border-current">
-          
-          <!-- Interactive GeekPranks Hacker Typer -->
-          <div id="game-geek" class="w-full max-w-4xl space-y-3">
-            <div class="flex flex-wrap justify-between items-center border-b pb-2 gap-2">
-              <span class="font-bold text-emerald-400"><i class="fa-solid fa-terminal"></i> INTERACTIVE HACKER TYPER (TYPE ON KEYBOARD)</span>
-              
-              <!-- Trigger Buttons for GeekPranks FX -->
-              <div class="flex gap-2 text-[10px]">
-                <button onclick="triggerPrankModal('granted')" class="px-2 py-1 bg-emerald-950 border border-emerald-500 text-emerald-400 font-bold">[ACCESS GRANTED]</button>
-                <button onclick="triggerPrankModal('denied')" class="px-2 py-1 bg-red-950 border border-red-500 text-red-400 font-bold">[ACCESS DENIED]</button>
-                <button onclick="triggerPrankModal('nuclear')" class="px-2 py-1 bg-yellow-950 border border-yellow-500 text-yellow-400 font-bold">[NUCLEAR ALERT]</button>
-                <button onclick="autoTypeGeekCode()" class="px-2 py-1 dynamic-btn font-bold">[MATRIX AUTO TYPE]</button>
-              </div>
-            </div>
-
-            <!-- Terminal Output Area -->
-            <div id="geek-terminal-box" class="bg-black p-4 text-left font-mono text-xs text-emerald-400 h-80 overflow-y-auto border-2 border-current leading-relaxed" tabindex="0">
-              <span class="opacity-60">&gt; PRESS ANY KEYS ON YOUR KEYBOARD TO TYPE HACKER CODE...</span><br/><br/>
-            </div>
-          </div>
-
-          <!-- Prank 2: Virus Infection -->
-          <div id="game-virus" class="hidden w-full max-w-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-2">
-              <span class="font-bold text-red-500"><i class="fa-solid fa-biohazard"></i> TROJAN VIRUS INFECTION SIMULATOR</span>
-              <span id="virus-status" class="hacker-badge text-red-400">INFECTING SYSTEM...</span>
-            </div>
-            <div class="w-full bg-black border border-current h-5">
-              <div id="virus-bar" class="bg-red-600 h-full w-0 transition-all duration-300"></div>
-            </div>
-            <div class="bg-black p-3 text-left font-mono text-[11px] h-36 overflow-y-auto border border-current text-red-400" id="virus-terminal">
-              &gt; Injecting Payload Ransomware.WannaCry.v3...<br/>
-            </div>
-          </div>
-
-          <!-- Prank 3: FBI Database Breach -->
-          <div id="game-fbi" class="hidden w-full max-w-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-2">
-              <span class="font-bold text-cyan-400"><i class="fa-solid fa-user-shield"></i> FBI CENTRAL DATABASE PENETRATION</span>
-              <span class="hacker-badge">CLASSIFIED TOP SECRET</span>
-            </div>
-            <div class="bg-black p-3 text-left font-mono text-[11px] h-40 overflow-y-auto border border-current text-cyan-400" id="fbi-terminal">
-              &gt; Connecting to FBI Mainframe [10.240.10.1]...<br/>
-              &gt; Bypassing Cyber Division Firewall... OK<br/>
-            </div>
-          </div>
-
-          <!-- Prank 4: Password Cracker -->
-          <div id="game-pwd" class="hidden w-full max-w-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-2">
-              <span class="font-bold text-emerald-400"><i class="fa-solid fa-key"></i> HASH DICTIONARY PASSWORD CRACKER</span>
-              <span class="hacker-badge">HASH: SHA-256</span>
-            </div>
-            <div class="dynamic-card p-4 text-center">
-              <div class="text-xs opacity-70 mb-1">CRACKING TARGET HASH:</div>
-              <div id="pwd-display" class="text-2xl font-bold font-mono tracking-widest text-emerald-400">Searching...</div>
-            </div>
-            <div class="bg-black p-3 text-left font-mono text-[11px] h-28 overflow-y-auto border border-current" id="pwd-terminal">
-              &gt; Loading wordlist rockyou.txt (14,344,391 words)...<br/>
-            </div>
-          </div>
-
-          <!-- Prank 5: Bitcoin Miner -->
-          <div id="game-btc" class="hidden w-full max-w-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-2">
-              <span class="font-bold text-yellow-400"><i class="fa-brands fa-bitcoin"></i> BITCOIN MINING RIG SIMULATOR</span>
-              <span id="btc-hashrate" class="hacker-badge">HASHRATE: 142.8 TH/s</span>
-            </div>
-            <div class="grid grid-cols-3 gap-3 text-left">
-              <div class="dynamic-card p-3">
-                <div class="text-[10px] opacity-70">MINED BITCOIN</div>
-                <div id="btc-mined" class="text-lg font-bold text-yellow-400">0.00000000 BTC</div>
-              </div>
-              <div class="dynamic-card p-3">
-                <div class="text-[10px] opacity-70">CURRENT BLOCK</div>
-                <div id="btc-block" class="text-lg font-bold">#854,209</div>
-              </div>
-              <div class="dynamic-card p-3">
-                <div class="text-[10px] opacity-70">EST. USD VALUE</div>
-                <div id="btc-usd" class="text-lg font-bold text-emerald-400">$0.00</div>
-              </div>
-            </div>
-            <div class="bg-black p-3 text-left font-mono text-[11px] h-28 overflow-y-auto border border-current" id="btc-terminal">
-              &gt; Connected to Pool pool.realmoderz.net:3333<br/>
-            </div>
-          </div>
-
-          <!-- Prank 6: Wi-Fi Penetration -->
-          <div id="game-wifi" class="hidden w-full max-w-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-2">
-              <span class="font-bold text-purple-400"><i class="fa-solid fa-wifi"></i> WPA3 WI-FI ROUTER PENETRATOR</span>
-              <span class="hacker-badge">INTERFACE: wlan0mon</span>
-            </div>
-            <div class="bg-black p-3 text-left font-mono text-[11px] h-36 overflow-y-auto border border-current" id="wifi-terminal">
-              &gt; Airmon-ng start wlan0... Monitor mode enabled.<br/>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </main>
-  </div>
-
-  <!-- PRANK MODAL OVERLAY (ACCESS GRANTED / DENIED / NUCLEAR) -->
-  <div id="prank-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
-    <div id="prank-modal-box" class="w-full max-w-md p-6 text-center border-4 border-current animate-bounce">
-      <div id="prank-icon" class="text-5xl mb-3"></div>
-      <h2 id="prank-title" class="text-2xl font-extrabold uppercase tracking-widest mb-2"></h2>
-      <p id="prank-desc" class="text-xs font-mono opacity-90 mb-4"></p>
-      <button onclick="closePrankModal()" class="px-4 py-2 dynamic-btn font-bold text-xs uppercase">[ CLOSE ALERT ]</button>
+      </main>
     </div>
   </div>
 
-  <!-- CUBIC EDIT MODAL -->
+  <!-- EDIT LINK MODAL -->
   <div id="edit-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
     <div class="w-full max-w-lg dynamic-panel p-5 relative border-2 border-current">
-      
       <div class="flex justify-between items-center mb-4 border-b-2 border-current pb-2">
-        <div class="flex items-center gap-2">
-          <h3 class="text-xs font-bold uppercase">&gt; REALTIME_NODE_EDITOR</h3>
-          <span class="hacker-badge"><i class="fa-solid fa-pen-nib"></i> MOD</span>
-        </div>
+        <h3 class="text-xs font-bold uppercase">&gt; EDIT REALTIME LINK NODE</h3>
         <button id="close-edit-btn" class="text-base font-bold hover:bg-red-600 hover:text-black px-2">[X]</button>
       </div>
 
@@ -501,26 +413,26 @@
           <label class="block text-[11px] font-bold mb-1 uppercase">&gt; DESTINATION TARGET URL</label>
           <input type="url" id="edit-link-destination" required class="w-full px-3 py-1.5 dynamic-input text-xs" />
         </div>
-
         <div>
-          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; UPDATE PLATFORM LINKS</label>
-          <div id="edit-tasks-container" class="space-y-2"></div>
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; TASK LINKS</label>
+          <input type="url" id="edit-yt-url" placeholder="YouTube Task URL" class="w-full px-3 py-1.5 dynamic-input text-xs mb-1" />
+          <input type="url" id="edit-tg-url" placeholder="Telegram Task URL" class="w-full px-3 py-1.5 dynamic-input text-xs mb-1" />
+          <input type="url" id="edit-ig-url" placeholder="Instagram Task URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
         </div>
 
-        <button type="submit" id="save-edit-btn" class="w-full py-2.5 dynamic-btn text-xs font-bold mt-2 uppercase">
+        <button type="submit" class="w-full py-2.5 dynamic-btn text-xs font-bold mt-2 uppercase">
           [ UPDATE FIREBASE REALTIME ]
         </button>
       </form>
     </div>
   </div>
 
-  <!-- ================= FIREBASE & APP LOGIC ================= -->
+  <!-- FIREBASE & APPLICATION LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getDatabase, ref, set, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import { getDatabase, ref, set, onValue, remove, update, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-    // 1. FIREBASE CONFIGURATION (UNCHANGED & PRESERVED)
     const firebaseConfig = {
       apiKey: "AIzaSyA_A-v2kRDBiry1iv1zC-Up3eMAvI1-NUs",
       authDomain: "realmoderzs.firebaseapp.com",
@@ -535,38 +447,32 @@
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // 2. AUDIO SYNTH ENGINE FOR REAL MATRIX NUMBER FALLING SOUND
+    // AUDIO SYNTH ENGINE
     let audioCtx = null;
     let bgmGainNode = null;
     let bgmOsc = null;
     let isBgmPlaying = false;
 
     function initAudioEngine() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
-    // Play Click Sound Effect
     function playClickSound() {
       try {
         initAudioEngine();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(550, audioCtx.currentTime);
         gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.05);
+        osc.stop(audioCtx.currentTime + 0.04);
       } catch (e) {}
     }
 
-    // Matrix Falling Background Continuous Ambient Synth Sound
     function startMatrixFallingSound() {
       try {
         initAudioEngine();
@@ -579,7 +485,7 @@
 
         bgmOsc = audioCtx.createOscillator();
         bgmOsc.type = 'sine';
-        bgmOsc.frequency.setValueAtTime(65, audioCtx.currentTime);
+        bgmOsc.frequency.setValueAtTime(60, audioCtx.currentTime);
         bgmOsc.connect(bgmGainNode);
         bgmOsc.start();
 
@@ -587,22 +493,21 @@
           if (isBgmPlaying && audioCtx) {
             const dropOsc = audioCtx.createOscillator();
             const dropGain = audioCtx.createGain();
-            const freq = 400 + Math.random() * 800;
+            const freq = 300 + Math.random() * 600;
             dropOsc.type = 'triangle';
             dropOsc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            dropGain.gain.setValueAtTime(parseFloat(volSlider.value) * 0.1, audioCtx.currentTime);
+            dropGain.gain.setValueAtTime(parseFloat(volSlider.value) * 0.08, audioCtx.currentTime);
             dropOsc.connect(dropGain);
             dropGain.connect(audioCtx.destination);
             dropOsc.start();
             dropOsc.stop(audioCtx.currentTime + 0.04);
           }
-        }, 180);
+        }, 200);
 
         isBgmPlaying = true;
       } catch (e) {}
     }
 
-    // Toggle BGM
     const toggleBgmBtn = document.getElementById("toggle-bgm-btn");
     const bgmVolumeSlider = document.getElementById("bgm-volume");
 
@@ -629,22 +534,13 @@
       if (!isBgmPlaying) startMatrixFallingSound();
     }, { once: true });
 
-    // 3. THEME SWITCHER
-    window.setTheme = function(themeName) {
-      playClickSound();
-      document.body.className = `theme-${themeName} min-h-screen relative overflow-x-hidden`;
-      localStorage.setItem('realmoderz_ui_theme', themeName);
-    }
-    const savedTheme = localStorage.getItem('realmoderz_ui_theme') || 'green';
-    setTheme(savedTheme);
-
-    // 4. MATRIX DIGITAL RAIN CANVAS
+    // MATRIX DIGITAL RAIN
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
     function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
-    const chars = "0101010101010101REALMODERZ#$@%";
+    const chars = "01010101REALMODERZ#$@%";
     const fontSize = 13;
     let drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
     setInterval(() => {
@@ -659,7 +555,7 @@
       });
     }, 45);
 
-    // 5. CUSTOM PHOTO UPLOADER
+    // PROFILE PHOTO UPLOAD FIX
     const adminAvatarBox = document.getElementById("admin-avatar-box");
     const adminAvatarImg = document.getElementById("admin-avatar-img");
     const adminAvatarIcon = document.getElementById("admin-avatar-icon");
@@ -691,13 +587,89 @@
           adminAvatarImg.src = dataUrl;
           adminAvatarImg.classList.remove("hidden");
           adminAvatarIcon.classList.add("hidden");
-          showToast("CUSTOM ADMIN PHOTO UPDATED!");
+          showToast("PROFILE PICTURE UPDATED!");
         };
         reader.readAsDataURL(file);
       }
     });
 
-    // 6. TOAST ALERT
+    // PUBLIC LINK CHECK (?id=...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const linkId = urlParams.get('id');
+
+    if (linkId) {
+      document.getElementById("admin-root-section").classList.add("hidden");
+      document.getElementById("public-section").classList.remove("hidden");
+      loadPublicUnlocker(linkId);
+    }
+
+    async function loadPublicUnlocker(id) {
+      try {
+        const snapshot = await get(ref(db, `links/${id}`));
+        if (!snapshot.exists()) {
+          document.getElementById("pub-brand-title").textContent = "INVALID OR EXPIRED LINK!";
+          return;
+        }
+
+        const data = snapshot.val();
+        document.getElementById("pub-brand-title").textContent = data.brandName || "UNLOCK YOUR LINK";
+
+        const tasksContainer = document.getElementById("pub-tasks-list");
+        tasksContainer.innerHTML = "";
+        
+        let completedCount = 0;
+        const tasks = data.tasks || [];
+        const totalTasks = tasks.length;
+
+        tasks.forEach((t, idx) => {
+          const btn = document.createElement("a");
+          btn.href = t.url;
+          btn.target = "_blank";
+          btn.className = "block p-3 dynamic-card text-xs font-bold flex justify-between items-center hover:bg-emerald-950/40";
+          btn.innerHTML = `<span><i class="fa-solid fa-arrow-right-long mr-2"></i> ${t.title || t.platform}</span> <span id="task-status-${idx}" class="text-[10px] text-yellow-400">[ CLICK TASK ]</span>`;
+          
+          btn.addEventListener("click", () => {
+            setTimeout(() => {
+              const statusEl = document.getElementById(`task-status-${idx}`);
+              if (statusEl.textContent !== "[ COMPLETED ]") {
+                statusEl.textContent = "[ COMPLETED ]";
+                statusEl.className = "text-[10px] text-emerald-400 font-bold";
+                completedCount++;
+
+                if (completedCount >= totalTasks) {
+                  const unlockBtn = document.getElementById("pub-unlock-btn");
+                  unlockBtn.disabled = false;
+                  unlockBtn.className = "w-full py-3 px-4 font-bold text-xs dynamic-btn uppercase tracking-widest cursor-pointer";
+                  unlockBtn.textContent = "[ UNLOCK LINK NOW ]";
+                  unlockBtn.onclick = () => window.location.href = data.destinationLink;
+                }
+              }
+            }, 2000);
+          });
+
+          tasksContainer.appendChild(btn);
+        });
+
+        if (totalTasks === 0) {
+          const unlockBtn = document.getElementById("pub-unlock-btn");
+          unlockBtn.disabled = false;
+          unlockBtn.className = "w-full py-3 px-4 font-bold text-xs dynamic-btn uppercase tracking-widest cursor-pointer";
+          unlockBtn.textContent = "[ GET LINK DIRECTLY ]";
+          unlockBtn.onclick = () => window.location.href = data.destinationLink;
+        }
+
+      } catch (e) {
+        showToast("ERROR LOADING LINK DATA");
+      }
+    }
+
+    // THEME SWITCHER
+    window.setTheme = function(themeName) {
+      playClickSound();
+      document.body.className = `theme-${themeName} min-h-screen relative overflow-x-hidden`;
+    }
+
+    // TOAST ALERTS
     function showToast(msg) {
       playClickSound();
       const t = document.createElement("div");
@@ -707,38 +679,43 @@
       setTimeout(() => t.remove(), 3000);
     }
 
-    // 7. MULTI-APP TAB SWITCHER
+    // TAB SWITCHER
     window.switchAppTab = function(tabName) {
       playClickSound();
-      document.getElementById("tab-links-content").classList.add("hidden");
-      document.getElementById("tab-links-content").classList.remove("grid");
-      document.getElementById("tab-keys-content").classList.add("hidden");
-      document.getElementById("tab-keys-content").classList.remove("grid");
-      document.getElementById("tab-games-content").classList.add("hidden");
+      const linksContent = document.getElementById("tab-links-content");
+      const keysContent = document.getElementById("tab-keys-content");
+      const gamesContent = document.getElementById("tab-games-content");
+
+      linksContent.classList.add("hidden");
+      linksContent.classList.remove("grid");
+      keysContent.classList.add("hidden");
+      keysContent.classList.remove("grid");
+      gamesContent.classList.add("hidden");
 
       if (tabName === 'links') {
-        document.getElementById("tab-links-content").classList.remove("hidden");
-        document.getElementById("tab-links-content").classList.add("grid");
+        linksContent.classList.remove("hidden");
+        linksContent.classList.add("grid");
       } else if (tabName === 'keys') {
-        document.getElementById("tab-keys-content").classList.remove("hidden");
-        document.getElementById("tab-keys-content").classList.add("grid");
+        keysContent.classList.remove("hidden");
+        keysContent.classList.add("grid");
       } else if (tabName === 'games') {
-        document.getElementById("tab-games-content").classList.remove("hidden");
-        document.getElementById("geek-terminal-box").focus();
+        gamesContent.classList.remove("hidden");
       }
     }
 
-    // 8. FIREBASE AUTH & REALTIME LISTENERS
+    // AUTH LISTENERS
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("auth-section").classList.add("hidden");
-        document.getElementById("dashboard-section").classList.remove("hidden");
-        document.getElementById("dashboard-section").classList.add("flex");
-        listenToLinks();
-        listenToKeys();
-      } else {
-        document.getElementById("auth-section").classList.remove("hidden");
-        document.getElementById("dashboard-section").classList.add("hidden");
+      if (!linkId) {
+        if (user) {
+          document.getElementById("auth-section").classList.add("hidden");
+          document.getElementById("dashboard-section").classList.remove("hidden");
+          document.getElementById("dashboard-section").classList.add("flex");
+          listenToLinks();
+          listenToKeys();
+        } else {
+          document.getElementById("auth-section").classList.remove("hidden");
+          document.getElementById("dashboard-section").classList.add("hidden");
+        }
       }
     });
 
@@ -747,7 +724,7 @@
       playClickSound();
       try {
         await signInWithEmailAndPassword(auth, document.getElementById("login-email").value.trim(), document.getElementById("login-password").value);
-        showToast("REALMODERZ AUTHENTICATED SUCCESSFULLY!");
+        showToast("LOGIN SUCCESSFUL!");
       } catch (err) {
         showToast("LOGIN FAILED: " + err.message);
       }
@@ -758,7 +735,7 @@
       signOut(auth);
     });
 
-    // 9. APP 1: CREATE SUB2UNLOCK LINK
+    // APP 1: LINKS MANAGEMENT
     document.getElementById("create-link-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       playClickSound();
@@ -776,20 +753,20 @@
       try {
         const id = Math.random().toString(36).substring(2, 10);
         await set(ref(db, `links/${id}`), { brandName: brand, destinationLink: destination, tasks, createdAt: Date.now() });
-        const fullUrl = `${window.location.href.split('?')[0]}?id=${id}`;
-        document.getElementById("generated-url-input").value = fullUrl;
+        const pubUrl = `${window.location.origin}${window.location.pathname}?id=${id}`;
+        document.getElementById("generated-url-input").value = pubUrl;
         document.getElementById("new-link-output").classList.remove("hidden");
-        showToast("LINK NODE DEPLOYED TO FIREBASE!");
+        showToast("LINK NODE DEPLOYED!");
         document.getElementById("create-link-form").reset();
       } catch (err) {
-        showToast("DEPLOYMENT ERROR: " + err.message);
+        showToast("ERROR: " + err.message);
       }
     });
 
     document.getElementById("copy-new-btn").addEventListener("click", () => {
       playClickSound();
       navigator.clipboard.writeText(document.getElementById("generated-url-input").value);
-      showToast("COPIED TO CLIPBOARD!");
+      showToast("COPIED!");
     });
 
     let linksCache = {};
@@ -799,7 +776,7 @@
         list.innerHTML = "";
         if (!snapshot.exists()) {
           document.getElementById("links-count").textContent = "0 NODES";
-          list.innerHTML = `<div class="py-6 text-center text-xs opacity-60 font-mono">&gt; NO_LINK_NODES_FOUND</div>`;
+          list.innerHTML = `<div class="py-6 text-center text-xs opacity-60 font-mono">&gt; NO_LINKS_FOUND</div>`;
           return;
         }
         linksCache = snapshot.val();
@@ -808,21 +785,17 @@
 
         ids.forEach(id => {
           const item = linksCache[id];
-          const pubUrl = `${window.location.href.split('?')[0]}?id=${id}`;
+          const pubUrl = `${window.location.origin}${window.location.pathname}?id=${id}`;
           const div = document.createElement("div");
           div.className = "dynamic-card p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border border-current";
           div.innerHTML = `
             <div class="overflow-hidden">
-              <div class="flex items-center gap-2">
-                <h4 class="text-xs font-bold truncate uppercase">&gt; ${item.brandName}</h4>
-                <span class="hacker-badge text-[8px]"><i class="fa-solid fa-code"></i> VERIFIED</span>
-              </div>
-              <p class="text-[10px] opacity-80 truncate font-mono mt-1">Target: ${item.destinationLink}</p>
-              <div class="text-[9px] opacity-50 font-mono mt-0.5">ID: ${id}</div>
+              <h4 class="text-xs font-bold uppercase">&gt; ${item.brandName}</h4>
+              <p class="text-[10px] opacity-80 truncate font-mono">Target: ${item.destinationLink}</p>
             </div>
-            <div class="flex gap-2 w-full sm:w-auto justify-end">
-              <button onclick="openEdit('${id}')" class="px-2.5 py-1 dynamic-btn text-xs font-bold uppercase">[ EDIT ]</button>
-              <button onclick="navigator.clipboard.writeText('${pubUrl}'); showToast('COPIED');" class="px-2.5 py-1 dynamic-btn text-xs font-bold">[ COPY ]</button>
+            <div class="flex gap-2">
+              <button onclick="openEditLink('${id}')" class="px-2 py-1 dynamic-btn text-xs font-bold">[ EDIT ]</button>
+              <button onclick="navigator.clipboard.writeText('${pubUrl}'); showToast('COPIED');" class="px-2.5 py-1 dynamic-btn text-xs font-bold">[ COPY LINK ]</button>
               <button onclick="deleteLink('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold">[ DEL ]</button>
             </div>
           `;
@@ -831,24 +804,27 @@
       });
     }
 
-    window.openEdit = function(id) {
+    // EDIT LINK FUNCTIONALITY
+    window.openEditLink = function(id) {
       playClickSound();
       const item = linksCache[id];
       if (!item) return;
+
       document.getElementById("edit-node-id").value = id;
       document.getElementById("edit-link-brand").value = item.brandName;
       document.getElementById("edit-link-destination").value = item.destinationLink;
       
-      const container = document.getElementById("edit-tasks-container");
-      container.innerHTML = "";
-      (item.tasks || []).forEach((t) => {
-        container.innerHTML += `
-          <div class="p-2 dynamic-card space-y-1 border border-current">
-            <input type="text" value="${t.platform}" class="edit-pf w-full px-2 py-1 dynamic-input text-xs" placeholder="Platform">
-            <input type="url" value="${t.url}" class="edit-url w-full px-2 py-1 dynamic-input text-xs" placeholder="URL" required>
-          </div>
-        `;
+      let yt = "", tg = "", ig = "";
+      (item.tasks || []).forEach(t => {
+        if (t.platform === "youtube") yt = t.url;
+        if (t.platform === "telegram") tg = t.url;
+        if (t.platform === "instagram") ig = t.url;
       });
+
+      document.getElementById("edit-yt-url").value = yt;
+      document.getElementById("edit-tg-url").value = tg;
+      document.getElementById("edit-ig-url").value = ig;
+
       document.getElementById("edit-modal").classList.remove("hidden");
     }
 
@@ -863,50 +839,94 @@
       const id = document.getElementById("edit-node-id").value;
       const brand = document.getElementById("edit-link-brand").value.trim();
       const destination = document.getElementById("edit-link-destination").value.trim();
-      
-      const pfs = document.querySelectorAll(".edit-pf");
-      const urls = document.querySelectorAll(".edit-url");
+      const yt = document.getElementById("edit-yt-url").value.trim();
+      const tg = document.getElementById("edit-tg-url").value.trim();
+      const ig = document.getElementById("edit-ig-url").value.trim();
+
       const tasks = [];
-      for(let i=0; i<urls.length; i++) {
-        tasks.push({ platform: pfs[i].value.trim(), title: "Task", url: urls[i].value.trim() });
-      }
+      if (yt) tasks.push({ platform: "youtube", title: "Subscribe YouTube", url: yt });
+      if (tg) tasks.push({ platform: "telegram", title: "Join Telegram", url: tg });
+      if (ig) tasks.push({ platform: "instagram", title: "Follow Instagram", url: ig });
 
       try {
         await update(ref(db, `links/${id}`), { brandName: brand, destinationLink: destination, tasks });
-        showToast("NODE UPDATED REALTIME!");
+        showToast("LINK UPDATED IN FIREBASE!");
         document.getElementById("edit-modal").classList.add("hidden");
-      } catch(err) {
+      } catch (err) {
         showToast("UPDATE FAILED: " + err.message);
       }
     });
 
     window.deleteLink = async function(id) {
       playClickSound();
-      if(confirm("DELETE THIS LINK NODE FROM FIREBASE?")) {
-        try {
-          await remove(ref(db, `links/${id}`));
-          showToast("NODE PURGED!");
-        } catch(err) {
-          showToast("DELETE ERROR: " + err.message);
-        }
+      if(confirm("Delete link node from Firebase?")) {
+        await remove(ref(db, `links/${id}`));
+        showToast("LINK DELETED!");
       }
     }
 
-    // 10. APP 2: AD KEYS
+    // APP 2: ADVANCED KEY SYSTEM WITH LINK GENERATION
+    let keyImageBase64 = "";
+    const keyImgFile = document.getElementById("key-img-file");
+    const keyImgPreviewBox = document.getElementById("key-img-preview-box");
+    const keyImgPreview = document.getElementById("key-img-preview");
+
+    keyImgFile.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          keyImageBase64 = evt.target.result;
+          keyImgPreview.src = keyImageBase64;
+          keyImgPreviewBox.classList.remove("hidden");
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById("btn-gen-rand-key").addEventListener("click", () => {
+      playClickSound();
+      const randKey = "RMKEY-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+      document.getElementById("key-custom-code").value = randKey;
+    });
+
     document.getElementById("create-key-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       playClickSound();
+      
       const title = document.getElementById("key-title").value.trim();
-      const validityHours = parseInt(document.getElementById("key-validity").value);
-      const reqAds = parseInt(document.getElementById("key-ads").value);
+      let customCode = document.getElementById("key-custom-code").value.trim();
+      if (!customCode) {
+        customCode = "RMKEY-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+      }
+
+      const durVal = parseFloat(document.getElementById("key-duration-val").value);
+      const durUnit = document.getElementById("key-duration-unit").value;
+
+      let durationMs = 0;
+      if (durUnit === "minutes") durationMs = durVal * 60 * 1000;
+      else if (durUnit === "hours") durationMs = durVal * 3600 * 1000;
+      else if (durUnit === "days") durationMs = durVal * 24 * 3600 * 1000;
+
+      const createdAt = Date.now();
+      const expiresAt = createdAt + durationMs;
 
       try {
-        const keyId = "KEY-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-        const expiresAt = Date.now() + (validityHours * 3600 * 1000);
-        await set(ref(db, `keys/${keyId}`), { title, reqAds, expiresAt, createdAt: Date.now() });
-        showToast(`USER KEY [${keyId}] GENERATED!`);
+        await set(ref(db, `keys/${customCode}`), {
+          keyTitle: title,
+          keyCode: customCode,
+          durationValue: durVal,
+          durationUnit: durUnit,
+          keyImage: keyImageBase64,
+          createdAt: createdAt,
+          expiresAt: expiresAt
+        });
+
+        showToast(`KEY [${customCode}] SAVED TO FIREBASE!`);
         document.getElementById("create-key-form").reset();
-      } catch(err) {
+        keyImageBase64 = "";
+        keyImgPreviewBox.classList.add("hidden");
+      } catch (err) {
         showToast("KEY GEN ERROR: " + err.message);
       }
     });
@@ -926,19 +946,27 @@
 
         ids.forEach(id => {
           const item = data[id];
-          const keyShareUrl = `${window.location.href.split('?')[0]}?key=${id}`;
+          const isExpired = Date.now() > item.expiresAt;
+          const expDateStr = new Date(item.expiresAt).toLocaleString();
+          const keyShareUrl = `${window.location.origin}${window.location.pathname.replace('index.html', 'unlock-key.html')}?key=${id}`;
+
           const div = document.createElement("div");
           div.className = "dynamic-card p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border border-current";
           div.innerHTML = `
-            <div>
-              <div class="flex items-center gap-2">
-                <h4 class="text-xs font-bold text-yellow-400 font-mono">&gt; ${id}</h4>
-                <span class="hacker-badge text-[8px]">${item.reqAds} ADS</span>
+            <div class="flex items-center gap-3 overflow-hidden">
+              ${item.keyImage ? `<img src="${item.keyImage}" class="w-12 h-12 object-cover border border-current flex-shrink-0" />` : `<div class="w-12 h-12 bg-black border border-current flex items-center justify-center text-xs font-bold text-yellow-400">KEY</div>`}
+              <div class="overflow-hidden">
+                <div class="flex items-center gap-2">
+                  <h4 class="text-xs font-bold text-yellow-400 font-mono truncate">&gt; ${item.keyCode}</h4>
+                  <span class="hacker-badge text-[8px] ${isExpired ? 'text-red-500 border-red-500' : 'text-emerald-400 border-emerald-400'}">${isExpired ? 'EXPIRED' : 'ACTIVE'}</span>
+                </div>
+                <p class="text-[10px] opacity-80 mt-0.5 truncate">${item.keyTitle}</p>
+                <div class="text-[9px] opacity-60 font-mono mt-0.5">Expires: ${expDateStr}</div>
               </div>
-              <p class="text-[10px] opacity-80 mt-0.5">${item.title}</p>
             </div>
-            <div class="flex gap-2">
-              <button onclick="navigator.clipboard.writeText('${keyShareUrl}'); showToast('KEY LINK COPIED');" class="px-2.5 py-1 dynamic-btn text-xs font-bold">[ COPY LINK ]</button>
+            <div class="flex gap-2 flex-shrink-0">
+              <button onclick="navigator.clipboard.writeText('${item.keyCode}'); showToast('KEY COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold">[ COPY KEY ]</button>
+              <button onclick="navigator.clipboard.writeText('${keyShareUrl}'); showToast('KEY LINK COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold text-yellow-400 border-yellow-500">[ COPY KEY LINK ]</button>
               <button onclick="deleteKey('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold">[ REVOKE ]</button>
             </div>
           `;
@@ -949,153 +977,76 @@
 
     window.deleteKey = async function(keyId) {
       playClickSound();
-      if(confirm(`REVOKE USER ACCESS KEY ${keyId}?`)) {
-        try {
-          await remove(ref(db, `keys/${keyId}`));
-          showToast("KEY REVOKED!");
-        } catch(err) {
-          showToast("REVOKE ERROR: " + err.message);
-        }
+      if(confirm(`REVOKE USER KEY ${keyId}?`)) {
+        await remove(ref(db, `keys/${keyId}`));
+        showToast("KEY REVOKED!");
       }
     }
 
-    // 11. GEEKPRANKS INTERACTIVE HACKER TYPER CODE & TOOLS
+    // APP 3: GEEK SIMULATOR & ATTACKS VISUALS
     const geekCodeSnippets = [
-      "void initialize_kernel_bypass() {\n  printf(\"[+] Injecting RealModerz Root Exploit...\\n\");\n  int status = ptrace(PTRACE_TRACEME, 0, 1, 0);\n  if (status < 0) exit(1);\n}\n",
-      "int decrypt_payload(char* key, uint8_t* payload) {\n  for(int i=0; i<1024; i++) {\n    payload[i] ^= key[i % 8];\n  }\n  return 0xDEADBEEF;\n}\n",
-      "struct sys_call_override {\n  void* original_syscall;\n  void* hooked_syscall;\n};\n",
-      "// OVERRIDING SECURITY GATEWAY...\n#define ROOT_PASS \"REALMODERZ_2026\"\nsystem(\"rm -rf /sys/firmware/efi/vars\");\n",
-      "connect_peer(\"192.168.1.254\", 8080);\nprintf(\"STATUS: 200 OK | PAYLOAD EXECUTED\\n\");\n"
+      "void initialize_root_bypass() {\n  printf(\"[+] Injecting RealModerz Payload...\\n\");\n}\n",
+      "int decrypt_payload(char* key, uint8_t* payload) {\n  for(int i=0; i<1024; i++) payload[i] ^= key[i % 8];\n  return 0xDEADBEEF;\n}\n"
     ];
-    let geekSnippetIndex = 0;
+    let geekIndex = 0;
 
-    // Interactive Typing Listener
     window.addEventListener("keydown", (e) => {
       const geekBox = document.getElementById("geek-terminal-box");
-      const tabGames = document.getElementById("tab-games-content");
-      if (!tabGames.classList.contains("hidden") && geekBox) {
+      const gamesTab = document.getElementById("tab-games-content");
+      if (!gamesTab.classList.contains("hidden") && geekBox) {
         playClickSound();
-        geekBox.innerHTML += geekCodeSnippets[geekSnippetIndex % geekCodeSnippets.length];
-        geekSnippetIndex++;
+        geekBox.innerHTML += geekCodeSnippets[geekIndex % geekCodeSnippets.length];
+        geekIndex++;
         geekBox.scrollTop = geekBox.scrollHeight;
       }
     });
 
-    window.autoTypeGeekCode = function() {
-      playClickSound();
-      const geekBox = document.getElementById("geek-terminal-box");
-      let count = 0;
-      const interval = setInterval(() => {
-        geekBox.innerHTML += geekCodeSnippets[count % geekCodeSnippets.length];
-        geekBox.scrollTop = geekBox.scrollHeight;
-        count++;
-        if (count > 8) clearInterval(interval);
-      }, 300);
-    }
-
-    // GeekPranks Modals
-    window.triggerPrankModal = function(type) {
-      playClickSound();
-      const modal = document.getElementById("prank-modal");
-      const box = document.getElementById("prank-modal-box");
-      const icon = document.getElementById("prank-icon");
-      const title = document.getElementById("prank-title");
-      const desc = document.getElementById("prank-desc");
-
-      if (type === 'granted') {
-        box.className = "w-full max-w-md p-6 text-center border-4 border-emerald-500 bg-black text-emerald-400";
-        icon.innerHTML = `<i class="fa-solid fa-lock-open text-emerald-400"></i>`;
-        title.textContent = "ACCESS GRANTED";
-        desc.textContent = "ROOT PRIVILEGES OVERRIDDEN. SYSTEM UNLOCKED SUCCESSFULLY.";
-      } else if (type === 'denied') {
-        box.className = "w-full max-w-md p-6 text-center border-4 border-red-600 bg-black text-red-500";
-        icon.innerHTML = `<i class="fa-solid fa-[#00ff66] fa-shield-cat text-red-500"></i>`;
-        title.textContent = "ACCESS DENIED!";
-        desc.textContent = "SECURITY BREACH DETECTED. SYSTEM LOCKDOWN INITIATED.";
-      } else if (type === 'nuclear') {
-        box.className = "w-full max-w-md p-6 text-center border-4 border-yellow-500 bg-black text-yellow-400";
-        icon.innerHTML = `<i class="fa-solid fa-radiation text-yellow-400"></i>`;
-        title.textContent = "NUCLEAR EMERGENCY ALERT";
-        desc.textContent = "CRITICAL CORE OVERHEAT DETECTED. EVACUATE TERMINAL IMMEDIATELY.";
-      }
-
-      modal.classList.remove("hidden");
-    }
-
-    window.closePrankModal = function() {
-      playClickSound();
-      document.getElementById("prank-modal").classList.add("hidden");
-    }
-
-    // Mini Games Explorer Engine
-    let gameInterval = null;
+    let activeAttackInterval = null;
     window.openMiniGame = function(gameId) {
       playClickSound();
-      if (gameInterval) clearInterval(gameInterval);
+      if (activeAttackInterval) clearInterval(activeAttackInterval);
 
       document.getElementById("game-geek").classList.add("hidden");
-      document.getElementById("game-virus").classList.add("hidden");
-      document.getElementById("game-fbi").classList.add("hidden");
-      document.getElementById("game-pwd").classList.add("hidden");
-      document.getElementById("game-btc").classList.add("hidden");
+      document.getElementById("game-ddos").classList.add("hidden");
       document.getElementById("game-wifi").classList.add("hidden");
+      document.getElementById("game-virus").classList.add("hidden");
 
-      if (gameId === 'geek') {
-        document.getElementById("game-geek").classList.remove("hidden");
-      }
-      else if (gameId === 'virus') {
-        document.getElementById("game-virus").classList.remove("hidden");
-        let progress = 0;
-        const bar = document.getElementById("virus-bar");
-        const terminal = document.getElementById("virus-terminal");
-        gameInterval = setInterval(() => {
-          progress += 8;
-          if (progress > 100) progress = 0;
-          bar.style.width = progress + "%";
-          terminal.innerHTML += `&gt; Infecting Sector #${Math.floor(Math.random()*9000+1000)}... OK<br/>`;
-          terminal.scrollTop = terminal.scrollHeight;
-        }, 700);
-      }
-      else if (gameId === 'fbi') {
-        document.getElementById("game-fbi").classList.remove("hidden");
-        const terminal = document.getElementById("fbi-terminal");
-        gameInterval = setInterval(() => {
-          terminal.innerHTML += `&gt; Extracting Classified Record #${Math.floor(Math.random()*89999+10000)}... OK<br/>`;
-          terminal.scrollTop = terminal.scrollHeight;
-        }, 900);
-      }
-      else if (gameId === 'pwd') {
-        document.getElementById("game-pwd").classList.remove("hidden");
-        const pwdDisplay = document.getElementById("pwd-display");
-        const terminal = document.getElementById("pwd-terminal");
-        gameInterval = setInterval(() => {
-          const randPwd = "RM_" + Math.random().toString(36).substring(2, 10).toUpperCase();
-          pwdDisplay.textContent = randPwd;
-          terminal.innerHTML += `&gt; Testing Match: [${randPwd}] -&gt; MISMATCH<br/>`;
-          terminal.scrollTop = terminal.scrollHeight;
-        }, 300);
-      }
-      else if (gameId === 'btc') {
-        document.getElementById("game-btc").classList.remove("hidden");
-        let mined = 0.00012400;
-        const terminal = document.getElementById("btc-terminal");
-        gameInterval = setInterval(() => {
-          mined += 0.00000045;
-          document.getElementById("btc-mined").textContent = mined.toFixed(8) + " BTC";
-          document.getElementById("btc-usd").textContent = "$" + (mined * 68500).toFixed(2);
-          document.getElementById("btc-hashrate").textContent = "HASHRATE: " + (140 + Math.random() * 15).toFixed(1) + " TH/s";
-          terminal.innerHTML += `&gt; Nonce found: 0x${Math.random().toString(16).substring(2, 10)} | Share Accepted<br/>`;
-          terminal.scrollTop = terminal.scrollHeight;
-        }, 1200);
-      } 
-      else if (gameId === 'wifi') {
+      if (gameId === 'geek') document.getElementById("game-geek").classList.remove("hidden");
+      if (gameId === 'ddos') document.getElementById("game-ddos").classList.remove("hidden");
+      if (gameId === 'wifi') {
         document.getElementById("game-wifi").classList.remove("hidden");
-        const terminal = document.getElementById("wifi-terminal");
-        gameInterval = setInterval(() => {
-          terminal.innerHTML += `&gt; Handshake Captured BSSID [AA:BB:CC:${Math.floor(Math.random()*89+10)}:FF]... Cracking<br/>`;
-          terminal.scrollTop = terminal.scrollHeight;
-        }, 1100);
+        const term = document.getElementById("wifi-terminal");
+        activeAttackInterval = setInterval(() => {
+          term.innerHTML += `&gt; Capturing Handshake Packet [BSSID: ${Math.floor(Math.random()*89+10)}:FF:33:AA]... OK<br/>`;
+          term.scrollTop = term.scrollHeight;
+        }, 1000);
       }
+      if (gameId === 'virus') {
+        document.getElementById("game-virus").classList.remove("hidden");
+        let p = 0;
+        const bar = document.getElementById("virus-bar");
+        const term = document.getElementById("virus-terminal");
+        activeAttackInterval = setInterval(() => {
+          p += 10;
+          if (p > 100) p = 0;
+          bar.style.width = p + "%";
+          term.innerHTML += `&gt; Encrypting Sector #${Math.floor(Math.random()*9000+1000)}... DONE<br/>`;
+          term.scrollTop = term.scrollHeight;
+        }, 800);
+      }
+    }
+
+    window.startDDoSAttack = function() {
+      playClickSound();
+      const target = document.getElementById("ddos-target").value.trim() || "192.168.1.1";
+      const term = document.getElementById("ddos-terminal");
+      document.getElementById("ddos-status").textContent = "ATTACKING";
+      
+      term.innerHTML += `&gt; Launching SYN Flood Botnet on Target ${target}:80...<br/>`;
+      activeAttackInterval = setInterval(() => {
+        term.innerHTML += `&gt; [BOTNET-NODE-#${Math.floor(Math.random()*500+1)}] Sent 64500 packets/sec -> ${target}<br/>`;
+        term.scrollTop = term.scrollHeight;
+      }, 400);
     }
   </script>
 </body>
