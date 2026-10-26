@@ -2,8 +2,8 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Complete Tasks To Unlock Link</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>REALMODERZ — Ultimate Cyber Admin Console</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -12,159 +12,407 @@
       darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            brand: { yt: '#FF0000', tg: '#229ED9', ig: '#E1306C' }
+          fontFamily: {
+            mono: ['Courier New', Courier, monospace]
           }
         }
       }
     };
   </script>
 
-  <!-- FontAwesome 6 Icons & Google Font -->
+  <!-- FontAwesome 6 Icons & Share Tech Mono Font -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
 
   <style>
+    * { border-radius: 0px !important; }
+
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      -webkit-tap-highlight-color: transparent;
+      font-family: 'Share Tech Mono', monospace;
+      background-color: #020803;
+      color: #00ff66;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    .glass-card {
-      background: #0f172aee;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
-      transform: translateZ(0);
+    body.theme-green { background-color: #020803; color: #00ff66; }
+    body.theme-red { background-color: #080202; color: #ff0033; }
+    body.theme-yellow { background-color: #080702; color: #ffcc00; }
+    body.theme-black { background-color: #030303; color: #ffffff; }
+
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.28;
     }
 
-    .task-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      transition: background 0.2s ease, border-color 0.2s ease;
-    }
+    .theme-green .dynamic-panel { background: rgba(2, 18, 7, 0.95); border: 2px solid #00ff66; box-shadow: 0 0 15px rgba(0, 255, 102, 0.2); }
+    .theme-red .dynamic-panel { background: rgba(18, 2, 2, 0.95); border: 2px solid #ff0033; box-shadow: 0 0 15px rgba(255, 0, 51, 0.2); }
+    .theme-yellow .dynamic-panel { background: rgba(18, 15, 2, 0.95); border: 2px solid #ffcc00; box-shadow: 0 0 15px rgba(255, 204, 0, 0.2); }
+    .theme-black .dynamic-panel { background: rgba(12, 12, 12, 0.98); border: 2px solid #555; box-shadow: 0 0 15px rgba(0, 0, 0, 0.9); }
 
-    .task-card-completed {
-      background: rgba(16, 185, 129, 0.08) !important;
-      border-color: rgba(52, 211, 153, 0.35) !important;
-    }
+    .theme-green .dynamic-card { background: rgba(0, 10, 3, 0.95); border: 1px solid #00ff6688; }
+    .theme-red .dynamic-card { background: rgba(10, 0, 0, 0.95); border: 1px solid #ff003388; }
+    .theme-yellow .dynamic-card { background: rgba(10, 8, 0, 0.95); border: 1px solid #ffcc0088; }
+    .theme-black .dynamic-card { background: rgba(20, 20, 20, 0.95); border: 1px solid #666; }
 
-    .ad-slot-box {
-      width: 320px;
-      height: 50px;
-      max-width: 100%;
-      overflow: hidden;
-      display: flex;
+    .theme-green .dynamic-input { background: #000; border: 1px solid #00ff66; color: #00ff66; }
+    .theme-red .dynamic-input { background: #000; border: 1px solid #ff0033; color: #ff0033; }
+    .theme-yellow .dynamic-input { background: #000; border: 1px solid #ffcc00; color: #ffcc00; }
+    .theme-black .dynamic-input { background: #000; border: 1px solid #888; color: #fff; }
+
+    .theme-green .dynamic-btn { background: #002b0e; border: 1px solid #00ff66; color: #00ff66; }
+    .theme-green .dynamic-btn:hover { background: #00ff66; color: #000; box-shadow: 0 0 10px #00ff66; }
+
+    .theme-red .dynamic-btn { background: #2b0008; border: 1px solid #ff0033; color: #ff0033; }
+    .theme-red .dynamic-btn:hover { background: #ff0033; color: #000; box-shadow: 0 0 10px #ff0033; }
+
+    .theme-yellow .dynamic-btn { background: #2b2400; border: 1px solid #ffcc00; color: #ffcc00; }
+    .theme-yellow .dynamic-btn:hover { background: #ffcc00; color: #000; box-shadow: 0 0 10px #ffcc00; }
+
+    .theme-black .dynamic-btn { background: #222; border: 1px solid #fff; color: #fff; }
+    .theme-black .dynamic-btn:hover { background: #fff; color: #000; box-shadow: 0 0 10px #fff; }
+
+    .hacker-badge {
+      font-size: 9px;
+      font-weight: bold;
+      padding: 2px 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: 8px;
+      gap: 4px;
+      border: 1px solid currentColor;
+      background: rgba(0,0,0,0.85);
     }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: currentColor; }
   </style>
 </head>
 
-<body class="bg-[#07090e] text-slate-100 min-h-screen flex flex-col justify-between items-center p-3 sm:p-4 selection:bg-cyan-500 selection:text-black">
+<body class="theme-green min-h-screen relative overflow-x-hidden" tabindex="0">
 
-  <!-- TOP AD BANNER -->
-  <div class="w-full flex justify-center my-2">
-    <div class="ad-slot-box">
-      <script>
-        atOptions = {
-          'key' : '7ec14d4dbf15922518bb543fa461d221',
-          'format' : 'iframe',
-          'height' : 50,
-          'width' : 320,
-          'params' : {}
-        };
-      </script>
-      <script src="https://bicea.org/22/7ec14d4dbf15922518bb543fa461d221"></script>
-    </div>
-  </div>
+  <canvas id="matrix-canvas"></canvas>
 
-  <!-- MAIN CARD CONTAINER -->
-  <main class="w-full max-w-md glass-card rounded-3xl p-5 sm:p-7 my-auto">
-    
-    <!-- 1. LOADING STATE -->
-    <div id="loading-state" class="flex flex-col items-center justify-center py-10 space-y-3">
-      <div class="w-9 h-9 rounded-full border-2 border-white/10 border-t-cyan-400 animate-spin"></div>
-      <p class="text-xs font-semibold text-slate-400 tracking-wider uppercase">Loading Tasks...</p>
-    </div>
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <!-- 2. ERROR STATE -->
-    <div id="error-state" class="hidden flex flex-col items-center text-center py-6 space-y-3">
-      <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl">
-        <i class="fa-solid fa-circle-exclamation"></i>
-      </div>
-      <h2 class="text-sm font-bold text-white">Notice</h2>
-      <p id="error-message" class="text-xs text-slate-400 max-w-xs">Link ID invalid or expired.</p>
-      <button onclick="window.location.reload()" class="mt-2 text-xs font-bold text-cyan-400 hover:underline">Try Again</button>
-    </div>
+  <!-- Hidden File Input for Custom Profile Photo -->
+  <input type="file" id="pic-file-input" accept="image/*" class="hidden" />
 
-    <!-- 3. MAIN UNLOCK CONTENT -->
-    <div id="content-state" class="hidden space-y-4">
-      
-      <!-- Brand & Header -->
-      <div class="text-center space-y-1">
-        <div class="inline-flex mb-1">
-          <div id="lock-badge" class="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 text-cyan-400 flex items-center justify-center text-base transition-colors duration-300">
-            <i id="lock-icon" class="fa-solid fa-lock"></i>
+  <!-- ================= ADMIN & AUTH ROOT SECTION ================= -->
+  <div id="admin-root-section" class="relative z-10">
+
+    <!-- AUTH VIEW -->
+    <div id="auth-section" class="relative z-10 min-h-screen flex items-center justify-center p-4">
+      <div class="w-full max-w-md dynamic-panel p-6 relative">
+        <div class="flex justify-between items-center mb-4">
+          <span class="hacker-badge"><i class="fa-solid fa-biohazard"></i> REALMODERZ</span>
+          <span class="hacker-badge"><i class="fa-solid fa-shield-halved"></i> SECURE_ROOT</span>
+        </div>
+
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 mx-auto dynamic-card flex items-center justify-center text-3xl mb-3 border-2 border-current">
+            <i class="fa-solid fa-user-secret"></i>
+          </div>
+          <h1 class="text-xl font-bold tracking-widest uppercase">&gt; REALMODERZ LOGIN</h1>
+          <p class="text-xs opacity-80 mt-1">[ ENTER SYSTEM ACCESS CREDENTIALS ]</p>
+
+          <div class="flex justify-center gap-1 mt-4">
+            <button onclick="setTheme('green')" class="px-2 py-1 text-[10px] bg-black border border-green-500 text-green-400 font-bold">[GREEN]</button>
+            <button onclick="setTheme('red')" class="px-2 py-1 text-[10px] bg-black border border-red-500 text-red-500 font-bold">[RED]</button>
+            <button onclick="setTheme('yellow')" class="px-2 py-1 text-[10px] bg-black border border-yellow-500 text-yellow-400 font-bold">[YELLOW]</button>
+            <button onclick="setTheme('black')" class="px-2 py-1 text-[10px] bg-black border border-white text-white font-bold">[BLACK]</button>
           </div>
         </div>
-        <h1 id="brand-title" class="text-base sm:text-lg font-extrabold text-white tracking-tight">Realmoderz</h1>
-        <p class="text-[11px] text-slate-400">Complete all required steps to unlock your link</p>
+
+        <form id="login-form" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold mb-1 uppercase">&gt; ADMIN EMAIL</label>
+            <input type="email" id="login-email" required placeholder="admin@realmoderz.com" class="w-full px-3 py-2.5 dynamic-input text-xs" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1 uppercase">&gt; PASSWORD</label>
+            <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-3 py-2.5 dynamic-input text-xs" />
+          </div>
+          <button type="submit" id="login-btn" class="w-full py-3 px-4 font-bold text-xs dynamic-btn uppercase tracking-widest">
+            [ EXECUTE AUTHENTICATION ]
+          </button>
+        </form>
       </div>
-
-      <!-- PROGRESS BAR & COUNTER -->
-      <div class="bg-white/[0.03] border border-white/5 rounded-2xl p-3 space-y-2">
-        <div class="flex items-center justify-between text-xs font-semibold">
-          <span class="text-slate-400 flex items-center gap-1.5">
-            <span id="pulse-dot" class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-            Tasks Progress
-          </span>
-          <span id="task-counter" class="font-mono text-cyan-400 font-bold">0 / 0</span>
-        </div>
-        <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-          <div id="progress-bar-fill" class="bg-cyan-400 h-full rounded-full transition-all duration-300 w-0"></div>
-        </div>
-      </div>
-
-      <!-- TASKS CONTAINER -->
-      <div id="tasks-container" class="space-y-2.5"></div>
-
-      <!-- UNLOCK BUTTON -->
-      <button
-        id="unlock-btn"
-        disabled
-        class="w-full py-3.5 px-4 rounded-2xl font-bold text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 bg-white/5 text-slate-500 border border-white/5 cursor-not-allowed opacity-50 select-none"
-      >
-        <i id="unlock-btn-icon" class="fa-solid fa-lock text-xs"></i>
-        <span id="unlock-btn-text">Complete Tasks First</span>
-      </button>
-
     </div>
-  </main>
 
-  <!-- BOTTOM AD BANNER -->
-  <div class="w-full flex justify-center my-2">
-    <div class="ad-slot-box">
-      <script>
-        atOptions = {
-          'key' : '7ec14d4dbf15922518bb543fa461d221',
-          'format' : 'iframe',
-          'height' : 50,
-          'width' : 320,
-          'params' : {}
-        };
-      </script>
-      <script src="https://bicea.org/22/7ec14d4dbf15922518bb543fa461d221"></script>
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard-section" class="relative z-10 hidden flex-col min-h-screen">
+      
+      <header class="border-b-2 border-current bg-black/90 sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+          
+          <div class="flex items-center gap-3">
+            <div id="admin-avatar-box" class="w-11 h-11 dynamic-card overflow-hidden flex items-center justify-center cursor-pointer border-2 border-current relative group" title="Click to Upload Profile Picture">
+              <img id="admin-avatar-img" src="" alt="REALMODERZ Admin" class="w-full h-full object-cover hidden" />
+              <i id="admin-avatar-icon" class="fa-solid fa-user-ninja text-xl"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h1 class="text-base font-bold tracking-wider">&gt; REALMODERZ ADMIN</h1>
+                <span class="hacker-badge"><i class="fa-solid fa-bolt"></i> ONLINE</span>
+              </div>
+              <span class="text-[10px] opacity-70 font-mono">FIREBASE REALTIME DB CONSOLE</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 bg-black px-3 py-1 border border-current text-[10px]">
+            <button id="toggle-bgm-btn" class="font-bold text-emerald-400 hover:underline">
+              <i class="fa-solid fa-volume-high mr-1"></i> BGM [ON]
+            </button>
+            <input type="range" id="bgm-volume" min="0" max="1" step="0.05" value="0.25" class="w-16 accent-current cursor-pointer" title="Adjust Volume" />
+            <button id="trigger-pic-upload" class="px-2 py-0.5 dynamic-btn text-[10px] font-bold ml-2">
+              <i class="fa-solid fa-upload mr-1"></i> UPLOAD PIC
+            </button>
+          </div>
+
+          <div class="flex items-center gap-1 bg-black p-1 border border-current text-xs font-bold">
+            <button id="nav-links-btn" onclick="switchAppTab('links')" class="px-2.5 py-1 dynamic-btn bg-emerald-950 text-emerald-400">
+              <i class="fa-solid fa-link mr-1"></i> LINKS
+            </button>
+            <button id="nav-keys-btn" onclick="switchAppTab('keys')" class="px-2.5 py-1 hover:bg-neutral-900">
+              <i class="fa-solid fa-key mr-1"></i> KEYS
+            </button>
+            <button id="nav-games-btn" onclick="switchAppTab('games')" class="px-2.5 py-1 hover:bg-neutral-900 text-yellow-400">
+              <i class="fa-solid fa-terminal mr-1"></i> GEEK SIMULATOR
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="logout-btn" class="px-3 py-1 text-xs font-bold text-red-400 bg-red-950/60 border border-red-500">
+              [ LOGOUT ]
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      <main class="max-w-7xl w-full mx-auto px-4 py-6 flex-1">
+        
+        <!-- TAB 1: LINKS MANAGER -->
+        <div id="tab-links-content" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <section class="lg:col-span-5">
+            <div class="dynamic-panel p-5 sticky top-20">
+              <h2 class="text-sm font-bold mb-4">&gt; CREATE UNLOCK NODE</h2>
+              <form id="create-link-form" class="space-y-3">
+                <input type="text" id="link-brand" required placeholder="Brand / File Name" class="w-full px-3 py-2 dynamic-input text-xs" />
+                <input type="url" id="link-destination" required placeholder="Destination URL" class="w-full px-3 py-2 dynamic-input text-xs" />
+                <input type="url" id="task-youtube" placeholder="YouTube URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
+                <input type="url" id="task-telegram" placeholder="Telegram URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
+                <input type="url" id="task-instagram" placeholder="Instagram URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
+                <button type="submit" class="w-full py-2.5 font-bold text-xs dynamic-btn uppercase">[ DEPLOY UNLOCK LINK ]</button>
+              </form>
+
+              <div id="new-link-output" class="hidden mt-4 p-3 dynamic-card border border-current">
+                <span class="text-[10px] font-bold block mb-1 text-emerald-400">&gt; PAYLOAD_DEPLOYED:</span>
+                <div class="flex gap-2">
+                  <input type="text" id="generated-url-input" readonly class="w-full px-2 py-1 bg-black text-xs font-mono border border-current" />
+                  <button id="copy-new-btn" class="px-3 py-1 dynamic-btn text-xs font-bold whitespace-nowrap">COPY</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="lg:col-span-7">
+            <div class="dynamic-panel p-5">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-sm font-bold">&gt; ACTIVE LINK NODES</h2>
+                <span id="links-count" class="dynamic-card px-2 py-0.5 text-xs font-mono font-bold">0 NODES</span>
+              </div>
+              <div id="links-list" class="space-y-3"></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- TAB 2: ADVANCED KEY GENERATOR -->
+        <div id="tab-keys-content" class="hidden grid-cols-1 lg:grid-cols-12 gap-6">
+          <section class="lg:col-span-5">
+            <div class="dynamic-panel p-5 sticky top-20">
+              <div class="flex justify-between items-center mb-4 border-b border-current pb-2">
+                <h2 class="text-sm font-bold">&gt; KEY GENERATOR ENGINE</h2>
+                <span class="hacker-badge"><i class="fa-solid fa-key"></i> ADVANCED</span>
+              </div>
+
+              <form id="create-key-form" class="space-y-3">
+                <div>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY TITLE / NAME</label>
+                  <input type="text" id="key-title" required placeholder="e.g. Premium VIP Access #1" class="w-full px-3 py-2 dynamic-input text-xs" />
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; CUSTOM KEY STRING (OPTIONAL)</label>
+                  <div class="flex gap-2">
+                    <input type="text" id="key-custom-code" placeholder="Leave empty for auto-gen" class="w-full px-3 py-2 dynamic-input text-xs font-mono" />
+                    <button type="button" id="btn-gen-rand-key" class="px-2.5 py-1 dynamic-btn text-xs font-bold uppercase whitespace-nowrap">[ AUTO ]</button>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="block text-[11px] font-bold mb-1 uppercase">&gt; DURATION</label>
+                    <input type="number" id="key-duration-val" min="1" value="24" required class="w-full px-3 py-2 dynamic-input text-xs" />
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold mb-1 uppercase">&gt; TIME UNIT</label>
+                    <select id="key-duration-unit" class="w-full px-3 py-2 dynamic-input text-xs">
+                      <option value="minutes">Minutes</option>
+                      <option value="hours" selected>Hours</option>
+                      <option value="days">Days</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; UPLOAD KEY IMAGE BANNER</label>
+                  <input type="file" id="key-img-file" accept="image/*" class="w-full px-2 py-1 dynamic-input text-xs" />
+                  <div id="key-img-preview-box" class="mt-2 hidden">
+                    <img id="key-img-preview" src="" class="h-20 w-full object-cover border border-current" />
+                  </div>
+                </div>
+
+                <button type="submit" class="w-full py-2.5 font-bold text-xs uppercase tracking-widest dynamic-btn mt-2">
+                  [ SAVE & GENERATE KEY ]
+                </button>
+              </form>
+            </div>
+          </section>
+
+          <section class="lg:col-span-7">
+            <div class="dynamic-panel p-5">
+              <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center gap-2">
+                  <h2 class="text-sm font-bold">&gt; SYSTEM ACCESS KEYS</h2>
+                  <span class="hacker-badge"><i class="fa-solid fa-shield"></i> SECURED</span>
+                </div>
+                <span id="keys-count" class="dynamic-card px-2 py-0.5 text-xs font-mono font-bold">0 KEYS</span>
+              </div>
+
+              <div id="keys-list" class="space-y-3">
+                <div class="py-10 text-center text-xs font-mono opacity-60">&gt; FETCHING_KEYS_FROM_FIREBASE...</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- TAB 3: GEEK CYBER ATTACK SIMULATOR -->
+        <div id="tab-games-content" class="hidden space-y-6">
+          <div class="dynamic-panel p-4 flex flex-wrap justify-between items-center gap-2">
+            <div>
+              <h2 class="text-base font-bold text-yellow-400">&gt; INTERACTIVE HACKER SIMULATOR</h2>
+              <p class="text-xs opacity-70">Execute cyber attack visuals & interactive pranks.</p>
+            </div>
+            <div class="flex flex-wrap gap-2 text-xs font-bold">
+              <button onclick="openMiniGame('geek')" class="px-3 py-1.5 dynamic-btn bg-emerald-950 text-emerald-400">Geek Typer</button>
+              <button onclick="openMiniGame('ddos')" class="px-3 py-1.5 dynamic-btn">DDoS Simulator</button>
+              <button onclick="openMiniGame('wifi')" class="px-3 py-1.5 dynamic-btn">Wi-Fi Deauth</button>
+              <button onclick="openMiniGame('virus')" class="px-3 py-1.5 dynamic-btn">Ransomware</button>
+            </div>
+          </div>
+
+          <div id="game-arena" class="dynamic-panel p-6 min-h-[420px] flex flex-col justify-center items-center text-center relative border-2 border-current">
+            
+            <!-- GEEK TYPER -->
+            <div id="game-geek" class="w-full max-w-4xl space-y-3">
+              <div id="geek-terminal-box" class="bg-black p-4 text-left font-mono text-xs text-emerald-400 h-80 overflow-y-auto border-2 border-current leading-relaxed" tabindex="0">
+                <span class="opacity-60">&gt; PRESS ANY KEY ON KEYBOARD TO GENERATE HACKER CODE...</span><br/><br/>
+              </div>
+            </div>
+
+            <!-- DDOS SIMULATOR -->
+            <div id="game-ddos" class="hidden w-full max-w-2xl space-y-4">
+              <div class="flex justify-between items-center border-b pb-2">
+                <span class="font-bold text-red-500"><i class="fa-solid fa-network-wired"></i> SYN FLOOD DDOS BOTNET SIMULATOR</span>
+                <span id="ddos-status" class="hacker-badge text-red-400">IDLE</span>
+              </div>
+              <div class="flex gap-2">
+                <input type="text" id="ddos-target" placeholder="Target IP / Hostname (e.g. 192.168.1.1)" class="w-full px-3 py-2 dynamic-input text-xs" />
+                <button onclick="startDDoSAttack()" class="px-4 py-2 dynamic-btn text-xs font-bold bg-red-950 text-red-400 border-red-500 uppercase">LAUNCH</button>
+              </div>
+              <div id="ddos-terminal" class="bg-black p-3 text-left font-mono text-[11px] h-48 overflow-y-auto border border-current text-red-400">
+                &gt; Awaiting target configuration...<br/>
+              </div>
+            </div>
+
+            <!-- WIFI DEAUTH -->
+            <div id="game-wifi" class="hidden w-full max-w-2xl space-y-4">
+              <div class="flex justify-between items-center border-b pb-2">
+                <span class="font-bold text-cyan-400"><i class="fa-solid fa-wifi"></i> WPA3 WI-FI DEAUTH & HANDSHAKE CRACKER</span>
+                <span class="hacker-badge">wlan0mon</span>
+              </div>
+              <div id="wifi-terminal" class="bg-black p-3 text-left font-mono text-[11px] h-56 overflow-y-auto border border-current text-cyan-400">
+                &gt; Airmon-ng start wlan0... Monitor mode enabled.<br/>
+              </div>
+            </div>
+
+            <!-- RANSOMWARE -->
+            <div id="game-virus" class="hidden w-full max-w-2xl space-y-4">
+              <div class="flex justify-between items-center border-b pb-2">
+                <span class="font-bold text-yellow-400"><i class="fa-solid fa-biohazard"></i> RANSOMWARE PAYLOAD INJECTOR</span>
+                <span class="hacker-badge">ENCRYPTING</span>
+              </div>
+              <div class="w-full bg-black border border-current h-5">
+                <div id="virus-bar" class="bg-yellow-500 h-full w-0 transition-all duration-300"></div>
+              </div>
+              <div id="virus-terminal" class="bg-black p-3 text-left font-mono text-[11px] h-40 overflow-y-auto border border-current text-yellow-400">
+                &gt; Initializing RSA-4096 Encryption Key...<br/>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </main>
     </div>
   </div>
 
-  <!-- APPLICATION LOGIC -->
+  <!-- EDIT LINK MODAL -->
+  <div id="edit-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-lg dynamic-panel p-5 relative border-2 border-current">
+      <div class="flex justify-between items-center mb-4 border-b-2 border-current pb-2">
+        <h3 class="text-xs font-bold uppercase">&gt; EDIT REALTIME LINK NODE</h3>
+        <button id="close-edit-btn" class="text-base font-bold hover:bg-red-600 hover:text-black px-2">[X]</button>
+      </div>
+
+      <form id="edit-link-form" class="space-y-3">
+        <input type="hidden" id="edit-node-id" />
+        <div>
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; BRAND / TITLE</label>
+          <input type="text" id="edit-link-brand" required class="w-full px-3 py-1.5 dynamic-input text-xs" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; DESTINATION TARGET URL</label>
+          <input type="url" id="edit-link-destination" required class="w-full px-3 py-1.5 dynamic-input text-xs" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; TASK LINKS</label>
+          <input type="url" id="edit-yt-url" placeholder="YouTube Task URL" class="w-full px-3 py-1.5 dynamic-input text-xs mb-1" />
+          <input type="url" id="edit-tg-url" placeholder="Telegram Task URL" class="w-full px-3 py-1.5 dynamic-input text-xs mb-1" />
+          <input type="url" id="edit-ig-url" placeholder="Instagram Task URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
+        </div>
+
+        <button type="submit" class="w-full py-2.5 dynamic-btn text-xs font-bold mt-2 uppercase">
+          [ UPDATE FIREBASE REALTIME ]
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FIREBASE & APPLICATION LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getDatabase, ref, set, onValue, remove, update, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyA_A-v2kRDBiry1iv1zC-Up3eMAvI1-NUs",
@@ -176,250 +424,539 @@
       appId: "1:879115715712:web:93b9584c6ecc7bbf951265"
     };
 
-    const platformPresets = {
-      youtube: { icon: "fa-brands fa-youtube", color: "text-red-500", bg: "bg-red-500/10", defaultTitle: "Subscribe on YouTube" },
-      telegram: { icon: "fa-brands fa-telegram", color: "text-sky-400", bg: "bg-sky-400/10", defaultTitle: "Join Telegram Channel" },
-      instagram: { icon: "fa-brands fa-instagram", color: "text-pink-500", bg: "bg-pink-500/10", defaultTitle: "Follow on Instagram" },
-      default: { icon: "fa-solid fa-link", color: "text-cyan-400", bg: "bg-cyan-400/10", defaultTitle: "Complete Task" }
-    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
 
-    let destinationUrl = "";
-    let tasksList = [];
-    let linkId = "";
-    let storageKey = "demo";
-    let pendingTaskIndex = null;
-    let pendingTime = 0;
+    // AUDIO SYNTH ENGINE
+    let audioCtx = null;
+    let bgmGainNode = null;
+    let bgmOsc = null;
+    let isBgmPlaying = false;
 
-    const completedTasks = new Set();
-    const openedTasks = new Set();
-    const EXPIRY_TIME = 10 * 60 * 1000; 
-
-    async function init() {
-      const urlParams = new URLSearchParams(window.location.search);
-      linkId = (urlParams.get("id") || "").trim();
-      storageKey = linkId || "demo";
-
-      if (!linkId) {
-        showError("No Link ID specified in URL.");
-        return;
-      }
-
-      try {
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const linkRef = ref(db, `links/${linkId}`);
-        const snapshot = await get(linkRef);
-
-        if (snapshot.exists()) {
-          loadData(snapshot.val());
-        } else {
-          showError("Link ID not found in database.");
-        }
-      } catch (err) {
-        showError("Failed to connect to Firebase database.");
-      }
+    function initAudioEngine() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
-    function showError(msg) {
-      document.getElementById("loading-state").classList.add("hidden");
-      document.getElementById("error-state").classList.remove("hidden");
-      document.getElementById("error-message").textContent = msg;
-    }
-
-    function loadData(data) {
-      destinationUrl = data.destinationLink || "https://google.com";
-      tasksList = Array.isArray(data.tasks) ? data.tasks : [];
-
+    function playClickSound() {
       try {
-        const savedTime = localStorage.getItem(`rm_time_${storageKey}`);
-        const currentTime = Date.now();
-
-        if (!savedTime || (currentTime - parseInt(savedTime, 10)) > EXPIRY_TIME) {
-          localStorage.removeItem(`rm_completed_${storageKey}`);
-          localStorage.removeItem(`rm_opened_${storageKey}`);
-          localStorage.setItem(`rm_time_${storageKey}`, currentTime.toString());
-        } else {
-          const savedCompleted = localStorage.getItem(`rm_completed_${storageKey}`);
-          if (savedCompleted) {
-            JSON.parse(savedCompleted).forEach(idx => completedTasks.add(idx));
-          }
-
-          const savedOpened = localStorage.getItem(`rm_opened_${storageKey}`);
-          if (savedOpened) {
-            JSON.parse(savedOpened).forEach(idx => openedTasks.add(idx));
-          }
-        }
-      } catch (e) {}
-
-      document.getElementById("brand-title").textContent = data.brandName || "Realmoderz";
-
-      renderTasksContainer();
-      updateProgressDisplay();
-      evaluateUnlockStatus();
-
-      document.getElementById("loading-state").classList.add("hidden");
-      document.getElementById("error-state").classList.add("hidden");
-      document.getElementById("content-state").classList.remove("hidden");
-    }
-
-    function saveState() {
-      try {
-        localStorage.setItem(`rm_completed_${storageKey}`, JSON.stringify(Array.from(completedTasks)));
-        localStorage.setItem(`rm_opened_${storageKey}`, JSON.stringify(Array.from(openedTasks)));
-        localStorage.setItem(`rm_time_${storageKey}`, Date.now().toString());
+        initAudioEngine();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(550, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.04);
       } catch (e) {}
     }
 
-    function renderTasksContainer() {
-      const container = document.getElementById("tasks-container");
-      container.innerHTML = "";
+    function startMatrixFallingSound() {
+      try {
+        initAudioEngine();
+        if (isBgmPlaying) return;
 
-      if (tasksList.length === 0) {
-        container.innerHTML = `<p class="text-xs text-center text-slate-400 py-2">No tasks required for this link.</p>`;
-      }
+        bgmGainNode = audioCtx.createGain();
+        const volSlider = document.getElementById("bgm-volume");
+        bgmGainNode.gain.setValueAtTime(parseFloat(volSlider.value), audioCtx.currentTime);
+        bgmGainNode.connect(audioCtx.destination);
 
-      tasksList.forEach((task, index) => {
-        const platform = (task.platform || "").toLowerCase();
-        const conf = platformPresets[platform] || platformPresets.default;
-        const isCompleted = completedTasks.has(index);
+        bgmOsc = audioCtx.createOscillator();
+        bgmOsc.type = 'sine';
+        bgmOsc.frequency.setValueAtTime(60, audioCtx.currentTime);
+        bgmOsc.connect(bgmGainNode);
+        bgmOsc.start();
 
-        const card = document.createElement("div");
-        card.id = `task-card-${index}`;
-        card.className = `w-full p-3 rounded-2xl task-card flex items-center justify-between gap-3 ${
-          isCompleted ? "task-card-completed" : ""
-        }`;
+        setInterval(() => {
+          if (isBgmPlaying && audioCtx) {
+            const dropOsc = audioCtx.createOscillator();
+            const dropGain = audioCtx.createGain();
+            const freq = 300 + Math.random() * 600;
+            dropOsc.type = 'triangle';
+            dropOsc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            dropGain.gain.setValueAtTime(parseFloat(volSlider.value) * 0.08, audioCtx.currentTime);
+            dropOsc.connect(dropGain);
+            dropGain.connect(audioCtx.destination);
+            dropOsc.start();
+            dropOsc.stop(audioCtx.currentTime + 0.04);
+          }
+        }, 200);
 
-        card.innerHTML = `
-          <div class="flex items-center gap-3 overflow-hidden">
-            <div class="w-9 h-9 shrink-0 rounded-xl flex items-center justify-center text-sm ${conf.bg} ${conf.color}">
-              <i class="${conf.icon}"></i>
-            </div>
-            <div class="text-left truncate">
-              <p id="task-title-${index}" class="text-xs font-bold truncate ${isCompleted ? 'text-emerald-300 line-through' : 'text-slate-100'}">
-                ${task.title || conf.defaultTitle}
-              </p>
-              <span class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Step ${index + 1}</span>
-            </div>
-          </div>
-          <div id="task-action-${index}" class="shrink-0 flex items-center"></div>
-        `;
-
-        container.appendChild(card);
-        updateTaskActionSlot(index);
-      });
+        isBgmPlaying = true;
+      } catch (e) {}
     }
 
-    function updateTaskActionSlot(index) {
-      const slot = document.getElementById(`task-action-${index}`);
-      if (!slot) return;
+    const toggleBgmBtn = document.getElementById("toggle-bgm-btn");
+    const bgmVolumeSlider = document.getElementById("bgm-volume");
 
-      if (completedTasks.has(index)) {
-        slot.innerHTML = `
-          <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-sm">
-            <i class="fa-solid fa-circle-check"></i>
-          </div>
-        `;
-        return;
-      }
-
-      if (openedTasks.has(index)) {
-        slot.innerHTML = `
-          <button id="btn-verify-${index}" class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-cyan-400 hover:bg-cyan-300 text-slate-950 flex items-center gap-1.5 transition-transform active:scale-95 shadow-sm cursor-pointer">
-            <span>Verify</span>
-            <i class="fa-solid fa-check text-[10px]"></i>
-          </button>
-        `;
-        document.getElementById(`btn-verify-${index}`).onclick = () => handleVerifyClick(index);
+    toggleBgmBtn.addEventListener("click", () => {
+      initAudioEngine();
+      if (!isBgmPlaying) {
+        startMatrixFallingSound();
+        toggleBgmBtn.innerHTML = `<i class="fa-solid fa-volume-high mr-1"></i> BGM [ON]`;
       } else {
-        slot.innerHTML = `
-          <button id="btn-open-${index}" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/15 text-slate-200 flex items-center gap-1.5 transition-transform active:scale-95 cursor-pointer">
-            <span>Go</span>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
-          </button>
-        `;
-        document.getElementById(`btn-open-${index}`).onclick = () => handleOpenClick(index);
-      }
-    }
-
-    function handleOpenClick(index) {
-      const task = tasksList[index];
-      openedTasks.add(index);
-      pendingTaskIndex = index;
-      pendingTime = Date.now();
-
-      saveState();
-      updateTaskActionSlot(index);
-
-      if (task && task.url) {
-        window.open(task.url, "_blank", "noopener,noreferrer");
-      }
-    }
-
-    function handleVerifyClick(index) {
-      const slot = document.getElementById(`task-action-${index}`);
-      if (!slot) return;
-
-      slot.innerHTML = `
-        <div class="w-8 h-8 rounded-xl bg-cyan-400/10 text-cyan-400 flex items-center justify-center text-xs">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-        </div>
-      `;
-
-      setTimeout(() => {
-        markTaskComplete(index);
-      }, 400);
-    }
-
-    function markTaskComplete(index) {
-      completedTasks.add(index);
-      saveState();
-      renderTasksContainer();
-      updateProgressDisplay();
-      evaluateUnlockStatus();
-    }
-
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden && pendingTaskIndex !== null) {
-        const timeSpent = Date.now() - pendingTime;
-        if (timeSpent >= 3000) {
-          markTaskComplete(pendingTaskIndex);
-          pendingTaskIndex = null;
-        }
+        if (bgmOsc) bgmOsc.stop();
+        isBgmPlaying = false;
+        toggleBgmBtn.innerHTML = `<i class="fa-solid fa-volume-xmark mr-1"></i> BGM [OFF]`;
       }
     });
 
-    function updateProgressDisplay() {
-      const total = tasksList.length;
-      const count = completedTasks.size;
-      document.getElementById("task-counter").textContent = `${count} / ${total}`;
+    bgmVolumeSlider.addEventListener("input", (e) => {
+      if (bgmGainNode && audioCtx) {
+        bgmGainNode.gain.setValueAtTime(parseFloat(e.target.value), audioCtx.currentTime);
+      }
+    });
 
-      const percentage = total > 0 ? (count / total) * 100 : 0;
-      document.getElementById("progress-bar-fill").style.width = `${percentage}%`;
+    window.addEventListener("click", () => {
+      initAudioEngine();
+      if (!isBgmPlaying) startMatrixFallingSound();
+    }, { once: true });
+
+    // MATRIX DIGITAL RAIN
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    const chars = "01010101REALMODERZ#$@%";
+    const fontSize = 13;
+    let drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
+    setInterval(() => {
+      ctx.fillStyle = 'rgba(2, 8, 3, 0.15)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = getComputedStyle(document.body).color;
+      ctx.font = fontSize + 'px monospace';
+      drops.forEach((y, i) => {
+        ctx.fillText(chars.charAt(Math.floor(Math.random() * chars.length)), i * fontSize, y * fontSize);
+        if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      });
+    }, 45);
+
+    // PROFILE PHOTO UPLOAD FIX
+    const adminAvatarBox = document.getElementById("admin-avatar-box");
+    const adminAvatarImg = document.getElementById("admin-avatar-img");
+    const adminAvatarIcon = document.getElementById("admin-avatar-icon");
+    const picFileInput = document.getElementById("pic-file-input");
+    const triggerPicUpload = document.getElementById("trigger-pic-upload");
+
+    const savedPhoto = localStorage.getItem("realmoderz_admin_pic");
+    if (savedPhoto) {
+      adminAvatarImg.src = savedPhoto;
+      adminAvatarImg.classList.remove("hidden");
+      adminAvatarIcon.classList.add("hidden");
     }
 
-    function evaluateUnlockStatus() {
-      const isFinished = tasksList.length === 0 || (tasksList.length > 0 && completedTasks.size === tasksList.length);
-      const unlockBtn = document.getElementById("unlock-btn");
-      const lockBadge = document.getElementById("lock-badge");
-      const lockIcon = document.getElementById("lock-icon");
+    function promptPhotoUpload() {
+      playClickSound();
+      picFileInput.click();
+    }
 
-      if (isFinished) {
-        unlockBtn.disabled = false;
-        unlockBtn.className = "w-full py-3.5 px-4 rounded-2xl font-black text-xs uppercase tracking-wider text-slate-950 bg-gradient-to-r from-emerald-400 to-cyan-400 hover:opacity-95 shadow-lg shadow-emerald-500/20 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2";
-        unlockBtn.innerHTML = `<span>Get Target Link</span> <i class="fa-solid fa-arrow-right text-xs"></i>`;
-        
-        lockBadge.className = "w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-base transition-colors duration-300";
-        lockIcon.className = "fa-solid fa-lock-open";
+    adminAvatarBox.addEventListener("click", promptPhotoUpload);
+    triggerPicUpload.addEventListener("click", promptPhotoUpload);
 
-        unlockBtn.onclick = () => {
-          if (destinationUrl) {
-            window.location.href = destinationUrl;
-          }
+    picFileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const dataUrl = event.target.result;
+          localStorage.setItem("realmoderz_admin_pic", dataUrl);
+          adminAvatarImg.src = dataUrl;
+          adminAvatarImg.classList.remove("hidden");
+          adminAvatarIcon.classList.add("hidden");
+          showToast("PROFILE PICTURE UPDATED!");
         };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // THEME SWITCHER
+    window.setTheme = function(themeName) {
+      playClickSound();
+      document.body.className = `theme-${themeName} min-h-screen relative overflow-x-hidden`;
+    }
+
+    // TOAST ALERTS
+    function showToast(msg) {
+      playClickSound();
+      const t = document.createElement("div");
+      t.className = "px-4 py-2 dynamic-card text-xs font-bold border border-current shadow-lg";
+      t.textContent = "> " + msg;
+      document.getElementById("toast-container").appendChild(t);
+      setTimeout(() => t.remove(), 3000);
+    }
+
+    // TAB SWITCHER
+    window.switchAppTab = function(tabName) {
+      playClickSound();
+      const linksContent = document.getElementById("tab-links-content");
+      const keysContent = document.getElementById("tab-keys-content");
+      const gamesContent = document.getElementById("tab-games-content");
+
+      linksContent.classList.add("hidden");
+      linksContent.classList.remove("grid");
+      keysContent.classList.add("hidden");
+      keysContent.classList.remove("grid");
+      gamesContent.classList.add("hidden");
+
+      if (tabName === 'links') {
+        linksContent.classList.remove("hidden");
+        linksContent.classList.add("grid");
+      } else if (tabName === 'keys') {
+        keysContent.classList.remove("hidden");
+        keysContent.classList.add("grid");
+      } else if (tabName === 'games') {
+        gamesContent.classList.remove("hidden");
       }
     }
 
-    init();
+    // AUTH LISTENERS
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("auth-section").classList.add("hidden");
+        document.getElementById("dashboard-section").classList.remove("hidden");
+        document.getElementById("dashboard-section").classList.add("flex");
+        listenToLinks();
+        listenToKeys();
+      } else {
+        document.getElementById("auth-section").classList.remove("hidden");
+        document.getElementById("dashboard-section").classList.add("hidden");
+      }
+    });
+
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      playClickSound();
+      try {
+        await signInWithEmailAndPassword(auth, document.getElementById("login-email").value.trim(), document.getElementById("login-password").value);
+        showToast("LOGIN SUCCESSFUL!");
+      } catch (err) {
+        showToast("LOGIN FAILED: " + err.message);
+      }
+    });
+
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      playClickSound();
+      signOut(auth);
+    });
+
+    // APP 1: LINKS MANAGEMENT
+    document.getElementById("create-link-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      playClickSound();
+      const brand = document.getElementById("link-brand").value.trim();
+      const destination = document.getElementById("link-destination").value.trim();
+      const yt = document.getElementById("task-youtube").value.trim();
+      const tg = document.getElementById("task-telegram").value.trim();
+      const ig = document.getElementById("task-instagram").value.trim();
+
+      const tasks = [];
+      if (yt) tasks.push({ platform: "youtube", title: "Subscribe YouTube", url: yt });
+      if (tg) tasks.push({ platform: "telegram", title: "Join Telegram", url: tg });
+      if (ig) tasks.push({ platform: "instagram", title: "Follow Instagram", url: ig });
+
+      try {
+        const id = Math.random().toString(36).substring(2, 10);
+        await set(ref(db, `links/${id}`), { brandName: brand, destinationLink: destination, tasks, createdAt: Date.now() });
+        const pubUrl = `${window.location.origin}/index.html?id=${id}`;
+        document.getElementById("generated-url-input").value = pubUrl;
+        document.getElementById("new-link-output").classList.remove("hidden");
+        showToast("LINK NODE DEPLOYED!");
+        document.getElementById("create-link-form").reset();
+      } catch (err) {
+        showToast("ERROR: " + err.message);
+      }
+    });
+
+    document.getElementById("copy-new-btn").addEventListener("click", () => {
+      playClickSound();
+      navigator.clipboard.writeText(document.getElementById("generated-url-input").value);
+      showToast("COPIED!");
+    });
+
+    let linksCache = {};
+    function listenToLinks() {
+      onValue(ref(db, 'links'), (snapshot) => {
+        const list = document.getElementById("links-list");
+        list.innerHTML = "";
+        if (!snapshot.exists()) {
+          document.getElementById("links-count").textContent = "0 NODES";
+          list.innerHTML = `<div class="py-6 text-center text-xs opacity-60 font-mono">&gt; NO_LINKS_FOUND</div>`;
+          return;
+        }
+        linksCache = snapshot.val();
+        const ids = Object.keys(linksCache).reverse();
+        document.getElementById("links-count").textContent = `${ids.length} NODES`;
+
+        ids.forEach(id => {
+          const item = linksCache[id];
+          const pubUrl = `${window.location.origin}/index.html?id=${id}`;
+          const div = document.createElement("div");
+          div.className = "dynamic-card p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border border-current";
+          div.innerHTML = `
+            <div class="overflow-hidden">
+              <h4 class="text-xs font-bold uppercase">&gt; ${item.brandName}</h4>
+              <p class="text-[10px] opacity-80 truncate font-mono">Target: ${item.destinationLink}</p>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="openEditLink('${id}')" class="px-2 py-1 dynamic-btn text-xs font-bold">[ EDIT ]</button>
+              <button onclick="navigator.clipboard.writeText('${pubUrl}'); showToast('COPIED');" class="px-2.5 py-1 dynamic-btn text-xs font-bold">[ COPY LINK ]</button>
+              <button onclick="deleteLink('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold">[ DEL ]</button>
+            </div>
+          `;
+          list.appendChild(div);
+        });
+      });
+    }
+
+    // EDIT LINK FUNCTIONALITY
+    window.openEditLink = function(id) {
+      playClickSound();
+      const item = linksCache[id];
+      if (!item) return;
+
+      document.getElementById("edit-node-id").value = id;
+      document.getElementById("edit-link-brand").value = item.brandName;
+      document.getElementById("edit-link-destination").value = item.destinationLink;
+      
+      let yt = "", tg = "", ig = "";
+      (item.tasks || []).forEach(t => {
+        if (t.platform === "youtube") yt = t.url;
+        if (t.platform === "telegram") tg = t.url;
+        if (t.platform === "instagram") ig = t.url;
+      });
+
+      document.getElementById("edit-yt-url").value = yt;
+      document.getElementById("edit-tg-url").value = tg;
+      document.getElementById("edit-ig-url").value = ig;
+
+      document.getElementById("edit-modal").classList.remove("hidden");
+    }
+
+    document.getElementById("close-edit-btn").addEventListener("click", () => {
+      playClickSound();
+      document.getElementById("edit-modal").classList.add("hidden");
+    });
+
+    document.getElementById("edit-link-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      playClickSound();
+      const id = document.getElementById("edit-node-id").value;
+      const brand = document.getElementById("edit-link-brand").value.trim();
+      const destination = document.getElementById("edit-link-destination").value.trim();
+      const yt = document.getElementById("edit-yt-url").value.trim();
+      const tg = document.getElementById("edit-tg-url").value.trim();
+      const ig = document.getElementById("edit-ig-url").value.trim();
+
+      const tasks = [];
+      if (yt) tasks.push({ platform: "youtube", title: "Subscribe YouTube", url: yt });
+      if (tg) tasks.push({ platform: "telegram", title: "Join Telegram", url: tg });
+      if (ig) tasks.push({ platform: "instagram", title: "Follow Instagram", url: ig });
+
+      try {
+        await update(ref(db, `links/${id}`), { brandName: brand, destinationLink: destination, tasks });
+        showToast("LINK UPDATED IN FIREBASE!");
+        document.getElementById("edit-modal").classList.add("hidden");
+      } catch (err) {
+        showToast("UPDATE FAILED: " + err.message);
+      }
+    });
+
+    window.deleteLink = async function(id) {
+      playClickSound();
+      if(confirm("Delete link node from Firebase?")) {
+        await remove(ref(db, `links/${id}`));
+        showToast("LINK DELETED!");
+      }
+    }
+
+    // APP 2: ADVANCED KEY SYSTEM WITH LINK GENERATION
+    let keyImageBase64 = "";
+    const keyImgFile = document.getElementById("key-img-file");
+    const keyImgPreviewBox = document.getElementById("key-img-preview-box");
+    const keyImgPreview = document.getElementById("key-img-preview");
+
+    keyImgFile.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          keyImageBase64 = evt.target.result;
+          keyImgPreview.src = keyImageBase64;
+          keyImgPreviewBox.classList.remove("hidden");
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById("btn-gen-rand-key").addEventListener("click", () => {
+      playClickSound();
+      const randKey = "RMKEY-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+      document.getElementById("key-custom-code").value = randKey;
+    });
+
+    document.getElementById("create-key-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      playClickSound();
+      
+      const title = document.getElementById("key-title").value.trim();
+      let customCode = document.getElementById("key-custom-code").value.trim();
+      if (!customCode) {
+        customCode = "RMKEY-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+      }
+
+      const durVal = parseFloat(document.getElementById("key-duration-val").value);
+      const durUnit = document.getElementById("key-duration-unit").value;
+
+      let durationMs = 0;
+      if (durUnit === "minutes") durationMs = durVal * 60 * 1000;
+      else if (durUnit === "hours") durationMs = durVal * 3600 * 1000;
+      else if (durUnit === "days") durationMs = durVal * 24 * 3600 * 1000;
+
+      const createdAt = Date.now();
+      const expiresAt = createdAt + durationMs;
+
+      try {
+        await set(ref(db, `keys/${customCode}`), {
+          keyTitle: title,
+          keyCode: customCode,
+          durationValue: durVal,
+          durationUnit: durUnit,
+          keyImage: keyImageBase64,
+          createdAt: createdAt,
+          expiresAt: expiresAt
+        });
+
+        showToast(`KEY [${customCode}] SAVED TO FIREBASE!`);
+        document.getElementById("create-key-form").reset();
+        keyImageBase64 = "";
+        keyImgPreviewBox.classList.add("hidden");
+      } catch (err) {
+        showToast("KEY GEN ERROR: " + err.message);
+      }
+    });
+
+    function listenToKeys() {
+      onValue(ref(db, 'keys'), (snapshot) => {
+        const list = document.getElementById("keys-list");
+        list.innerHTML = "";
+        if (!snapshot.exists()) {
+          document.getElementById("keys-count").textContent = "0 KEYS";
+          list.innerHTML = `<div class="py-6 text-center text-xs opacity-60 font-mono">&gt; NO_ACCESS_KEYS_GENERATED</div>`;
+          return;
+        }
+        const data = snapshot.val();
+        const ids = Object.keys(data).reverse();
+        document.getElementById("keys-count").textContent = `${ids.length} KEYS`;
+
+        ids.forEach(id => {
+          const item = data[id];
+          const isExpired = Date.now() > item.expiresAt;
+          const expDateStr = new Date(item.expiresAt).toLocaleString();
+          const keyShareUrl = `${window.location.origin}/unlock-key.html?key=${id}`;
+
+          const div = document.createElement("div");
+          div.className = "dynamic-card p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border border-current";
+          div.innerHTML = `
+            <div class="flex items-center gap-3 overflow-hidden">
+              ${item.keyImage ? `<img src="${item.keyImage}" class="w-12 h-12 object-cover border border-current flex-shrink-0" />` : `<div class="w-12 h-12 bg-black border border-current flex items-center justify-center text-xs font-bold text-yellow-400">KEY</div>`}
+              <div class="overflow-hidden">
+                <div class="flex items-center gap-2">
+                  <h4 class="text-xs font-bold text-yellow-400 font-mono truncate">&gt; ${item.keyCode}</h4>
+                  <span class="hacker-badge text-[8px] ${isExpired ? 'text-red-500 border-red-500' : 'text-emerald-400 border-emerald-400'}">${isExpired ? 'EXPIRED' : 'ACTIVE'}</span>
+                </div>
+                <p class="text-[10px] opacity-80 mt-0.5 truncate">${item.keyTitle}</p>
+                <div class="text-[9px] opacity-60 font-mono mt-0.5">Expires: ${expDateStr}</div>
+              </div>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+              <button onclick="navigator.clipboard.writeText('${item.keyCode}'); showToast('KEY COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold">[ COPY KEY ]</button>
+              <button onclick="navigator.clipboard.writeText('${keyShareUrl}'); showToast('KEY LINK COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold text-yellow-400 border-yellow-500">[ COPY KEY LINK ]</button>
+              <button onclick="deleteKey('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold">[ REVOKE ]</button>
+            </div>
+          `;
+          list.appendChild(div);
+        });
+      });
+    }
+
+    window.deleteKey = async function(keyId) {
+      playClickSound();
+      if(confirm(`REVOKE USER KEY ${keyId}?`)) {
+        await remove(ref(db, `keys/${keyId}`));
+        showToast("KEY REVOKED!");
+      }
+    }
+
+    // APP 3: GEEK SIMULATOR & ATTACKS VISUALS
+    const geekCodeSnippets = [
+      "void initialize_root_bypass() {\n  printf(\"[+] Injecting RealModerz Payload...\\n\");\n}\n",
+      "int decrypt_payload(char* key, uint8_t* payload) {\n  for(int i=0; i<1024; i++) payload[i] ^= key[i % 8];\n  return 0xDEADBEEF;\n}\n"
+    ];
+    let geekIndex = 0;
+
+    window.addEventListener("keydown", (e) => {
+      const geekBox = document.getElementById("geek-terminal-box");
+      const gamesTab = document.getElementById("tab-games-content");
+      if (!gamesTab.classList.contains("hidden") && geekBox) {
+        playClickSound();
+        geekBox.innerHTML += geekCodeSnippets[geekIndex % geekCodeSnippets.length];
+        geekIndex++;
+        geekBox.scrollTop = geekBox.scrollHeight;
+      }
+    });
+
+    let activeAttackInterval = null;
+    window.openMiniGame = function(gameId) {
+      playClickSound();
+      if (activeAttackInterval) clearInterval(activeAttackInterval);
+
+      document.getElementById("game-geek").classList.add("hidden");
+      document.getElementById("game-ddos").classList.add("hidden");
+      document.getElementById("game-wifi").classList.add("hidden");
+      document.getElementById("game-virus").classList.add("hidden");
+
+      if (gameId === 'geek') document.getElementById("game-geek").classList.remove("hidden");
+      if (gameId === 'ddos') document.getElementById("game-ddos").classList.remove("hidden");
+      if (gameId === 'wifi') {
+        document.getElementById("game-wifi").classList.remove("hidden");
+        const term = document.getElementById("wifi-terminal");
+        activeAttackInterval = setInterval(() => {
+          term.innerHTML += `&gt; Capturing Handshake Packet [BSSID: ${Math.floor(Math.random()*89+10)}:FF:33:AA]... OK<br/>`;
+          term.scrollTop = term.scrollHeight;
+        }, 1000);
+      }
+      if (gameId === 'virus') {
+        document.getElementById("game-virus").classList.remove("hidden");
+        let p = 0;
+        const bar = document.getElementById("virus-bar");
+        const term = document.getElementById("virus-terminal");
+        activeAttackInterval = setInterval(() => {
+          p += 10;
+          if (p > 100) p = 0;
+          bar.style.width = p + "%";
+          term.innerHTML += `&gt; Encrypting Sector #${Math.floor(Math.random()*9000+1000)}... DONE<br/>`;
+          term.scrollTop = term.scrollHeight;
+        }, 800);
+      }
+    }
+
+    window.startDDoSAttack = function() {
+      playClickSound();
+      const target = document.getElementById("ddos-target").value.trim() || "192.168.1.1";
+      const term = document.getElementById("ddos-terminal");
+      document.getElementById("ddos-status").textContent = "ATTACKING";
+      
+      term.innerHTML += `&gt; Launching SYN Flood Botnet on Target ${target}:80...<br/>`;
+      activeAttackInterval = setInterval(() => {
+        term.innerHTML += `&gt; [BOTNET-NODE-#${Math.floor(Math.random()*500+1)}] Sent 64500 packets/sec -> ${target}<br/>`;
+        term.scrollTop = term.scrollHeight;
+      }, 400);
+    }
   </script>
 </body>
 </html>
