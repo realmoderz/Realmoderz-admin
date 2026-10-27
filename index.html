@@ -140,7 +140,7 @@
             <label class="block text-xs font-bold mb-1 uppercase">&gt; PASSWORD</label>
             <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-3 py-2.5 dynamic-input text-xs" />
           </div>
-          <button type="submit" id="login-btn" class="w-full py-3 px-4 font-bold text-xs dynamic-btn uppercase tracking-widest">
+          <button type="submit" id="login-btn" class="w-full py-3 px-4 font-bold text-xs dynamic-btn uppercase tracking-widest cursor-pointer">
             [ EXECUTE AUTHENTICATION ]
           </button>
         </form>
@@ -168,29 +168,29 @@
           </div>
 
           <div class="flex items-center gap-2 bg-black px-3 py-1 border border-current text-[10px]">
-            <button id="toggle-bgm-btn" class="font-bold text-emerald-400 hover:underline">
+            <button id="toggle-bgm-btn" class="font-bold text-emerald-400 hover:underline cursor-pointer">
               <i class="fa-solid fa-volume-high mr-1"></i> BGM [ON]
             </button>
             <input type="range" id="bgm-volume" min="0" max="1" step="0.05" value="0.25" class="w-16 accent-current cursor-pointer" title="Adjust Volume" />
-            <button id="trigger-pic-upload" class="px-2 py-0.5 dynamic-btn text-[10px] font-bold ml-2">
+            <button id="trigger-pic-upload" class="px-2 py-0.5 dynamic-btn text-[10px] font-bold ml-2 cursor-pointer">
               <i class="fa-solid fa-upload mr-1"></i> UPLOAD PIC
             </button>
           </div>
 
           <div class="flex items-center gap-1 bg-black p-1 border border-current text-xs font-bold">
-            <button id="nav-links-btn" onclick="switchAppTab('links')" class="px-2.5 py-1 dynamic-btn bg-emerald-950 text-emerald-400">
+            <button id="nav-links-btn" onclick="switchAppTab('links')" class="px-2.5 py-1 dynamic-btn bg-emerald-950 text-emerald-400 cursor-pointer">
               <i class="fa-solid fa-link mr-1"></i> LINKS
             </button>
-            <button id="nav-keys-btn" onclick="switchAppTab('keys')" class="px-2.5 py-1 hover:bg-neutral-900">
+            <button id="nav-keys-btn" onclick="switchAppTab('keys')" class="px-2.5 py-1 hover:bg-neutral-900 cursor-pointer">
               <i class="fa-solid fa-key mr-1"></i> KEYS
             </button>
-            <button id="nav-games-btn" onclick="switchAppTab('games')" class="px-2.5 py-1 hover:bg-neutral-900 text-yellow-400">
+            <button id="nav-games-btn" onclick="switchAppTab('games')" class="px-2.5 py-1 hover:bg-neutral-900 text-yellow-400 cursor-pointer">
               <i class="fa-solid fa-terminal mr-1"></i> GEEK SIMULATOR
             </button>
           </div>
 
           <div class="flex items-center gap-2">
-            <button id="logout-btn" class="px-3 py-1 text-xs font-bold text-red-400 bg-red-950/60 border border-red-500">
+            <button id="logout-btn" class="px-3 py-1 text-xs font-bold text-red-400 bg-red-950/60 border border-red-500 cursor-pointer">
               [ LOGOUT ]
             </button>
           </div>
@@ -206,11 +206,11 @@
             <div class="dynamic-panel p-5 sticky top-20">
               <h2 class="text-sm font-bold mb-3">&gt; CREATE UNLOCK NODE</h2>
               
-              <!-- Cross-repo Target Index.html base config -->
+              <!-- Target Repo URL Config -->
               <div class="mb-3">
-                <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; PUBLIC INDEX.HTML BASE URL (SEPARATE REPO)</label>
-                <input type="url" id="public-domain-base" placeholder="https://your-public-site.com" class="w-full px-3 py-1.5 dynamic-input text-xs font-mono" />
-                <span class="text-[9px] opacity-60">Generated link will attach ?id= to this URL</span>
+                <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; TARGET PUBLIC UNLOCKER URL (GITHUB PAGES)</label>
+                <input type="url" id="public-domain-base" class="w-full px-3 py-1.5 dynamic-input text-xs font-mono" />
+                <span class="text-[9px] opacity-60">Generated link will automatically append ?id=...</span>
               </div>
 
               <form id="create-link-form" class="space-y-3">
@@ -228,14 +228,14 @@
                   <input type="url" id="task-telegram" placeholder="Telegram Join URL" class="w-full px-3 py-1.5 dynamic-input text-xs mb-1" />
                   <input type="url" id="task-instagram" placeholder="Instagram Follow URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
                 </div>
-                <button type="submit" class="w-full py-2.5 font-bold text-xs dynamic-btn uppercase">[ DEPLOY UNLOCK LINK ]</button>
+                <button type="submit" class="w-full py-2.5 font-bold text-xs dynamic-btn uppercase cursor-pointer">[ DEPLOY UNLOCK LINK ]</button>
               </form>
 
               <div id="new-link-output" class="hidden mt-4 p-3 dynamic-card border border-current">
                 <span class="text-[10px] font-bold block mb-1 text-emerald-400">&gt; PAYLOAD_DEPLOYED:</span>
                 <div class="flex gap-2">
                   <input type="text" id="generated-url-input" readonly class="w-full px-2 py-1 bg-black text-xs font-mono border border-current" />
-                  <button id="copy-new-btn" class="px-3 py-1 dynamic-btn text-xs font-bold whitespace-nowrap">COPY</button>
+                  <button id="copy-new-btn" class="px-3 py-1 dynamic-btn text-xs font-bold whitespace-nowrap cursor-pointer">COPY</button>
                 </div>
               </div>
             </div>
@@ -273,7 +273,7 @@
                   <label class="block text-[11px] font-bold mb-1 uppercase">&gt; CUSTOM KEY STRING (OPTIONAL)</label>
                   <div class="flex gap-2">
                     <input type="text" id="key-custom-code" placeholder="Leave empty for auto-gen" class="w-full px-3 py-2 dynamic-input text-xs font-mono" />
-                    <button type="button" id="btn-gen-rand-key" class="px-2.5 py-1 dynamic-btn text-xs font-bold uppercase whitespace-nowrap">[ AUTO ]</button>
+                    <button type="button" id="btn-gen-rand-key" class="px-2.5 py-1 dynamic-btn text-xs font-bold uppercase whitespace-nowrap cursor-pointer">[ AUTO ]</button>
                   </div>
                 </div>
 
@@ -300,7 +300,7 @@
                   </div>
                 </div>
 
-                <button type="submit" class="w-full py-2.5 font-bold text-xs uppercase tracking-widest dynamic-btn mt-2">
+                <button type="submit" class="w-full py-2.5 font-bold text-xs uppercase tracking-widest dynamic-btn mt-2 cursor-pointer">
                   [ SAVE & GENERATE KEY ]
                 </button>
               </form>
@@ -332,10 +332,10 @@
               <p class="text-xs opacity-70">Execute cyber attack visuals & interactive pranks.</p>
             </div>
             <div class="flex flex-wrap gap-2 text-xs font-bold">
-              <button onclick="openMiniGame('geek')" class="px-3 py-1.5 dynamic-btn bg-emerald-950 text-emerald-400">Geek Typer</button>
-              <button onclick="openMiniGame('ddos')" class="px-3 py-1.5 dynamic-btn">DDoS Simulator</button>
-              <button onclick="openMiniGame('wifi')" class="px-3 py-1.5 dynamic-btn">Wi-Fi Deauth</button>
-              <button onclick="openMiniGame('virus')" class="px-3 py-1.5 dynamic-btn">Ransomware</button>
+              <button onclick="openMiniGame('geek')" class="px-3 py-1.5 dynamic-btn bg-emerald-950 text-emerald-400 cursor-pointer">Geek Typer</button>
+              <button onclick="openMiniGame('ddos')" class="px-3 py-1.5 dynamic-btn cursor-pointer">DDoS Simulator</button>
+              <button onclick="openMiniGame('wifi')" class="px-3 py-1.5 dynamic-btn cursor-pointer">Wi-Fi Deauth</button>
+              <button onclick="openMiniGame('virus')" class="px-3 py-1.5 dynamic-btn cursor-pointer">Ransomware</button>
             </div>
           </div>
 
@@ -356,7 +356,7 @@
               </div>
               <div class="flex gap-2">
                 <input type="text" id="ddos-target" placeholder="Target IP / Hostname (e.g. 192.168.1.1)" class="w-full px-3 py-2 dynamic-input text-xs" />
-                <button onclick="startDDoSAttack()" class="px-4 py-2 dynamic-btn text-xs font-bold bg-red-950 text-red-400 border-red-500 uppercase">LAUNCH</button>
+                <button onclick="startDDoSAttack()" class="px-4 py-2 dynamic-btn text-xs font-bold bg-red-950 text-red-400 border-red-500 uppercase cursor-pointer">LAUNCH</button>
               </div>
               <div id="ddos-terminal" class="bg-black p-3 text-left font-mono text-[11px] h-48 overflow-y-auto border border-current text-red-400">
                 &gt; Awaiting target configuration...<br/>
@@ -447,23 +447,20 @@
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // PERSIST PUBLIC DOMAIN BASE URL (Because index.html is on a different repo/domain)
+    // AUTO-CONFIGURED EXACT GITHUB PAGES REPO LINK
+    const DEFAULT_TARGET_BASE = "https://realmoderz.github.io/Reamloderz/";
     const domainBaseInput = document.getElementById("public-domain-base");
     const storedBase = localStorage.getItem("rm_public_domain_base");
-    if (storedBase) {
-      domainBaseInput.value = storedBase;
-    } else {
-      // Default guess fallback if nothing saved
-      domainBaseInput.value = `${window.location.origin}/index.html`;
-    }
+    
+    domainBaseInput.value = storedBase || DEFAULT_TARGET_BASE;
 
     domainBaseInput.addEventListener("change", () => {
       localStorage.setItem("rm_public_domain_base", domainBaseInput.value.trim());
-      showToast("PUBLIC BASE URL SAVED!");
+      showToast("PUBLIC TARGET URL UPDATED!");
     });
 
     function getTargetUnlockUrl(id) {
-      const base = (domainBaseInput.value.trim() || `${window.location.origin}/index.html`).replace(/\/+$/, '');
+      let base = (domainBaseInput.value.trim() || DEFAULT_TARGET_BASE).trim();
       const separator = base.includes('?') ? '&' : '?';
       return `${base}${separator}id=${id}`;
     }
@@ -685,7 +682,7 @@
       signOut(auth);
     });
 
-    // 1: LINKS MANAGEMENT (CREATE, EDIT, DELETE)
+    // CREATE LINK
     document.getElementById("create-link-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       playClickSound();
@@ -751,9 +748,9 @@
               <div class="text-[9px] opacity-60 font-mono mt-0.5">Tasks: ${(item.tasks || []).length} | Node ID: ${id}</div>
             </div>
             <div class="flex gap-2 flex-shrink-0">
-              <button onclick="openEditLink('${id}')" class="px-2 py-1 dynamic-btn text-xs font-bold">[ EDIT ]</button>
-              <button onclick="copyLinkUrl('${pubUrl}')" class="px-2.5 py-1 dynamic-btn text-xs font-bold">[ COPY LINK ]</button>
-              <button onclick="deleteLink('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold">[ DEL ]</button>
+              <button onclick="openEditLink('${id}')" class="px-2 py-1 dynamic-btn text-xs font-bold cursor-pointer">[ EDIT ]</button>
+              <button onclick="copyLinkUrl('${pubUrl}')" class="px-2.5 py-1 dynamic-btn text-xs font-bold cursor-pointer">[ COPY LINK ]</button>
+              <button onclick="deleteLink('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold cursor-pointer">[ DEL ]</button>
             </div>
           `;
           list.appendChild(div);
@@ -767,7 +764,7 @@
       showToast("UNLOCK LINK COPIED!");
     }
 
-    // EDIT LINK FUNCTIONALITY
+    // EDIT LINK
     window.openEditLink = function(id) {
       playClickSound();
       const item = linksCache[id];
@@ -833,7 +830,7 @@
       }
     }
 
-    // 2: ADVANCED KEY GENERATOR
+    // KEYS MANAGEMENT
     let keyImageBase64 = "";
     const keyImgFile = document.getElementById("key-img-file");
     const keyImgPreviewBox = document.getElementById("key-img-preview-box");
@@ -932,8 +929,8 @@
               </div>
             </div>
             <div class="flex gap-2 flex-shrink-0">
-              <button onclick="navigator.clipboard.writeText('${item.keyCode}'); showToast('KEY COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold">[ COPY KEY ]</button>
-              <button onclick="deleteKey('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold">[ REVOKE ]</button>
+              <button onclick="navigator.clipboard.writeText('${item.keyCode}'); showToast('KEY COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold cursor-pointer">[ COPY KEY ]</button>
+              <button onclick="deleteKey('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold cursor-pointer">[ REVOKE ]</button>
             </div>
           `;
           list.appendChild(div);
@@ -949,7 +946,7 @@
       }
     }
 
-    // 3: GEEK SIMULATOR & ATTACKS VISUALS
+    // SIMULATOR PRANKS
     const geekCodeSnippets = [
       "void initialize_root_bypass() {\n  printf(\"[+] Injecting RealModerz Payload...\\n\");\n}\n",
       "int decrypt_payload(char* key, uint8_t* payload) {\n  for(int i=0; i<1024; i++) payload[i] ^= key[i % 8];\n  return 0xDEADBEEF;\n}\n",
