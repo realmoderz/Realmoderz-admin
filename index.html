@@ -1,5 +1,3 @@
-Bhai, le yeh poora code update karke de raha hoon. Isme maine pubUrl aur keyShareUrl wali lines me seedha teri user repo ka link ([https://realmoderz.github.io/Realmoderz/](https://realmoderz.github.io/Realmoderz/)) set kar diya hai taaki admin panel se copy kiya hua link hamesha exact user page par khule aur 404 error kabhi na aaye.
-Isko seedha copy karke apne admin.html me paste karde:
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -107,26 +105,7 @@ Isko seedha copy karke apne admin.html me paste karde:
   <!-- Hidden File Input for Custom Profile Photo -->
   <input type="file" id="pic-file-input" accept="image/*" class="hidden" />
 
-  <!-- ================= 1. PUBLIC UNLOCKER VIEW (?id=...) ================= -->
-  <div id="public-section" class="relative z-10 min-h-screen flex items-center justify-center p-4 hidden">
-    <div class="w-full max-w-md dynamic-panel p-6 relative text-center">
-      <div class="flex justify-between items-center mb-4">
-        <span class="hacker-badge"><i class="fa-solid fa-lock"></i> SUB2UNLOCK</span>
-        <span class="hacker-badge"><i class="fa-solid fa-shield-halved"></i> REALMODERZ</span>
-      </div>
-      
-      <h1 id="pub-brand-title" class="text-xl font-bold uppercase tracking-wider mb-2">&gt; LOADING TASKS...</h1>
-      <p class="text-xs opacity-70 mb-6">Complete all tasks below to unlock your target link.</p>
-
-      <div id="pub-tasks-list" class="space-y-3 text-left mb-6"></div>
-
-      <button id="pub-unlock-btn" disabled class="w-full py-3 px-4 font-bold text-xs bg-neutral-900 text-neutral-600 border border-neutral-700 uppercase tracking-widest cursor-not-allowed">
-        [ LINK LOCKED - COMPLETE TASKS FIRST ]
-      </button>
-    </div>
-  </div>
-
-  <!-- ================= 2. ADMIN & AUTH ROOT SECTION ================= -->
+  <!-- ================= ADMIN & AUTH ROOT SECTION ================= -->
   <div id="admin-root-section" class="relative z-10">
 
     <!-- AUTH VIEW -->
@@ -225,13 +204,30 @@ Isko seedha copy karke apne admin.html me paste karde:
         <div id="tab-links-content" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <section class="lg:col-span-5">
             <div class="dynamic-panel p-5 sticky top-20">
-              <h2 class="text-sm font-bold mb-4">&gt; CREATE UNLOCK NODE</h2>
+              <h2 class="text-sm font-bold mb-3">&gt; CREATE UNLOCK NODE</h2>
+              
+              <!-- Cross-repo Target Index.html base config -->
+              <div class="mb-3">
+                <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; PUBLIC INDEX.HTML BASE URL (SEPARATE REPO)</label>
+                <input type="url" id="public-domain-base" placeholder="https://your-public-site.com" class="w-full px-3 py-1.5 dynamic-input text-xs font-mono" />
+                <span class="text-[9px] opacity-60">Generated link will attach ?id= to this URL</span>
+              </div>
+
               <form id="create-link-form" class="space-y-3">
-                <input type="text" id="link-brand" required placeholder="Brand / File Name" class="w-full px-3 py-2 dynamic-input text-xs" />
-                <input type="url" id="link-destination" required placeholder="Destination URL" class="w-full px-3 py-2 dynamic-input text-xs" />
-                <input type="url" id="task-youtube" placeholder="YouTube URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
-                <input type="url" id="task-telegram" placeholder="Telegram URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
-                <input type="url" id="task-instagram" placeholder="Instagram URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
+                <div>
+                  <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; BRAND / FILE TITLE</label>
+                  <input type="text" id="link-brand" required placeholder="e.g. VIP Mod File Download" class="w-full px-3 py-2 dynamic-input text-xs" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; TARGET DESTINATION URL (AFTER UNLOCK)</label>
+                  <input type="url" id="link-destination" required placeholder="https://mega.nz/... or target URL" class="w-full px-3 py-2 dynamic-input text-xs" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; TASKS (LEAVE EMPTY IF NOT NEEDED)</label>
+                  <input type="url" id="task-youtube" placeholder="YouTube Subscribe URL" class="w-full px-3 py-1.5 dynamic-input text-xs mb-1" />
+                  <input type="url" id="task-telegram" placeholder="Telegram Join URL" class="w-full px-3 py-1.5 dynamic-input text-xs mb-1" />
+                  <input type="url" id="task-instagram" placeholder="Instagram Follow URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
+                </div>
                 <button type="submit" class="w-full py-2.5 font-bold text-xs dynamic-btn uppercase">[ DEPLOY UNLOCK LINK ]</button>
               </form>
 
@@ -248,10 +244,12 @@ Isko seedha copy karke apne admin.html me paste karde:
           <section class="lg:col-span-7">
             <div class="dynamic-panel p-5">
               <div class="flex justify-between items-center mb-4">
-                <h2 class="text-sm font-bold">&gt; ACTIVE LINK NODES</h2>
+                <h2 class="text-sm font-bold">&gt; ACTIVE LINK NODES (FIREBASE REALTIME)</h2>
                 <span id="links-count" class="dynamic-card px-2 py-0.5 text-xs font-mono font-bold">0 NODES</span>
               </div>
-              <div id="links-list" class="space-y-3"></div>
+              <div id="links-list" class="space-y-3">
+                <div class="py-6 text-center text-xs opacity-60 font-mono">&gt; FETCHING_LINKS...</div>
+              </div>
             </div>
           </section>
         </div>
@@ -402,7 +400,7 @@ Isko seedha copy karke apne admin.html me paste karde:
     <div class="w-full max-w-lg dynamic-panel p-5 relative border-2 border-current">
       <div class="flex justify-between items-center mb-4 border-b-2 border-current pb-2">
         <h3 class="text-xs font-bold uppercase">&gt; EDIT REALTIME LINK NODE</h3>
-        <button id="close-edit-btn" class="text-base font-bold hover:bg-red-600 hover:text-black px-2">[X]</button>
+        <button id="close-edit-btn" class="text-base font-bold hover:bg-red-600 hover:text-black px-2 cursor-pointer">[X]</button>
       </div>
 
       <form id="edit-link-form" class="space-y-3">
@@ -422,7 +420,7 @@ Isko seedha copy karke apne admin.html me paste karde:
           <input type="url" id="edit-ig-url" placeholder="Instagram Task URL" class="w-full px-3 py-1.5 dynamic-input text-xs" />
         </div>
 
-        <button type="submit" class="w-full py-2.5 dynamic-btn text-xs font-bold mt-2 uppercase">
+        <button type="submit" class="w-full py-2.5 dynamic-btn text-xs font-bold mt-2 uppercase cursor-pointer">
           [ UPDATE FIREBASE REALTIME ]
         </button>
       </form>
@@ -433,7 +431,7 @@ Isko seedha copy karke apne admin.html me paste karde:
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getDatabase, ref, set, onValue, remove, update, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import { getDatabase, ref, set, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyA_A-v2kRDBiry1iv1zC-Up3eMAvI1-NUs",
@@ -448,6 +446,27 @@ Isko seedha copy karke apne admin.html me paste karde:
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
+
+    // PERSIST PUBLIC DOMAIN BASE URL (Because index.html is on a different repo/domain)
+    const domainBaseInput = document.getElementById("public-domain-base");
+    const storedBase = localStorage.getItem("rm_public_domain_base");
+    if (storedBase) {
+      domainBaseInput.value = storedBase;
+    } else {
+      // Default guess fallback if nothing saved
+      domainBaseInput.value = `${window.location.origin}/index.html`;
+    }
+
+    domainBaseInput.addEventListener("change", () => {
+      localStorage.setItem("rm_public_domain_base", domainBaseInput.value.trim());
+      showToast("PUBLIC BASE URL SAVED!");
+    });
+
+    function getTargetUnlockUrl(id) {
+      const base = (domainBaseInput.value.trim() || `${window.location.origin}/index.html`).replace(/\/+$/, '');
+      const separator = base.includes('?') ? '&' : '?';
+      return `${base}${separator}id=${id}`;
+    }
 
     // AUDIO SYNTH ENGINE
     let audioCtx = null;
@@ -557,7 +576,7 @@ Isko seedha copy karke apne admin.html me paste karde:
       });
     }, 45);
 
-    // PROFILE PHOTO UPLOAD FIX
+    // PROFILE PHOTO UPLOAD
     const adminAvatarBox = document.getElementById("admin-avatar-box");
     const adminAvatarImg = document.getElementById("admin-avatar-img");
     const adminAvatarIcon = document.getElementById("admin-avatar-icon");
@@ -594,76 +613,6 @@ Isko seedha copy karke apne admin.html me paste karde:
         reader.readAsDataURL(file);
       }
     });
-
-    // PUBLIC LINK CHECK (?id=...)
-    const urlParams = new URLSearchParams(window.location.search);
-    const linkId = urlParams.get('id');
-
-    if (linkId) {
-      document.getElementById("admin-root-section").classList.add("hidden");
-      document.getElementById("public-section").classList.remove("hidden");
-      loadPublicUnlocker(linkId);
-    }
-
-    async function loadPublicUnlocker(id) {
-      try {
-        const snapshot = await get(ref(db, `links/${id}`));
-        if (!snapshot.exists()) {
-          document.getElementById("pub-brand-title").textContent = "INVALID OR EXPIRED LINK!";
-          return;
-        }
-
-        const data = snapshot.val();
-        document.getElementById("pub-brand-title").textContent = data.brandName || "UNLOCK YOUR LINK";
-
-        const tasksContainer = document.getElementById("pub-tasks-list");
-        tasksContainer.innerHTML = "";
-        
-        let completedCount = 0;
-        const tasks = data.tasks || [];
-        const totalTasks = tasks.length;
-
-        tasks.forEach((t, idx) => {
-          const btn = document.createElement("a");
-          btn.href = t.url;
-          btn.target = "_blank";
-          btn.className = "block p-3 dynamic-card text-xs font-bold flex justify-between items-center hover:bg-emerald-950/40";
-          btn.innerHTML = `<span><i class="fa-solid fa-arrow-right-long mr-2"></i> ${t.title || t.platform}</span> <span id="task-status-${idx}" class="text-[10px] text-yellow-400">[ CLICK TASK ]</span>`;
-          
-          btn.addEventListener("click", () => {
-            setTimeout(() => {
-              const statusEl = document.getElementById(`task-status-${idx}`);
-              if (statusEl.textContent !== "[ COMPLETED ]") {
-                statusEl.textContent = "[ COMPLETED ]";
-                statusEl.className = "text-[10px] text-emerald-400 font-bold";
-                completedCount++;
-
-                if (completedCount >= totalTasks) {
-                  const unlockBtn = document.getElementById("pub-unlock-btn");
-                  unlockBtn.disabled = false;
-                  unlockBtn.className = "w-full py-3 px-4 font-bold text-xs dynamic-btn uppercase tracking-widest cursor-pointer";
-                  unlockBtn.textContent = "[ UNLOCK LINK NOW ]";
-                  unlockBtn.onclick = () => window.location.href = data.destinationLink;
-                }
-              }
-            }, 2000);
-          });
-
-          tasksContainer.appendChild(btn);
-        });
-
-        if (totalTasks === 0) {
-          const unlockBtn = document.getElementById("pub-unlock-btn");
-          unlockBtn.disabled = false;
-          unlockBtn.className = "w-full py-3 px-4 font-bold text-xs dynamic-btn uppercase tracking-widest cursor-pointer";
-          unlockBtn.textContent = "[ GET LINK DIRECTLY ]";
-          unlockBtn.onclick = () => window.location.href = data.destinationLink;
-        }
-
-      } catch (e) {
-        showToast("ERROR LOADING LINK DATA");
-      }
-    }
 
     // THEME SWITCHER
     window.setTheme = function(themeName) {
@@ -707,17 +656,16 @@ Isko seedha copy karke apne admin.html me paste karde:
 
     // AUTH LISTENERS
     onAuthStateChanged(auth, (user) => {
-      if (!linkId) {
-        if (user) {
-          document.getElementById("auth-section").classList.add("hidden");
-          document.getElementById("dashboard-section").classList.remove("hidden");
-          document.getElementById("dashboard-section").classList.add("flex");
-          listenToLinks();
-          listenToKeys();
-        } else {
-          document.getElementById("auth-section").classList.remove("hidden");
-          document.getElementById("dashboard-section").classList.add("hidden");
-        }
+      if (user) {
+        document.getElementById("auth-section").classList.add("hidden");
+        document.getElementById("dashboard-section").classList.remove("hidden");
+        document.getElementById("dashboard-section").classList.add("flex");
+        listenToLinks();
+        listenToKeys();
+      } else {
+        document.getElementById("auth-section").classList.remove("hidden");
+        document.getElementById("dashboard-section").classList.add("hidden");
+        document.getElementById("dashboard-section").classList.remove("flex");
       }
     });
 
@@ -737,7 +685,7 @@ Isko seedha copy karke apne admin.html me paste karde:
       signOut(auth);
     });
 
-    // APP 1: LINKS MANAGEMENT
+    // 1: LINKS MANAGEMENT (CREATE, EDIT, DELETE)
     document.getElementById("create-link-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       playClickSound();
@@ -748,17 +696,23 @@ Isko seedha copy karke apne admin.html me paste karde:
       const ig = document.getElementById("task-instagram").value.trim();
 
       const tasks = [];
-      if (yt) tasks.push({ platform: "youtube", title: "Subscribe YouTube", url: yt });
-      if (tg) tasks.push({ platform: "telegram", title: "Join Telegram", url: tg });
-      if (ig) tasks.push({ platform: "instagram", title: "Follow Instagram", url: ig });
+      if (yt) tasks.push({ platform: "youtube", title: "Subscribe to YouTube Channel", url: yt });
+      if (tg) tasks.push({ platform: "telegram", title: "Join Telegram Channel", url: tg });
+      if (ig) tasks.push({ platform: "instagram", title: "Follow us on Instagram", url: ig });
 
       try {
         const id = Math.random().toString(36).substring(2, 10);
-        await set(ref(db, `links/${id}`), { brandName: brand, destinationLink: destination, tasks, createdAt: Date.now() });
-        const pubUrl = `https://realmoderz.github.io/Realmoderz/?id=${id}`;
+        await set(ref(db, `links/${id}`), { 
+          brandName: brand, 
+          destinationLink: destination, 
+          tasks, 
+          createdAt: Date.now() 
+        });
+
+        const pubUrl = getTargetUnlockUrl(id);
         document.getElementById("generated-url-input").value = pubUrl;
         document.getElementById("new-link-output").classList.remove("hidden");
-        showToast("LINK NODE DEPLOYED!");
+        showToast("LINK NODE DEPLOYED SUCCESSFULLY!");
         document.getElementById("create-link-form").reset();
       } catch (err) {
         showToast("ERROR: " + err.message);
@@ -768,7 +722,7 @@ Isko seedha copy karke apne admin.html me paste karde:
     document.getElementById("copy-new-btn").addEventListener("click", () => {
       playClickSound();
       navigator.clipboard.writeText(document.getElementById("generated-url-input").value);
-      showToast("COPIED!");
+      showToast("COPIED TO CLIPBOARD!");
     });
 
     let linksCache = {};
@@ -778,7 +732,7 @@ Isko seedha copy karke apne admin.html me paste karde:
         list.innerHTML = "";
         if (!snapshot.exists()) {
           document.getElementById("links-count").textContent = "0 NODES";
-          list.innerHTML = `<div class="py-6 text-center text-xs opacity-60 font-mono">&gt; NO_LINKS_FOUND</div>`;
+          list.innerHTML = `<div class="py-6 text-center text-xs opacity-60 font-mono">&gt; NO_ACTIVE_NODES_FOUND</div>`;
           return;
         }
         linksCache = snapshot.val();
@@ -787,23 +741,30 @@ Isko seedha copy karke apne admin.html me paste karde:
 
         ids.forEach(id => {
           const item = linksCache[id];
-          const pubUrl = `https://realmoderz.github.io/Realmoderz/?id=${id}`;
+          const pubUrl = getTargetUnlockUrl(id);
           const div = document.createElement("div");
           div.className = "dynamic-card p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border border-current";
           div.innerHTML = `
-            <div class="overflow-hidden">
-              <h4 class="text-xs font-bold uppercase">&gt; ${item.brandName}</h4>
-              <p class="text-[10px] opacity-80 truncate font-mono">Target: ${item.destinationLink}</p>
+            <div class="overflow-hidden flex-1">
+              <h4 class="text-xs font-bold uppercase truncate">&gt; ${item.brandName || 'Untitled'}</h4>
+              <p class="text-[10px] opacity-80 truncate font-mono mt-0.5">Destination: ${item.destinationLink}</p>
+              <div class="text-[9px] opacity-60 font-mono mt-0.5">Tasks: ${(item.tasks || []).length} | Node ID: ${id}</div>
             </div>
-            <div class="flex gap-2">
+            <div class="flex gap-2 flex-shrink-0">
               <button onclick="openEditLink('${id}')" class="px-2 py-1 dynamic-btn text-xs font-bold">[ EDIT ]</button>
-              <button onclick="navigator.clipboard.writeText('${pubUrl}'); showToast('COPIED');" class="px-2.5 py-1 dynamic-btn text-xs font-bold">[ COPY LINK ]</button>
+              <button onclick="copyLinkUrl('${pubUrl}')" class="px-2.5 py-1 dynamic-btn text-xs font-bold">[ COPY LINK ]</button>
               <button onclick="deleteLink('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold">[ DEL ]</button>
             </div>
           `;
           list.appendChild(div);
         });
       });
+    }
+
+    window.copyLinkUrl = function(url) {
+      playClickSound();
+      navigator.clipboard.writeText(url);
+      showToast("UNLOCK LINK COPIED!");
     }
 
     // EDIT LINK FUNCTIONALITY
@@ -813,8 +774,8 @@ Isko seedha copy karke apne admin.html me paste karde:
       if (!item) return;
 
       document.getElementById("edit-node-id").value = id;
-      document.getElementById("edit-link-brand").value = item.brandName;
-      document.getElementById("edit-link-destination").value = item.destinationLink;
+      document.getElementById("edit-link-brand").value = item.brandName || "";
+      document.getElementById("edit-link-destination").value = item.destinationLink || "";
       
       let yt = "", tg = "", ig = "";
       (item.tasks || []).forEach(t => {
@@ -846,13 +807,18 @@ Isko seedha copy karke apne admin.html me paste karde:
       const ig = document.getElementById("edit-ig-url").value.trim();
 
       const tasks = [];
-      if (yt) tasks.push({ platform: "youtube", title: "Subscribe YouTube", url: yt });
-      if (tg) tasks.push({ platform: "telegram", title: "Join Telegram", url: tg });
-      if (ig) tasks.push({ platform: "instagram", title: "Follow Instagram", url: ig });
+      if (yt) tasks.push({ platform: "youtube", title: "Subscribe to YouTube Channel", url: yt });
+      if (tg) tasks.push({ platform: "telegram", title: "Join Telegram Channel", url: tg });
+      if (ig) tasks.push({ platform: "instagram", title: "Follow us on Instagram", url: ig });
 
       try {
-        await update(ref(db, `links/${id}`), { brandName: brand, destinationLink: destination, tasks });
-        showToast("LINK UPDATED IN FIREBASE!");
+        await update(ref(db, `links/${id}`), { 
+          brandName: brand, 
+          destinationLink: destination, 
+          tasks,
+          updatedAt: Date.now()
+        });
+        showToast("LINK NODE UPDATED IN REALTIME!");
         document.getElementById("edit-modal").classList.add("hidden");
       } catch (err) {
         showToast("UPDATE FAILED: " + err.message);
@@ -861,13 +827,13 @@ Isko seedha copy karke apne admin.html me paste karde:
 
     window.deleteLink = async function(id) {
       playClickSound();
-      if(confirm("Delete link node from Firebase?")) {
+      if(confirm(`Are you sure you want to delete node ${id}?`)) {
         await remove(ref(db, `links/${id}`));
-        showToast("LINK DELETED!");
+        showToast("NODE DELETED!");
       }
     }
 
-    // APP 2: ADVANCED KEY SYSTEM WITH LINK GENERATION
+    // 2: ADVANCED KEY GENERATOR
     let keyImageBase64 = "";
     const keyImgFile = document.getElementById("key-img-file");
     const keyImgPreviewBox = document.getElementById("key-img-preview-box");
@@ -924,7 +890,7 @@ Isko seedha copy karke apne admin.html me paste karde:
           expiresAt: expiresAt
         });
 
-        showToast(`KEY [${customCode}] SAVED TO FIREBASE!`);
+        showToast(`KEY [${customCode}] GENERATED!`);
         document.getElementById("create-key-form").reset();
         keyImageBase64 = "";
         keyImgPreviewBox.classList.add("hidden");
@@ -950,13 +916,12 @@ Isko seedha copy karke apne admin.html me paste karde:
           const item = data[id];
           const isExpired = Date.now() > item.expiresAt;
           const expDateStr = new Date(item.expiresAt).toLocaleString();
-          const keyShareUrl = `https://realmoderz.github.io/Realmoderz/unlock-key.html?key=${id}`;
 
           const div = document.createElement("div");
           div.className = "dynamic-card p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border border-current";
           div.innerHTML = `
             <div class="flex items-center gap-3 overflow-hidden">
-              ${item.keyImage ? `<img src="${item.keyImage}" class="w-12 h-12 object-cover border border-current flex-shrink-0" />` : `<div class="w-12 h-12 bg-black border border-current flex items-center justify-center text-xs font-bold text-yellow-400">KEY</div>`}
+              ${item.keyImage ? `<img src="${item.keyImage}" class="w-12 h-12 object-cover border border-current flex-shrink-0" />` : `<div class="w-12 h-12 bg-black border border-current flex items-center justify-center text-xs font-bold text-yellow-400 flex-shrink-0">KEY</div>`}
               <div class="overflow-hidden">
                 <div class="flex items-center gap-2">
                   <h4 class="text-xs font-bold text-yellow-400 font-mono truncate">&gt; ${item.keyCode}</h4>
@@ -968,7 +933,6 @@ Isko seedha copy karke apne admin.html me paste karde:
             </div>
             <div class="flex gap-2 flex-shrink-0">
               <button onclick="navigator.clipboard.writeText('${item.keyCode}'); showToast('KEY COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold">[ COPY KEY ]</button>
-              <button onclick="navigator.clipboard.writeText('${keyShareUrl}'); showToast('KEY LINK COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold text-yellow-400 border-yellow-500">[ COPY KEY LINK ]</button>
               <button onclick="deleteKey('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold">[ REVOKE ]</button>
             </div>
           `;
@@ -979,16 +943,17 @@ Isko seedha copy karke apne admin.html me paste karde:
 
     window.deleteKey = async function(keyId) {
       playClickSound();
-      if(confirm(`REVOKE USER KEY ${keyId}?`)) {
+      if(confirm(`Revoke key ${keyId}?`)) {
         await remove(ref(db, `keys/${keyId}`));
         showToast("KEY REVOKED!");
       }
     }
 
-    // APP 3: GEEK SIMULATOR & ATTACKS VISUALS
+    // 3: GEEK SIMULATOR & ATTACKS VISUALS
     const geekCodeSnippets = [
       "void initialize_root_bypass() {\n  printf(\"[+] Injecting RealModerz Payload...\\n\");\n}\n",
-      "int decrypt_payload(char* key, uint8_t* payload) {\n  for(int i=0; i<1024; i++) payload[i] ^= key[i % 8];\n  return 0xDEADBEEF;\n}\n"
+      "int decrypt_payload(char* key, uint8_t* payload) {\n  for(int i=0; i<1024; i++) payload[i] ^= key[i % 8];\n  return 0xDEADBEEF;\n}\n",
+      "bool verify_sub2unlock_packet(uint32_t session_id) {\n  return (session_id ^ 0xA5A5) == 0;\n}\n"
     ];
     let geekIndex = 0;
 
@@ -1046,7 +1011,7 @@ Isko seedha copy karke apne admin.html me paste karde:
       
       term.innerHTML += `&gt; Launching SYN Flood Botnet on Target ${target}:80...<br/>`;
       activeAttackInterval = setInterval(() => {
-        term.innerHTML += `&gt; [BOTNET-NODE-#{Math.floor(Math.random()*500+1)}] Sent 64500 packets/sec -> ${target}<br/>`;
+        term.innerHTML += `&gt; [BOTNET-NODE-#${Math.floor(Math.random()*500+1)}] Sent 64500 packets/sec -> ${target}<br/>`;
         term.scrollTop = term.scrollHeight;
       }, 400);
     }
