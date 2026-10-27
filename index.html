@@ -102,7 +102,7 @@
 
   <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- Hidden File Input for Custom Profile Photo -->
+  <!-- Profile Image Uploader Input -->
   <input type="file" id="pic-file-input" accept="image/*" class="hidden" />
 
   <!-- ================= ADMIN & AUTH ROOT SECTION ================= -->
@@ -206,11 +206,10 @@
             <div class="dynamic-panel p-5 sticky top-20">
               <h2 class="text-sm font-bold mb-3">&gt; CREATE UNLOCK NODE</h2>
               
-              <!-- Target Repo URL Config -->
               <div class="mb-3">
-                <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; TARGET PUBLIC UNLOCKER URL (GITHUB PAGES)</label>
+                <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; TARGET UNLOCKER URL (GITHUB PAGES)</label>
                 <input type="url" id="public-domain-base" class="w-full px-3 py-1.5 dynamic-input text-xs font-mono" />
-                <span class="text-[9px] opacity-60">Generated link will automatically append ?id=...</span>
+                <span class="text-[9px] opacity-60">Automatically appends ?id=...</span>
               </div>
 
               <form id="create-link-form" class="space-y-3">
@@ -259,14 +258,21 @@
           <section class="lg:col-span-5">
             <div class="dynamic-panel p-5 sticky top-20">
               <div class="flex justify-between items-center mb-4 border-b border-current pb-2">
-                <h2 class="text-sm font-bold">&gt; KEY GENERATOR ENGINE</h2>
-                <span class="hacker-badge"><i class="fa-solid fa-key"></i> ADVANCED</span>
+                <h2 class="text-sm font-bold">&gt; KEY SYSTEM ENGINE</h2>
+                <span class="hacker-badge"><i class="fa-solid fa-key"></i> SECURE_KEY</span>
+              </div>
+
+              <!-- Base URL for user key unlock page -->
+              <div class="mb-3">
+                <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; TARGET KEY USER PAGE URL (GITHUB PAGES)</label>
+                <input type="url" id="key-page-base-url" class="w-full px-3 py-1.5 dynamic-input text-xs font-mono" />
+                <span class="text-[9px] opacity-60">Automatically appends ?key=...</span>
               </div>
 
               <form id="create-key-form" class="space-y-3">
                 <div>
                   <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY TITLE / NAME</label>
-                  <input type="text" id="key-title" required placeholder="e.g. Premium VIP Access #1" class="w-full px-3 py-2 dynamic-input text-xs" />
+                  <input type="text" id="key-title" required placeholder="e.g. VIP Premium Injector Key" class="w-full px-3 py-2 dynamic-input text-xs" />
                 </div>
 
                 <div>
@@ -293,7 +299,12 @@
                 </div>
 
                 <div>
-                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; UPLOAD KEY IMAGE BANNER</label>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; ADDITIONAL SUMMARY / INSTRUCTIONS (OPTIONAL)</label>
+                  <textarea id="key-summary" rows="3" placeholder="Enter notes, how to use, features, or telegram contact..." class="w-full px-3 py-2 dynamic-input text-xs"></textarea>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; UPLOAD KEY IMAGE BANNER (OPTIONAL)</label>
                   <input type="file" id="key-img-file" accept="image/*" class="w-full px-2 py-1 dynamic-input text-xs" />
                   <div id="key-img-preview-box" class="mt-2 hidden">
                     <img id="key-img-preview" src="" class="h-20 w-full object-cover border border-current" />
@@ -304,6 +315,14 @@
                   [ SAVE & GENERATE KEY ]
                 </button>
               </form>
+
+              <div id="new-key-output" class="hidden mt-4 p-3 dynamic-card border border-current">
+                <span class="text-[10px] font-bold block mb-1 text-yellow-400">&gt; KEY_USER_LINK:</span>
+                <div class="flex gap-2">
+                  <input type="text" id="generated-key-url-input" readonly class="w-full px-2 py-1 bg-black text-xs font-mono border border-current text-yellow-400" />
+                  <button id="copy-new-key-url-btn" class="px-3 py-1 dynamic-btn text-xs font-bold whitespace-nowrap cursor-pointer">COPY</button>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -324,7 +343,7 @@
           </section>
         </div>
 
-        <!-- TAB 3: GEEK CYBER ATTACK SIMULATOR -->
+        <!-- TAB 3: GEEK SIMULATOR -->
         <div id="tab-games-content" class="hidden space-y-6">
           <div class="dynamic-panel p-4 flex flex-wrap justify-between items-center gap-2">
             <div>
@@ -427,6 +446,50 @@
     </div>
   </div>
 
+  <!-- EDIT KEY MODAL -->
+  <div id="edit-key-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-lg dynamic-panel p-5 relative border-2 border-current">
+      <div class="flex justify-between items-center mb-4 border-b-2 border-current pb-2">
+        <h3 class="text-xs font-bold uppercase text-yellow-400">&gt; EDIT KEY CONFIGURATION</h3>
+        <button id="close-edit-key-btn" class="text-base font-bold hover:bg-red-600 hover:text-black px-2 cursor-pointer">[X]</button>
+      </div>
+
+      <form id="edit-key-form" class="space-y-3">
+        <input type="hidden" id="edit-key-original-code" />
+        <div>
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY CODE</label>
+          <input type="text" id="edit-key-code" readonly class="w-full px-3 py-1.5 dynamic-input text-xs font-mono opacity-80" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY TITLE</label>
+          <input type="text" id="edit-key-title" required class="w-full px-3 py-1.5 dynamic-input text-xs" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold mb-1 uppercase">&gt; EXTEND DURATION</label>
+            <input type="number" id="edit-key-duration-val" min="1" value="24" required class="w-full px-3 py-1.5 dynamic-input text-xs" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold mb-1 uppercase">&gt; TIME UNIT</label>
+            <select id="edit-key-duration-unit" class="w-full px-3 py-1.5 dynamic-input text-xs">
+              <option value="minutes">Minutes</option>
+              <option value="hours" selected>Hours</option>
+              <option value="days">Days</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; SUMMARY / INSTRUCTIONS</label>
+          <textarea id="edit-key-summary" rows="3" class="w-full px-3 py-1.5 dynamic-input text-xs"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 dynamic-btn text-xs font-bold mt-2 uppercase cursor-pointer">
+          [ UPDATE KEY DETAILS ]
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- FIREBASE & APPLICATION LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -447,22 +510,34 @@
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // AUTO-CONFIGURED EXACT GITHUB PAGES REPO LINK
-    const DEFAULT_TARGET_BASE = "https://realmoderz.github.io/Reamloderz/";
-    const domainBaseInput = document.getElementById("public-domain-base");
-    const storedBase = localStorage.getItem("rm_public_domain_base");
-    
-    domainBaseInput.value = storedBase || DEFAULT_TARGET_BASE;
+    // GITHUB PAGES URL CONFIGURATIONS
+    const DEFAULT_LINK_BASE = "https://realmoderz.github.io/Reamloderz/";
+    const DEFAULT_KEY_PAGE_BASE = "https://realmoderz.github.io/Reamloderz/key-unlock.html";
 
+    const domainBaseInput = document.getElementById("public-domain-base");
+    domainBaseInput.value = localStorage.getItem("rm_public_domain_base") || DEFAULT_LINK_BASE;
     domainBaseInput.addEventListener("change", () => {
       localStorage.setItem("rm_public_domain_base", domainBaseInput.value.trim());
-      showToast("PUBLIC TARGET URL UPDATED!");
+      showToast("LINK TARGET BASE UPDATED!");
+    });
+
+    const keyPageBaseInput = document.getElementById("key-page-base-url");
+    keyPageBaseInput.value = localStorage.getItem("rm_key_page_base") || DEFAULT_KEY_PAGE_BASE;
+    keyPageBaseInput.addEventListener("change", () => {
+      localStorage.setItem("rm_key_page_base", keyPageBaseInput.value.trim());
+      showToast("KEY TARGET BASE UPDATED!");
     });
 
     function getTargetUnlockUrl(id) {
-      let base = (domainBaseInput.value.trim() || DEFAULT_TARGET_BASE).trim();
+      const base = (domainBaseInput.value.trim() || DEFAULT_LINK_BASE).trim();
       const separator = base.includes('?') ? '&' : '?';
       return `${base}${separator}id=${id}`;
+    }
+
+    function getTargetKeyUrl(code) {
+      const base = (keyPageBaseInput.value.trim() || DEFAULT_KEY_PAGE_BASE).trim();
+      const separator = base.includes('?') ? '&' : '?';
+      return `${base}${separator}key=${code}`;
     }
 
     // AUDIO SYNTH ENGINE
@@ -611,13 +686,11 @@
       }
     });
 
-    // THEME SWITCHER
     window.setTheme = function(themeName) {
       playClickSound();
       document.body.className = `theme-${themeName} min-h-screen relative overflow-x-hidden`;
     }
 
-    // TOAST ALERTS
     function showToast(msg) {
       playClickSound();
       const t = document.createElement("div");
@@ -627,7 +700,6 @@
       setTimeout(() => t.remove(), 3000);
     }
 
-    // TAB SWITCHER
     window.switchAppTab = function(tabName) {
       playClickSound();
       const linksContent = document.getElementById("tab-links-content");
@@ -651,7 +723,6 @@
       }
     }
 
-    // AUTH LISTENERS
     onAuthStateChanged(auth, (user) => {
       if (user) {
         document.getElementById("auth-section").classList.add("hidden");
@@ -682,7 +753,7 @@
       signOut(auth);
     });
 
-    // CREATE LINK
+    // 1: LINKS MANAGEMENT
     document.getElementById("create-link-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       playClickSound();
@@ -749,7 +820,7 @@
             </div>
             <div class="flex gap-2 flex-shrink-0">
               <button onclick="openEditLink('${id}')" class="px-2 py-1 dynamic-btn text-xs font-bold cursor-pointer">[ EDIT ]</button>
-              <button onclick="copyLinkUrl('${pubUrl}')" class="px-2.5 py-1 dynamic-btn text-xs font-bold cursor-pointer">[ COPY LINK ]</button>
+              <button onclick="navigator.clipboard.writeText('${pubUrl}'); showToast('COPIED!');" class="px-2.5 py-1 dynamic-btn text-xs font-bold cursor-pointer">[ COPY LINK ]</button>
               <button onclick="deleteLink('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold cursor-pointer">[ DEL ]</button>
             </div>
           `;
@@ -758,13 +829,6 @@
       });
     }
 
-    window.copyLinkUrl = function(url) {
-      playClickSound();
-      navigator.clipboard.writeText(url);
-      showToast("UNLOCK LINK COPIED!");
-    }
-
-    // EDIT LINK
     window.openEditLink = function(id) {
       playClickSound();
       const item = linksCache[id];
@@ -830,7 +894,7 @@
       }
     }
 
-    // KEYS MANAGEMENT
+    // 2: ADVANCED KEYS MANAGEMENT (CREATE, EDIT, GENERATE LINK)
     let keyImageBase64 = "";
     const keyImgFile = document.getElementById("key-img-file");
     const keyImgPreviewBox = document.getElementById("key-img-preview-box");
@@ -867,6 +931,7 @@
 
       const durVal = parseFloat(document.getElementById("key-duration-val").value);
       const durUnit = document.getElementById("key-duration-unit").value;
+      const summary = document.getElementById("key-summary").value.trim();
 
       let durationMs = 0;
       if (durUnit === "minutes") durationMs = durVal * 60 * 1000;
@@ -882,12 +947,17 @@
           keyCode: customCode,
           durationValue: durVal,
           durationUnit: durUnit,
+          summary: summary,
           keyImage: keyImageBase64,
           createdAt: createdAt,
           expiresAt: expiresAt
         });
 
-        showToast(`KEY [${customCode}] GENERATED!`);
+        const keyUserUrl = getTargetKeyUrl(customCode);
+        document.getElementById("generated-key-url-input").value = keyUserUrl;
+        document.getElementById("new-key-output").classList.remove("hidden");
+        showToast(`KEY [${customCode}] SAVED & LINK GENERATED!`);
+
         document.getElementById("create-key-form").reset();
         keyImageBase64 = "";
         keyImgPreviewBox.classList.add("hidden");
@@ -896,6 +966,13 @@
       }
     });
 
+    document.getElementById("copy-new-key-url-btn").addEventListener("click", () => {
+      playClickSound();
+      navigator.clipboard.writeText(document.getElementById("generated-key-url-input").value);
+      showToast("KEY USER LINK COPIED!");
+    });
+
+    let keysCache = {};
     function listenToKeys() {
       onValue(ref(db, 'keys'), (snapshot) => {
         const list = document.getElementById("keys-list");
@@ -905,19 +982,20 @@
           list.innerHTML = `<div class="py-6 text-center text-xs opacity-60 font-mono">&gt; NO_ACCESS_KEYS_GENERATED</div>`;
           return;
         }
-        const data = snapshot.val();
-        const ids = Object.keys(data).reverse();
+        keysCache = snapshot.val();
+        const ids = Object.keys(keysCache).reverse();
         document.getElementById("keys-count").textContent = `${ids.length} KEYS`;
 
         ids.forEach(id => {
-          const item = data[id];
+          const item = keysCache[id];
           const isExpired = Date.now() > item.expiresAt;
           const expDateStr = new Date(item.expiresAt).toLocaleString();
+          const userKeyUrl = getTargetKeyUrl(id);
 
           const div = document.createElement("div");
           div.className = "dynamic-card p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border border-current";
           div.innerHTML = `
-            <div class="flex items-center gap-3 overflow-hidden">
+            <div class="flex items-center gap-3 overflow-hidden flex-1">
               ${item.keyImage ? `<img src="${item.keyImage}" class="w-12 h-12 object-cover border border-current flex-shrink-0" />` : `<div class="w-12 h-12 bg-black border border-current flex items-center justify-center text-xs font-bold text-yellow-400 flex-shrink-0">KEY</div>`}
               <div class="overflow-hidden">
                 <div class="flex items-center gap-2">
@@ -925,11 +1003,13 @@
                   <span class="hacker-badge text-[8px] ${isExpired ? 'text-red-500 border-red-500' : 'text-emerald-400 border-emerald-400'}">${isExpired ? 'EXPIRED' : 'ACTIVE'}</span>
                 </div>
                 <p class="text-[10px] opacity-80 mt-0.5 truncate">${item.keyTitle}</p>
+                ${item.summary ? `<p class="text-[9px] opacity-60 italic truncate mt-0.5">"${item.summary}"</p>` : ''}
                 <div class="text-[9px] opacity-60 font-mono mt-0.5">Expires: ${expDateStr}</div>
               </div>
             </div>
-            <div class="flex gap-2 flex-shrink-0">
-              <button onclick="navigator.clipboard.writeText('${item.keyCode}'); showToast('KEY COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold cursor-pointer">[ COPY KEY ]</button>
+            <div class="flex flex-wrap gap-2 flex-shrink-0">
+              <button onclick="openEditKey('${id}')" class="px-2 py-1 dynamic-btn text-xs font-bold cursor-pointer">[ EDIT ]</button>
+              <button onclick="navigator.clipboard.writeText('${userKeyUrl}'); showToast('USER LINK COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold text-yellow-400 border-yellow-500 cursor-pointer">[ COPY USER LINK ]</button>
               <button onclick="deleteKey('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold cursor-pointer">[ REVOKE ]</button>
             </div>
           `;
@@ -937,6 +1017,60 @@
         });
       });
     }
+
+    // EDIT KEY MODAL HANDLERS
+    window.openEditKey = function(code) {
+      playClickSound();
+      const item = keysCache[code];
+      if (!item) return;
+
+      document.getElementById("edit-key-original-code").value = code;
+      document.getElementById("edit-key-code").value = code;
+      document.getElementById("edit-key-title").value = item.keyTitle || "";
+      document.getElementById("edit-key-duration-val").value = item.durationValue || 24;
+      document.getElementById("edit-key-duration-unit").value = item.durationUnit || "hours";
+      document.getElementById("edit-key-summary").value = item.summary || "";
+
+      document.getElementById("edit-key-modal").classList.remove("hidden");
+    }
+
+    document.getElementById("close-edit-key-btn").addEventListener("click", () => {
+      playClickSound();
+      document.getElementById("edit-key-modal").classList.add("hidden");
+    });
+
+    document.getElementById("edit-key-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      playClickSound();
+      const code = document.getElementById("edit-key-original-code").value;
+      const title = document.getElementById("edit-key-title").value.trim();
+      const summary = document.getElementById("edit-key-summary").value.trim();
+      const durVal = parseFloat(document.getElementById("edit-key-duration-val").value);
+      const durUnit = document.getElementById("edit-key-duration-unit").value;
+
+      let durationMs = 0;
+      if (durUnit === "minutes") durationMs = durVal * 60 * 1000;
+      else if (durUnit === "hours") durationMs = durVal * 3600 * 1000;
+      else if (durUnit === "days") durationMs = durVal * 24 * 3600 * 1000;
+
+      const newExpiresAt = Date.now() + durationMs;
+
+      try {
+        await update(ref(db, `keys/${code}`), {
+          keyTitle: title,
+          summary: summary,
+          durationValue: durVal,
+          durationUnit: durUnit,
+          expiresAt: newExpiresAt,
+          updatedAt: Date.now()
+        });
+
+        showToast("KEY DETAILS UPDATED IN FIREBASE!");
+        document.getElementById("edit-key-modal").classList.add("hidden");
+      } catch (err) {
+        showToast("KEY UPDATE FAILED: " + err.message);
+      }
+    });
 
     window.deleteKey = async function(keyId) {
       playClickSound();
@@ -946,7 +1080,7 @@
       }
     }
 
-    // SIMULATOR PRANKS
+    // GEEK SIMULATOR
     const geekCodeSnippets = [
       "void initialize_root_bypass() {\n  printf(\"[+] Injecting RealModerz Payload...\\n\");\n}\n",
       "int decrypt_payload(char* key, uint8_t* payload) {\n  for(int i=0; i<1024; i++) payload[i] ^= key[i % 8];\n  return 0xDEADBEEF;\n}\n",
