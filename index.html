@@ -253,7 +253,7 @@
           </section>
         </div>
 
-        <!-- TAB 2: ADVANCED KEY GENERATOR -->
+        <!-- TAB 2: KEY SYSTEM (WITH SHORTENER & EDIT FIX) -->
         <div id="tab-keys-content" class="hidden grid-cols-1 lg:grid-cols-12 gap-6">
           <section class="lg:col-span-5">
             <div class="dynamic-panel p-5 sticky top-20">
@@ -266,21 +266,27 @@
               <div class="mb-3">
                 <label class="block text-[10px] font-bold mb-1 opacity-80 uppercase">&gt; TARGET KEY USER PAGE URL (GITHUB PAGES)</label>
                 <input type="url" id="key-page-base-url" class="w-full px-3 py-1.5 dynamic-input text-xs font-mono" />
-                <span class="text-[9px] opacity-60">Automatically appends ?key=...</span>
+                <span class="text-[9px] opacity-60">Appends ?keyId=...</span>
               </div>
 
               <form id="create-key-form" class="space-y-3">
                 <div>
-                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY TITLE / NAME</label>
-                  <input type="text" id="key-title" required placeholder="e.g. VIP Premium Injector Key" class="w-full px-3 py-2 dynamic-input text-xs" />
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY NAME / TITLE</label>
+                  <input type="text" id="key-title" required placeholder="e.g. VIP Mod Key" class="w-full px-3 py-2 dynamic-input text-xs" />
                 </div>
 
                 <div>
-                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; CUSTOM KEY STRING (OPTIONAL)</label>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; ACTUAL KEY CODE</label>
                   <div class="flex gap-2">
-                    <input type="text" id="key-custom-code" placeholder="Leave empty for auto-gen" class="w-full px-3 py-2 dynamic-input text-xs font-mono" />
+                    <input type="text" id="key-custom-code" required placeholder="e.g. RM-PASS-9988" class="w-full px-3 py-2 dynamic-input text-xs font-mono" />
                     <button type="button" id="btn-gen-rand-key" class="px-2.5 py-1 dynamic-btn text-xs font-bold uppercase whitespace-nowrap cursor-pointer">[ AUTO ]</button>
                   </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY SHORTENER LINK (OPTIONAL - TRAVEL LINK)</label>
+                  <input type="url" id="key-shortener-url" placeholder="https://gplinks.co/... (Opens before key unveil)" class="w-full px-3 py-2 dynamic-input text-xs" />
+                  <span class="text-[9px] opacity-70">If provided, user clicks to open this shorten link first!</span>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2">
@@ -300,14 +306,14 @@
 
                 <div>
                   <label class="block text-[11px] font-bold mb-1 uppercase">&gt; ADDITIONAL SUMMARY / INSTRUCTIONS (OPTIONAL)</label>
-                  <textarea id="key-summary" rows="3" placeholder="Enter notes, how to use, features, or telegram contact..." class="w-full px-3 py-2 dynamic-input text-xs"></textarea>
+                  <textarea id="key-summary" rows="2" placeholder="Write instructions or contact info..." class="w-full px-3 py-2 dynamic-input text-xs"></textarea>
                 </div>
 
                 <div>
-                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; UPLOAD KEY IMAGE BANNER (OPTIONAL)</label>
+                  <label class="block text-[11px] font-bold mb-1 uppercase">&gt; UPLOAD KEY PHOTO (AUTO-ADJUSTS ON USER PAGE)</label>
                   <input type="file" id="key-img-file" accept="image/*" class="w-full px-2 py-1 dynamic-input text-xs" />
-                  <div id="key-img-preview-box" class="mt-2 hidden">
-                    <img id="key-img-preview" src="" class="h-20 w-full object-cover border border-current" />
+                  <div id="key-img-preview-box" class="mt-2 hidden p-1 border border-current text-center">
+                    <img id="key-img-preview" src="" class="max-h-28 mx-auto object-contain" />
                   </div>
                 </div>
 
@@ -360,14 +366,12 @@
 
           <div id="game-arena" class="dynamic-panel p-6 min-h-[420px] flex flex-col justify-center items-center text-center relative border-2 border-current">
             
-            <!-- GEEK TYPER -->
             <div id="game-geek" class="w-full max-w-4xl space-y-3">
               <div id="geek-terminal-box" class="bg-black p-4 text-left font-mono text-xs text-emerald-400 h-80 overflow-y-auto border-2 border-current leading-relaxed" tabindex="0">
                 <span class="opacity-60">&gt; PRESS ANY KEY ON KEYBOARD TO GENERATE HACKER CODE...</span><br/><br/>
               </div>
             </div>
 
-            <!-- DDOS SIMULATOR -->
             <div id="game-ddos" class="hidden w-full max-w-2xl space-y-4">
               <div class="flex justify-between items-center border-b pb-2">
                 <span class="font-bold text-red-500"><i class="fa-solid fa-network-wired"></i> SYN FLOOD DDOS BOTNET SIMULATOR</span>
@@ -382,7 +386,6 @@
               </div>
             </div>
 
-            <!-- WIFI DEAUTH -->
             <div id="game-wifi" class="hidden w-full max-w-2xl space-y-4">
               <div class="flex justify-between items-center border-b pb-2">
                 <span class="font-bold text-cyan-400"><i class="fa-solid fa-wifi"></i> WPA3 WI-FI DEAUTH & HANDSHAKE CRACKER</span>
@@ -393,7 +396,6 @@
               </div>
             </div>
 
-            <!-- RANSOMWARE -->
             <div id="game-virus" class="hidden w-full max-w-2xl space-y-4">
               <div class="flex justify-between items-center border-b pb-2">
                 <span class="font-bold text-yellow-400"><i class="fa-solid fa-biohazard"></i> RANSOMWARE PAYLOAD INJECTOR</span>
@@ -446,27 +448,31 @@
     </div>
   </div>
 
-  <!-- EDIT KEY MODAL -->
+  <!-- EDIT KEY MODAL (FIXED: EDIT KEY NAME & CODE FREELY) -->
   <div id="edit-key-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
     <div class="w-full max-w-lg dynamic-panel p-5 relative border-2 border-current">
       <div class="flex justify-between items-center mb-4 border-b-2 border-current pb-2">
-        <h3 class="text-xs font-bold uppercase text-yellow-400">&gt; EDIT KEY CONFIGURATION</h3>
+        <h3 class="text-xs font-bold uppercase text-yellow-400">&gt; EDIT ACCESS KEY</h3>
         <button id="close-edit-key-btn" class="text-base font-bold hover:bg-red-600 hover:text-black px-2 cursor-pointer">[X]</button>
       </div>
 
       <form id="edit-key-form" class="space-y-3">
-        <input type="hidden" id="edit-key-original-code" />
+        <input type="hidden" id="edit-key-internal-id" />
         <div>
-          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY CODE</label>
-          <input type="text" id="edit-key-code" readonly class="w-full px-3 py-1.5 dynamic-input text-xs font-mono opacity-80" />
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY NAME / TITLE</label>
+          <input type="text" id="edit-key-title" required class="w-full px-3 py-1.5 dynamic-input text-xs" />
         </div>
         <div>
-          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY TITLE</label>
-          <input type="text" id="edit-key-title" required class="w-full px-3 py-1.5 dynamic-input text-xs" />
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY CODE (EDITABLE)</label>
+          <input type="text" id="edit-key-code" required class="w-full px-3 py-1.5 dynamic-input text-xs font-mono" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; KEY SHORTENER LINK</label>
+          <input type="url" id="edit-key-shortener-url" placeholder="https://..." class="w-full px-3 py-1.5 dynamic-input text-xs" />
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[11px] font-bold mb-1 uppercase">&gt; EXTEND DURATION</label>
+            <label class="block text-[11px] font-bold mb-1 uppercase">&gt; DURATION</label>
             <input type="number" id="edit-key-duration-val" min="1" value="24" required class="w-full px-3 py-1.5 dynamic-input text-xs" />
           </div>
           <div>
@@ -480,11 +486,15 @@
         </div>
         <div>
           <label class="block text-[11px] font-bold mb-1 uppercase">&gt; SUMMARY / INSTRUCTIONS</label>
-          <textarea id="edit-key-summary" rows="3" class="w-full px-3 py-1.5 dynamic-input text-xs"></textarea>
+          <textarea id="edit-key-summary" rows="2" class="w-full px-3 py-1.5 dynamic-input text-xs"></textarea>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold mb-1 uppercase">&gt; CHANGE PHOTO (OPTIONAL)</label>
+          <input type="file" id="edit-key-img-file" accept="image/*" class="w-full px-2 py-1 dynamic-input text-xs" />
         </div>
 
         <button type="submit" class="w-full py-2.5 dynamic-btn text-xs font-bold mt-2 uppercase cursor-pointer">
-          [ UPDATE KEY DETAILS ]
+          [ UPDATE KEY IN FIREBASE ]
         </button>
       </form>
     </div>
@@ -510,7 +520,7 @@
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // GITHUB PAGES URL CONFIGURATIONS
+    // GITHUB PAGES BASES
     const DEFAULT_LINK_BASE = "https://realmoderz.github.io/Reamloderz/";
     const DEFAULT_KEY_PAGE_BASE = "https://realmoderz.github.io/Reamloderz/key-unlock.html";
 
@@ -534,13 +544,13 @@
       return `${base}${separator}id=${id}`;
     }
 
-    function getTargetKeyUrl(code) {
+    function getTargetKeyUrl(keyId) {
       const base = (keyPageBaseInput.value.trim() || DEFAULT_KEY_PAGE_BASE).trim();
       const separator = base.includes('?') ? '&' : '?';
-      return `${base}${separator}key=${code}`;
+      return `${base}${separator}keyId=${keyId}`;
     }
 
-    // AUDIO SYNTH ENGINE
+    // AUDIO SYNTH
     let audioCtx = null;
     let bgmGainNode = null;
     let bgmOsc = null;
@@ -648,7 +658,7 @@
       });
     }, 45);
 
-    // PROFILE PHOTO UPLOAD
+    // PROFILE PHOTO
     const adminAvatarBox = document.getElementById("admin-avatar-box");
     const adminAvatarImg = document.getElementById("admin-avatar-img");
     const adminAvatarIcon = document.getElementById("admin-avatar-icon");
@@ -876,8 +886,8 @@
         await update(ref(db, `links/${id}`), { 
           brandName: brand, 
           destinationLink: destination, 
-          tasks,
-          updatedAt: Date.now()
+          tasks, 
+          updatedAt: Date.now() 
         });
         showToast("LINK NODE UPDATED IN REALTIME!");
         document.getElementById("edit-modal").classList.add("hidden");
@@ -894,7 +904,7 @@
       }
     }
 
-    // 2: ADVANCED KEYS MANAGEMENT (CREATE, EDIT, GENERATE LINK)
+    // 2: ADVANCED KEYS MANAGEMENT (CREATE & FULL EDIT SUPPORT)
     let keyImageBase64 = "";
     const keyImgFile = document.getElementById("key-img-file");
     const keyImgPreviewBox = document.getElementById("key-img-preview-box");
@@ -908,7 +918,7 @@
           keyImageBase64 = evt.target.result;
           keyImgPreview.src = keyImageBase64;
           keyImgPreviewBox.classList.remove("hidden");
-        }
+        };
         reader.readAsDataURL(file);
       }
     });
@@ -924,11 +934,8 @@
       playClickSound();
       
       const title = document.getElementById("key-title").value.trim();
-      let customCode = document.getElementById("key-custom-code").value.trim();
-      if (!customCode) {
-        customCode = "RMKEY-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-      }
-
+      const code = document.getElementById("key-custom-code").value.trim();
+      const shortener = document.getElementById("key-shortener-url").value.trim();
       const durVal = parseFloat(document.getElementById("key-duration-val").value);
       const durUnit = document.getElementById("key-duration-unit").value;
       const summary = document.getElementById("key-summary").value.trim();
@@ -940,11 +947,14 @@
 
       const createdAt = Date.now();
       const expiresAt = createdAt + durationMs;
+      const keyId = "KEY_" + Math.random().toString(36).substring(2, 10);
 
       try {
-        await set(ref(db, `keys/${customCode}`), {
+        await set(ref(db, `keys/${keyId}`), {
+          keyId: keyId,
           keyTitle: title,
-          keyCode: customCode,
+          keyCode: code,
+          shortenerUrl: shortener,
           durationValue: durVal,
           durationUnit: durUnit,
           summary: summary,
@@ -953,10 +963,10 @@
           expiresAt: expiresAt
         });
 
-        const keyUserUrl = getTargetKeyUrl(customCode);
+        const keyUserUrl = getTargetKeyUrl(keyId);
         document.getElementById("generated-key-url-input").value = keyUserUrl;
         document.getElementById("new-key-output").classList.remove("hidden");
-        showToast(`KEY [${customCode}] SAVED & LINK GENERATED!`);
+        showToast("KEY CREATED SUCCESSFULLY!");
 
         document.getElementById("create-key-form").reset();
         keyImageBase64 = "";
@@ -996,21 +1006,21 @@
           div.className = "dynamic-card p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border border-current";
           div.innerHTML = `
             <div class="flex items-center gap-3 overflow-hidden flex-1">
-              ${item.keyImage ? `<img src="${item.keyImage}" class="w-12 h-12 object-cover border border-current flex-shrink-0" />` : `<div class="w-12 h-12 bg-black border border-current flex items-center justify-center text-xs font-bold text-yellow-400 flex-shrink-0">KEY</div>`}
+              ${item.keyImage ? `<img src="${item.keyImage}" class="w-12 h-12 object-contain bg-black border border-current flex-shrink-0" />` : `<div class="w-12 h-12 bg-black border border-current flex items-center justify-center text-xs font-bold text-yellow-400 flex-shrink-0">KEY</div>`}
               <div class="overflow-hidden">
                 <div class="flex items-center gap-2">
-                  <h4 class="text-xs font-bold text-yellow-400 font-mono truncate">&gt; ${item.keyCode}</h4>
+                  <h4 class="text-xs font-bold text-yellow-400 font-mono truncate">&gt; ${item.keyTitle || 'Untitled Key'}</h4>
                   <span class="hacker-badge text-[8px] ${isExpired ? 'text-red-500 border-red-500' : 'text-emerald-400 border-emerald-400'}">${isExpired ? 'EXPIRED' : 'ACTIVE'}</span>
                 </div>
-                <p class="text-[10px] opacity-80 mt-0.5 truncate">${item.keyTitle}</p>
-                ${item.summary ? `<p class="text-[9px] opacity-60 italic truncate mt-0.5">"${item.summary}"</p>` : ''}
+                <p class="text-[11px] font-mono text-emerald-300 mt-0.5 truncate">Code: ${item.keyCode}</p>
+                ${item.shortenerUrl ? `<p class="text-[9px] opacity-70 truncate font-mono">Shortener: ${item.shortenerUrl}</p>` : ''}
                 <div class="text-[9px] opacity-60 font-mono mt-0.5">Expires: ${expDateStr}</div>
               </div>
             </div>
             <div class="flex flex-wrap gap-2 flex-shrink-0">
               <button onclick="openEditKey('${id}')" class="px-2 py-1 dynamic-btn text-xs font-bold cursor-pointer">[ EDIT ]</button>
               <button onclick="navigator.clipboard.writeText('${userKeyUrl}'); showToast('USER LINK COPIED!');" class="px-2 py-1 dynamic-btn text-xs font-bold text-yellow-400 border-yellow-500 cursor-pointer">[ COPY USER LINK ]</button>
-              <button onclick="deleteKey('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold cursor-pointer">[ REVOKE ]</button>
+              <button onclick="deleteKey('${id}')" class="px-2 py-1 bg-red-950 text-red-400 border border-red-500 text-xs font-bold cursor-pointer">[ DEL ]</button>
             </div>
           `;
           list.appendChild(div);
@@ -1018,21 +1028,36 @@
       });
     }
 
-    // EDIT KEY MODAL HANDLERS
-    window.openEditKey = function(code) {
+    // EDIT KEY MODAL
+    let editKeyImageBase64 = null;
+    const editKeyImgFile = document.getElementById("edit-key-img-file");
+    editKeyImgFile.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          editKeyImageBase64 = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    window.openEditKey = function(keyId) {
       playClickSound();
-      const item = keysCache[code];
+      const item = keysCache[keyId];
       if (!item) return;
 
-      document.getElementById("edit-key-original-code").value = code;
-      document.getElementById("edit-key-code").value = code;
+      editKeyImageBase64 = null;
+      document.getElementById("edit-key-internal-id").value = keyId;
       document.getElementById("edit-key-title").value = item.keyTitle || "";
+      document.getElementById("edit-key-code").value = item.keyCode || "";
+      document.getElementById("edit-key-shortener-url").value = item.shortenerUrl || "";
       document.getElementById("edit-key-duration-val").value = item.durationValue || 24;
       document.getElementById("edit-key-duration-unit").value = item.durationUnit || "hours";
       document.getElementById("edit-key-summary").value = item.summary || "";
 
       document.getElementById("edit-key-modal").classList.remove("hidden");
-    }
+    };
 
     document.getElementById("close-edit-key-btn").addEventListener("click", () => {
       playClickSound();
@@ -1042,8 +1067,10 @@
     document.getElementById("edit-key-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       playClickSound();
-      const code = document.getElementById("edit-key-original-code").value;
+      const keyId = document.getElementById("edit-key-internal-id").value;
       const title = document.getElementById("edit-key-title").value.trim();
+      const code = document.getElementById("edit-key-code").value.trim();
+      const shortener = document.getElementById("edit-key-shortener-url").value.trim();
       const summary = document.getElementById("edit-key-summary").value.trim();
       const durVal = parseFloat(document.getElementById("edit-key-duration-val").value);
       const durUnit = document.getElementById("edit-key-duration-unit").value;
@@ -1055,17 +1082,24 @@
 
       const newExpiresAt = Date.now() + durationMs;
 
-      try {
-        await update(ref(db, `keys/${code}`), {
-          keyTitle: title,
-          summary: summary,
-          durationValue: durVal,
-          durationUnit: durUnit,
-          expiresAt: newExpiresAt,
-          updatedAt: Date.now()
-        });
+      const updateData = {
+        keyTitle: title,
+        keyCode: code,
+        shortenerUrl: shortener,
+        summary: summary,
+        durationValue: durVal,
+        durationUnit: durUnit,
+        expiresAt: newExpiresAt,
+        updatedAt: Date.now()
+      };
 
-        showToast("KEY DETAILS UPDATED IN FIREBASE!");
+      if (editKeyImageBase64) {
+        updateData.keyImage = editKeyImageBase64;
+      }
+
+      try {
+        await update(ref(db, `keys/${keyId}`), updateData);
+        showToast("KEY UPDATED CLEANLY!");
         document.getElementById("edit-key-modal").classList.add("hidden");
       } catch (err) {
         showToast("KEY UPDATE FAILED: " + err.message);
@@ -1074,11 +1108,11 @@
 
     window.deleteKey = async function(keyId) {
       playClickSound();
-      if(confirm(`Revoke key ${keyId}?`)) {
+      if(confirm(`Delete key ${keyId}?`)) {
         await remove(ref(db, `keys/${keyId}`));
-        showToast("KEY REVOKED!");
+        showToast("KEY DELETED!");
       }
-    }
+    };
 
     // GEEK SIMULATOR
     const geekCodeSnippets = [
@@ -1132,7 +1166,7 @@
           term.scrollTop = term.scrollHeight;
         }, 800);
       }
-    }
+    };
 
     window.startDDoSAttack = function() {
       playClickSound();
@@ -1145,7 +1179,7 @@
         term.innerHTML += `&gt; [BOTNET-NODE-#${Math.floor(Math.random()*500+1)}] Sent 64500 packets/sec -> ${target}<br/>`;
         term.scrollTop = term.scrollHeight;
       }, 400);
-    }
+    };
   </script>
 </body>
 </html>
